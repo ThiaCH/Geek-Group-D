@@ -1,3 +1,5 @@
-function test () {
-    const y = "This is to test"
+function test() {
+  const y = "This is to test";
+  console.log(y);
 }
+test();
