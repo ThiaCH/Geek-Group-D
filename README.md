@@ -8,3 +8,10 @@ I am CJ Thia here :()
 
 
 sdjsgjdkasdshjashdjdash
+
+THIS IS FROM HAZIQ
+MY CODE
+THIS IS FROM THE MAIN
+
+
+TEST TEST TEST
