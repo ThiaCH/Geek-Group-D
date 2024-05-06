@@ -1,4 +1,4 @@
-function test () {
+function test() {
     console.log('Test')
     console.log('Hi Haziq')
 }
@@ -7,3 +7,4 @@ function test () {
 const x = "name"
 
 test();
+const y = "This is to test"
