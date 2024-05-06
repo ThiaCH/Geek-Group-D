@@ -5,3 +5,5 @@ function test () {
 
 
 const x = "name"
+
+test();
