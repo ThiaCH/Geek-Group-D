@@ -8,11 +8,13 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "prepare": "husky install",
-    "node": "nodemon server.js"
+    "node": "set debug=mern:* & nodemon server.js"
   },
   "dependencies": {
     "debug": "^4.3.4",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "mongoose": "^8.3.4",
     "morgan": "^1.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

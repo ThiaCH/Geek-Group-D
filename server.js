@@ -2,6 +2,13 @@ const express = require("express");
 const path = require("path");
 const favicon = require("serve-favicon");
 const logger = require("morgan");
+const debug = require("debug")("mern:server");
+
+// Always require and configure near the top
+require("dotenv").config();
+
+// Connect to the database
+require("./config/database");
 
 const app = express();
 
@@ -16,7 +23,7 @@ app.use(express.static(path.join(__dirname, "dist")));
 // The following "catch all" route (note the *) is necessary
 // to return the index.html on all non-AJAX requests
 app.get("/*", function (req, res) {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
 // Configure to use port 3001 instead of 3000 during
@@ -24,5 +31,5 @@ app.get("/*", function (req, res) {
 const port = process.env.PORT || 3000;
 
 app.listen(port, function () {
-  console.log(`Express app running on port ${port}`);
+  debug(`Express app running on port ${port}`);
 });
