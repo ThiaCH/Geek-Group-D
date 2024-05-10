@@ -1,14 +1,19 @@
 const debug = require("debug")("mern:controllers:usersController");
+const User = require("../../models/user");
 
-function create(req, res) {
-  // Baby step...
-  res.json({
-    user: {
-      name: req.body.name,
-      email: req.body.email,
-    },
-  });
-  debug(req.body);
+async function create(req, res) {
+  // const { name, email, password } = req.body;
+  // const user = await User.create({ name, email, password });
+  // res.status(201).json({user});
+  try {
+    const user = await User.create(req.body);
+    // Baby step...
+    res.status(201).json(user);
+    debug(req.body);
+  } catch (err) {
+    debug("error: %o", err);
+    res.status(500).json(err);
+  }
 }
 
 module.exports = {

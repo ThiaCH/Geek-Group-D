@@ -13,7 +13,7 @@ localStorage.debug = 'mern:*';
 function App() {
   // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useState(null);
-  log("Test this is insde the App");
+  log("Test this is inside the App");
 
   if (!user) {
     return (
