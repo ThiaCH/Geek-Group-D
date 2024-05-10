@@ -20,6 +20,9 @@ app.use(express.json());
 app.use(favicon(path.join(__dirname, "dist", "vite.svg")));
 app.use(express.static(path.join(__dirname, "dist")));
 
+// Put API routes here, before the "catch all" route
+app.use("/api/users", require("./routes/api/usersRoute"));
+
 // The following "catch all" route (note the *) is necessary
 // to return the index.html on all non-AJAX requests
 app.get("/*", function (req, res) {

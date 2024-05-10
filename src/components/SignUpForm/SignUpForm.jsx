@@ -1,4 +1,8 @@
-import { Component } from "react"
+import { Component } from "react";
+import { signUp } from "../../utilities/users-service";
+import debug from "debug";
+
+const log = debug("mern:components:SignUpForm");
 
 export default class SignUpForm extends Component {
     state = {
@@ -9,7 +13,7 @@ export default class SignUpForm extends Component {
         error: ''
     };
 
-    // you can only use arrow function for this.eventName, without the "const"
+    // you can only use arrow function for class component, without the "const"
     handleChange = (evt) => {
         this.setState({
             ...this.state,
@@ -17,9 +21,18 @@ export default class SignUpForm extends Component {
         });
     };
 
-    handleSubmit = (event) => {
+    handleSubmit = async (event) => {
         event.preventDefault();
-        alert(JSON.stringify(this.state));
+        // alert(JSON.stringify(this.state));
+        try {
+            const formData = {...this.state};
+            delete formData.error;
+            delete formData.confirm;
+            const user = await signUp(formData);
+            log("user: %o", user)
+        } catch(err) {
+            this.setState({error: "Sign Up Failed = Try Again"})
+        }
     };
 
     render() {
