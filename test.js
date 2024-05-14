@@ -3,20 +3,16 @@ function test() {
   console.log(y);
 }
 test();
-function test (a, b) {
-    let num1 = a;
-    let num2 = b
-    return a + b;
+
+function test1(a, b) {
+  let num1 = a;
+  let num2 = b;
+  return a + b;
 }
+test1(5, 15);
 
-test (5, 15)
-function test() {
-    console.log('Test')
-    console.log('Hi Haziq')
+function test2() {
+  console.log("Test");
+  console.log("Hi Haziq");
 }
-
-
-const x = "name"
-
-test();
-const y = "This is to test"
+test2();
