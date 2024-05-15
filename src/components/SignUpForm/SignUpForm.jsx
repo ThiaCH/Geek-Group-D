@@ -54,7 +54,7 @@ export default class SignUpForm extends Component {
                             <input id="class" type="text" name="class" value={this.state.class} onChange={this.handleChange} required />
 
                             <label htmlFor="contact">Contact</label>
-                            <input id="contact" type="text" name="contact" value={this.state.contact} onChange={this.handleChange} required />
+                            <input id="contact" type="tel" name="contact" value={this.state.contact} onChange={this.handleChange} required />
 
                             <label htmlFor="email">Email</label>
                             <input id="email" type="email" name="email" value={this.state.email} onChange={this.handleChange} required />
