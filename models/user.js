@@ -45,6 +45,10 @@ const userSchema = new Schema(
       max: 99999999,
       required: true,
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
     AttendanceLog: [
       {
         type: Schema.Types.ObjectId,

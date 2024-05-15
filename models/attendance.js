@@ -4,39 +4,42 @@ const Schema = mongoose.Schema;
 
 const attendanceSchema = new Schema(
   {
-    studentInfo: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
+    studentInfo: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
     checkinDate: {
-      type: Date,
+      type: String,
       default: function () {
         return new Date().toLocaleDateString("en-SG");
       },
     },
     checkinTime: {
-      type: Date,
+      type: String,
       default: function () {
         return new Date().toLocaleTimeString("en-SG");
       },
     },
-    isAbsent: {
+    isLate: {
       type: Boolean,
       default: false,
     },
-    qrCodeLink: {
-      type: String,
-      ref: "Admin",
-    },
-    reason: {
-      type: String,
+    isAbsent: {
+      type: Boolean,
+      default: false,
     },
   },
   {
     timestamps: true,
   },
 );
+
+attendanceSchema.pre("save", function (next) {
+  // Compare this.checkinTime with 9:30:00 AM
+  const currentTime = new Date();
+  this.isLate = currentTime > new Date().setHours(9, 30, 0, 0);
+  this.isAbsent = currentTime > new Date().setHours(9, 45, 0, 0);
+  next();
+});
 
 module.exports = mongoose.model("Attendance", attendanceSchema);

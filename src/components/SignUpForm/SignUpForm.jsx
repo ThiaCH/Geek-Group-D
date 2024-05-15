@@ -1,21 +1,30 @@
+/* eslint-disable react/display-name */
 import { Component } from "react";
 import { signUp } from "../../utilities/users-service";
 import debug from "debug";
+import { useNavigate } from "react-router-dom";
 
 const log = debug("mern:components:SignUpForm");
 
-export default class SignUpForm extends Component {
+const withRouter = WrappedComponent => props => {
+    const navigate = useNavigate();
+    // Other hooks can be added here if needed
+    return <WrappedComponent {...props} navigate={navigate} />;
+};
+
+class SignUpForm extends Component {
     state = {
         name: '',
         email: '',
         password: '',
         confirm: '',
-        error: '',
+        message: '',
         class: '',
         contact: '',
         emergencyContactPerson: '',
         emergencyContactNumber: ''
     };
+
 
     // you can only use arrow function for class component, without the "const"
     handleChange = (evt) => {
@@ -34,10 +43,11 @@ export default class SignUpForm extends Component {
             delete formData.confirm;
             const user = await signUp(formData);
             log("user: %o", user);
-            this.props.setUser(user);
+            const { navigate } = this.props;
+            navigate('/')
         } catch(err) {
             debug(err);
-            this.setState({error: "Sign Up Failed - Try Again"})
+            this.setState({message: "Sign Up Failed - Try Again"})
         }
     };
 
@@ -68,8 +78,11 @@ export default class SignUpForm extends Component {
                             <button type="submit" disabled={disable}>SIGN UP</button>
                         </form>
                 </div>
-                <p className="error-message">&nbsp;{this.state.error}</p>
+                <p className="message">&nbsp;{this.state.message}</p>
             </div>
         )
     }
 }
+
+// eslint-disable-next-line react-refresh/only-export-components
+export default withRouter(SignUpForm)

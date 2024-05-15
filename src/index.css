@@ -87,7 +87,7 @@ code {
   border-radius: 1vmin;
 }
 
-p.error-message {
+p.message {
   color: var(--orange);
   text-align: center;
 }
