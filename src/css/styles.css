@@ -1,0 +1,14 @@
+.main-navbar {
+  background-color: rgb(223, 14, 14);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.nav-button {
+  color: white;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+}
