@@ -8,7 +8,10 @@ const SALT_ROUNDS = 6;
 
 const userSchema = new Schema(
   {
-    name: { type: String, required: true },
+    name: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       unique: true,
@@ -22,6 +25,32 @@ const userSchema = new Schema(
       minLength: 3,
       required: true,
     },
+    contact: {
+      type: Number,
+      min: 30000000,
+      max: 99999999,
+      required: true,
+    },
+    class: {
+      type: String,
+      required: true,
+    },
+    emergencyContactPerson: {
+      type: String,
+      required: true,
+    },
+    emergencyContactNumber: {
+      type: Number,
+      min: 30000000,
+      max: 99999999,
+      required: true,
+    },
+    AttendanceLog: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Attendance",
+      },
+    ],
   },
   {
     timestamps: true,

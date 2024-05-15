@@ -10,7 +10,11 @@ export default class SignUpForm extends Component {
         email: '',
         password: '',
         confirm: '',
-        error: ''
+        error: '',
+        class: '',
+        contact: '',
+        emergencyContactPerson: '',
+        emergencyContactNumber: ''
     };
 
     // you can only use arrow function for class component, without the "const"
@@ -32,6 +36,7 @@ export default class SignUpForm extends Component {
             log("user: %o", user);
             this.props.setUser(user);
         } catch(err) {
+            debug(err);
             this.setState({error: "Sign Up Failed - Try Again"})
         }
     };
@@ -44,10 +49,20 @@ export default class SignUpForm extends Component {
                         <form autoComplete="off" onSubmit={this.handleSubmit}>
                             <label htmlFor="name">Name</label>
                             <input id="name" type="text" name="name" value={this.state.name} onChange={this.handleChange} required />
+                            {/* new added entry start */}
+                            <label htmlFor="class">Class</label>
+                            <input id="class" type="text" name="class" required value={this.state.class} onChange={this.handleChange}/>
+                            <label htmlFor="contact">Contact Number</label>
+                            <input id="contact" type="tel" name="contact" pattern="[0-9]{8}" required value={this.state.contact} onChange={this.handleChange}/>
+                            <label htmlFor="ecp">Emergency Contact Person</label>
+                            <input id="ecp" type="text" name="emergencyContactPerson" required value={this.state.emergencyContactPerson} onChange={this.handleChange}/>
+                            <label htmlFor="ecn">Emergency Contact Number</label>
+                            <input id="ecn" type="tel" name="emergencyContactNumber" pattern="[0-9]{8}" required value={this.state.emergencyContactNumber} onChange={this.handleChange}/>
+                            {/* new added entry end*/}
                             <label htmlFor="email">Email</label>
                             <input id="email" type="email" name="email" value={this.state.email} onChange={this.handleChange} required />
                             <label htmlFor="password">Password</label>
-                            <input id="password" type="password" name="password" value={this.state.password} onChange={this.handleChange} required />
+                            <input id="password" type="password" name="password" minLength="3" value={this.state.password} onChange={this.handleChange} required />
                             <label htmlFor="confirm-password">Confirm Password</label>
                             <input id="confirm-password" type="password" name="confirm" value={this.state.confirm} onChange={this.handleChange} required />
                             <button type="submit" disabled={disable}>SIGN UP</button>
