@@ -48,6 +48,10 @@ export default function App() {
     );
   }
 
+  // if (user && user.role === 'admin') {
+  //   return <Navigate to="/admin" />;
+  // }
+
   return (
     <>
       <main className="App">
@@ -57,5 +61,8 @@ export default function App() {
     </>
   );
 }
+
+
+
 
 
