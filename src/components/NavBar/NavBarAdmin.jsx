@@ -13,7 +13,7 @@ export default function NavBar({setUser}) {
 
     return (
       <nav className="navbar">
-        <div className="navbar-container">
+        <div className="navbar-admin-container">
           <div className="spacer"></div>
           <div className="options-container">
             <div className="dropdown">

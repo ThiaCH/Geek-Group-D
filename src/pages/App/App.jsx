@@ -1,7 +1,8 @@
 import debug from "debug"
 import { useState, useEffect } from "react";
-import { Routes, Route, Navigate } from 'react-router-dom'
-import NavBar from "../../components/NavBar/NavBar";
+import { Routes, Route, useLocation } from 'react-router-dom'
+import NavBarAdmin from "../../components/NavBar/NavBarAdmin";
+import NavBarStudent from "../../components/NavBar/NavBarStudent";
 import AdminPage from "../AdminPage/AdminPage";
 import LessonPlanPage from "../LessonPlanPage/LessonPlanPage"
 import UpcomingEventPage from "../UpcomingEventPage/UpcomingEventPage"
@@ -20,16 +21,17 @@ localStorage.debug = 'mern:*';
 export default function App() {
   // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useState({}); // getUser()
+  const location = useLocation(); 
   log("Test this is inside the App");
 
   const[newTime, setNewTime] = useState(new Date().getDate()); // eslint-disable-line no-unused-vars
   
   useEffect(() => {
-    const intervalId = setInterval(() => {
+    const interValid = setInterval(() => {
       setNewTime(new Date().getDate());
     }, 3600000);
   
-    return () => clearInterval(intervalId); // Cleanup function to stop the interval when component unmounts
+    return () => clearInterval(interValid); // Cleanup function to stop the interval when component unmounts
   }, []);
 
 
@@ -42,14 +44,23 @@ export default function App() {
     );
   }
 
-  if (user && user.role === 'admin') {
-    return <Navigate to="/admin" />;
-  }
+  //* Remove navigate from react-router-dom
+  // if (user && user.role === 'admin') {
+  //   return <Navigate to="/admin" />;
+  // }
+
+  // categorize route paths
+  const adminPaths = ['/admin','/lessonplan', '/upcomingevent', '/resource']
+  const studentPaths = ['/dashboard', '/studentupdate']
 
   return (
     <>
       <main className="App">
-        <NavBar setUser={setUser}/>
+        
+        {/* define the current route and show the appropriate NavBar -> admin / student */}
+        {adminPaths.includes(location.pathname) && <NavBarAdmin setUser={setUser}/>}
+        {studentPaths.includes(location.pathname) &&<NavBarStudent setUser={setUser}/>}
+
         <Routes>
           <Route path='/admin' element={<AdminPage />} />
           <Route path='/lessonplan' element={<LessonPlanPage />} />
@@ -63,8 +74,3 @@ export default function App() {
     </>
   );
 }
-
-
-
-
-

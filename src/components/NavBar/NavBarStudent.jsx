@@ -1,8 +1,13 @@
-import {Link} from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import * as userService from '../../utilities/users-service'
 import '../../css/styles.css'
 
-export default function NavBar({setUser}) {
+export default function NavBar({ setUser }) {
+
+  // Access current location
+  const location = useLocation();
+  // To check if current path is equal to '/studentupdate' 
+  const isOnStudentPage = location.pathname === '/studentupdate'; 
 
   function handleLogOut() {
     // Delegate to the users-service
@@ -13,12 +18,16 @@ export default function NavBar({setUser}) {
 
     return (
       <nav className="navbar">
-        <div className="navbar-container">
+        <div className="navbar-student-container">
           <div className="spacer"></div>
-          <div className="options-container">
-              <Link to="" onClick={handleLogOut} className="update-profile">Update Profile</Link>
-          <span className="separator"> | </span>
-          <Link to="" onClick={handleLogOut} className="logout-link">Log Out</Link>
+          <div className="profile-container">
+            {
+              isOnStudentPage ?
+              <Link to="/dashboard" className="update-profile">Dashboard</Link> :
+              <Link to="/studentupdate" className="update-profile">Update Profile</Link>
+            }
+            <span className="separator"> | </span>
+            <Link to="" onClick={handleLogOut} className="logout-link">Log Out</Link>
           </div>
         </div>
       </nav>

@@ -1,13 +1,22 @@
 .navbar {
   background-color: rgb(235, 50, 26); /* Set the background color to red */
-  width: 100%; /* Set the width to 100% */
+  width: 100%;
 }
 
-.navbar-container {
+.navbar-admin-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar-student-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
   display: flex;
   justify-content: space-between;
 }
