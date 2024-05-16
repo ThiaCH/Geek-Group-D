@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "name": "mern-infra",
+  "name": "attendance",
   "type": "collection",
   "ignore": [
     "node_modules",
