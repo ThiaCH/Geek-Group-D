@@ -2,7 +2,6 @@ const debug = require("debug")("mern:controllers:usersController");
 const User = require("../../models/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const Attendance = require("../../models/attendance");
 
 const createJWT = (user) =>
   jwt.sign({ user }, process.env.SECRET, { expiresIn: "20m" });
@@ -40,32 +39,7 @@ async function login(req, res) {
   }
 }
 
-async function createAttendance(req, res) {
-  try {
-    const { studentId, checkinDate, checkinTime, isAbsent, reason } = req.body;
-
-    const attendance = await Attendance.create({
-      studentInfo: studentId,
-      checkinDate,
-      checkinTime,
-      isAbsent,
-      reason,
-    });
-
-    res.status(201).json(attendance);
-  } catch (err) {
-    console.error(err);
-    res
-      .status(400)
-      .json({
-        message: "Failed to create attendance record",
-        error: err.message,
-      });
-  }
-}
-
 module.exports = {
   create,
   login,
-  createAttendance,
 };
