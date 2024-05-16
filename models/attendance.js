@@ -6,8 +6,8 @@ const attendanceSchema = new Schema(
   {
     studentInfo: {
       type: Schema.Types.ObjectId,
-      ref: "User",
       default: null,
+      ref: "User",
     },
     checkinDate: {
       type: String,
