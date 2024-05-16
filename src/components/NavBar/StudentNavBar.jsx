@@ -18,6 +18,8 @@ export default function NavBar({setUser}) {
               <div className="options-container">
                 <NavLink to="/dashboard">Dashboard</NavLink>
                 <span className="separator"> | </span>
+                <NavLink to="/particular">Update Particular</NavLink>
+                <span className="separator"> | </span>
                 <NavLink to="/" onClick={handleLogOut} className="logout-link">Log Out</NavLink>
             </div>
           </div>

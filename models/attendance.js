@@ -7,6 +7,7 @@ const attendanceSchema = new Schema(
     studentInfo: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      default: null,
     },
     checkinDate: {
       type: String,
@@ -37,8 +38,12 @@ const attendanceSchema = new Schema(
 attendanceSchema.pre("save", function (next) {
   // Compare this.checkinTime with 9:30:00 AM
   const currentTime = new Date();
-  this.isLate = currentTime > new Date().setHours(9, 30, 0, 0);
   this.isAbsent = currentTime > new Date().setHours(9, 45, 0, 0);
+  if (this.isAbsent === true) {
+    this.isLate = false;
+  } else {
+    this.isLate = currentTime > new Date().setHours(9, 30, 0, 0);
+  }
   next();
 });
 

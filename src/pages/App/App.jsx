@@ -1,11 +1,13 @@
 import debug from "debug"
 import { useState, useEffect } from "react";
-import { Routes, Route, Navigate } from 'react-router-dom' // eslint-disable-line no-unused-vars
+import { Routes, Route } from 'react-router-dom' 
 import NavBar from "../../components/NavBar/NavBar";
 import AdminPage from "../AdminPage/AdminPage";
 import { getUser } from "../../utilities/users-service";
 import AuthPage from "../AuthPage/AuthPage";
-import StudentNavBar from "../../components/NavBar/StudentNavBar"
+import StudentNavBar from "../../components/NavBar/StudentNavBar";
+import StudentDashboardPage from "../DashBoardPage/StudentDashboardPage";
+import StudentParticularPage from "../ParticularPage/StudentParticularPage"
 // import StudentSignUp from "../StudentSignUpPage/StudentSignUpPage";
 
 
@@ -48,15 +50,15 @@ export default function App() {
     );
   }
 
-  // if (user && user.role === 'admin') {
-  //   return <Navigate to="/admin" />;
-  // }
-
   return (
     <>
       <main className="App">
         <StudentNavBar setUser={setUser}/>
         <p>student dashboard page here</p>
+        <Routes>
+          <Route path="/dashboard" element={<StudentDashboardPage />} />
+          <Route path="/particular" element={<StudentParticularPage />} />
+        </Routes>
       </main>
     </>
   );
