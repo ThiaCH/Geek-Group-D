@@ -5,19 +5,8 @@ const SALT_ROUNDS = 6;
 
 const userSchema = new mongoose.Schema(
   {
-    studentName: {
+    name: {
       type: String,
-      required: true,
-    },
-    class: {
-      type: String,
-      trim: true,
-      required: true,
-    },
-    contact: {
-      type: Number,
-      unique: true,
-      trim: true,
       required: true,
     },
     email: {
@@ -27,22 +16,42 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       required: true,
     },
-    nokName: {
-      type: String,
-      required: true,
-    },
-    nokContact: {
-      type: String,
-      unique: true,
-      trim: true,
-      required: true,
-    },
     password: {
       type: String,
       trim: true,
       minLength: 3,
       required: true,
     },
+    contact: {
+      type: Number,
+      min: 30000000,
+      max: 99999999,
+      required: true,
+    },
+    class: {
+      type: String,
+      required: true,
+    },
+    emergencyContactPerson: {
+      type: String,
+      required: true,
+    },
+    emergencyContactNumber: {
+      type: Number,
+      min: 30000000,
+      max: 99999999,
+      required: true,
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    AttendanceLog: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Attendance",
+      },
+    ],
   },
   {
     timestamps: true,

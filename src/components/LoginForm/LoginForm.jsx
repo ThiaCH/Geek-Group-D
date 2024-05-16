@@ -15,7 +15,9 @@ export default function LoginForm({setUser}) {
         setCredentials({ ...credentials, [evt.target.name]: evt.target.value });
         setError("");
       }
-    
+      
+      // cronjob function -> string -> usersService.createUrl(string); -> url -> database
+
       async function handleSubmit(evt) {
         // Prevent form from being submitted to the server
         evt.preventDefault();
