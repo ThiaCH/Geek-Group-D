@@ -34,6 +34,7 @@ process.on("SIGINT", () => {
     process.exit(0);
   });
 });
+
 process.on("SIGTERM", () => {
   db.close(() => {
     debug("Mongoose disconnected through app termination (SIGTERM)");

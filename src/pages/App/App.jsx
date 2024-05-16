@@ -3,8 +3,13 @@ import { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from 'react-router-dom'
 import NavBar from "../../components/NavBar/NavBar";
 import AdminPage from "../AdminPage/AdminPage";
-import { getUser } from "../../utilities/users-service";
+import LessonPlanPage from "../LessonPlanPage/LessonPlanPage"
+import UpcomingEventPage from "../UpcomingEventPage/UpcomingEventPage"
+import ResourcePage from "../ResourcePage/ResourcePage"
+// import { getUser } from "../../utilities/users-service";
 import AuthPage from "../AuthPage/AuthPage";
+import DashBoardPage from "../DashBoardPage/DashBoardPage"
+import StudentUpdatePage from "../StudentUpdatePage/StudentUpdatePage"
 // import StudentSignUp from "../StudentSignUpPage/StudentSignUpPage";
 
 
@@ -14,7 +19,7 @@ localStorage.debug = 'mern:*';
 
 export default function App() {
   // eslint-disable-next-line no-unused-vars
-  const [user, setUser] = useState(getUser()); // getUser()
+  const [user, setUser] = useState({}); // getUser()
   log("Test this is inside the App");
 
   const[newTime, setNewTime] = useState(new Date().getDate()); // eslint-disable-line no-unused-vars
@@ -47,6 +52,12 @@ export default function App() {
         <NavBar setUser={setUser}/>
         <Routes>
           <Route path='/admin' element={<AdminPage />} />
+          <Route path='/lessonplan' element={<LessonPlanPage />} />
+          <Route path='/upcomingevent' element={<UpcomingEventPage />} />
+          <Route path='/resource' element={<ResourcePage />} />
+
+          <Route path='/dashboard' element={<DashBoardPage />} />
+          <Route path='/studentupdate' element={<StudentUpdatePage />} />
         </Routes>
       </main>
     </>

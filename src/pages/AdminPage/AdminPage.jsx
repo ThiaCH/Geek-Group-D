@@ -48,7 +48,7 @@ export default function AdminPage() {
           </thead>
           <tbody>
             {students.map((student, index) => (
-              <tr key={student.id || index}>
+              <tr key={student._id || index}>
                 <td>{student._id}</td>
                 <td>{student.studentName}</td>
                 <td>{student.createdAt}</td>
