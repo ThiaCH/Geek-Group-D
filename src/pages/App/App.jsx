@@ -1,19 +1,21 @@
 import debug from "debug"
 import { useState, useEffect } from "react";
-import AuthPage from "../AuthPage/AuthPage";
-import NewOrderPage from "../NewOrderPage/NewOrderPage";
-import OrderHistoryPage from "../OrderHistoryPage/OrderHistoryPage";
-import {Routes, Route} from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
+
+// import { getUser } from "../../utilities/users-service";
+
 import NavBar from "../../components/NavBar/NavBar";
-import { getUser } from "../../utilities/users-service";
+import AdminPage from "../AdminPage/AdminPage";
+import StudentSignUp from "../StudentSignUpPage/StudentSignUpPage";
+
 
 // this enables debug module at the App.jsx only, this replaces console.log, you can see it at the browser devtool, enable the verbose level at web console
 const log = debug('mern:pages:App:App');
 localStorage.debug = 'mern:*';
 
-function App() {
+export default function App() {
   // eslint-disable-next-line no-unused-vars
-  const [user, setUser] = useState(getUser());
+  const [user, setUser] = useState({}); // getUser()
   log("Test this is inside the App");
 
   const[newTime, setNewTime] = useState(new Date().getDate()); // eslint-disable-line no-unused-vars
@@ -26,15 +28,17 @@ function App() {
     return () => clearInterval(intervalId); // Cleanup function to stop the interval when component unmounts
   }, []);
 
+
   if (!user) {
     return (
       <main className="App">
-        <AuthPage setUser={setUser}/>
-        {/* <Routes>
-          <Route path={`/${newTime}`} element={<AuthPage setUser={setUser}/>} />
-        </Routes> */}
+        <StudentSignUp setUser={setUser}/>
       </main>
     );
+  }
+
+  if (user && user.role === 'admin') {
+    return <Navigate to="/admin" />;
   }
 
   return (
@@ -42,12 +46,11 @@ function App() {
       <main className="App">
         <NavBar setUser={setUser}/>
         <Routes>
-          <Route path='/orders' element={<OrderHistoryPage />} />
-          <Route path='/orders/new' element={<NewOrderPage />} />
+          <Route path='/admin' element={<AdminPage />} />
         </Routes>
       </main>
     </>
   );
 }
 
-export default App
+
