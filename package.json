@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev:react": "vite",
-    "dev:express-mac": "set debug=mern:* & nodemon server.js",
+    "dev:express-mac": "DEBUG=mern:* node --watch server.js",
     "dev:express-win": "set debug=mern:* & nodemon server.js",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
