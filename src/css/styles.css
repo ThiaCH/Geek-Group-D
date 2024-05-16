@@ -22,6 +22,11 @@
   margin: 0 20px;
 }
 
+.update-profile {
+  color: white; /* Set the text color to white */
+  text-decoration: none;
+}
+
 .logout-link {
   color: white; /* Set the text color to white */
   text-decoration: none;
