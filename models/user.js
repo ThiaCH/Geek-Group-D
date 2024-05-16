@@ -1,15 +1,23 @@
 const mongoose = require("mongoose");
-// Add the bcrypt library
 const bcrypt = require("bcrypt");
-
-const Schema = mongoose.Schema;
 
 const SALT_ROUNDS = 6;
 
-const userSchema = new Schema(
+const userSchema = new mongoose.Schema(
   {
-    name: {
+    studentName: {
       type: String,
+      required: true,
+    },
+    class: {
+      type: String,
+      trim: true,
+      required: true,
+    },
+    contact: {
+      type: Number,
+      unique: true,
+      trim: true,
       required: true,
     },
     email: {
@@ -19,20 +27,20 @@ const userSchema = new Schema(
       lowercase: true,
       required: true,
     },
+    nokName: {
+      type: String,
+      required: true,
+    },
+    nokContact: {
+      type: String,
+      unique: true,
+      trim: true,
+      required: true,
+    },
     password: {
       type: String,
       trim: true,
       minLength: 3,
-      required: true,
-    },
-    contact: {
-      type: Number,
-      min: 30000000,
-      max: 99999999,
-      required: true,
-    },
-    class: {
-      type: String,
       required: true,
     },
     emergencyContactPerson: {
@@ -45,12 +53,12 @@ const userSchema = new Schema(
       max: 99999999,
       required: true,
     },
-    AttendanceLog: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Attendance",
-      },
-    ],
+    // AttendanceLog: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "Attendance",
+    //   },
+    // ],
   },
   {
     timestamps: true,
@@ -64,9 +72,7 @@ const userSchema = new Schema(
 );
 
 userSchema.pre("save", async function (next) {
-  // 'this' is the user doc
   if (!this.isModified("password")) return next();
-  // update the password with the computed hash
   this.password = await bcrypt.hash(this.password, SALT_ROUNDS);
   return next();
 });

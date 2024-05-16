@@ -4,18 +4,27 @@ const Schema = mongoose.Schema;
 
 const attendanceSchema = new Schema(
   {
-    studentInfo: { type: Schema.Types.ObjectId, ref: "User" },
+    studentInfo: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     checkinDate: {
-      type: String,
+      type: Date,
       default: function () {
         return new Date().toLocaleDateString("en-SG");
       },
     },
     checkinTime: {
-      type: String,
+      type: Date,
       default: function () {
         return new Date().toLocaleTimeString("en-SG");
       },
+    },
+    qrCodeLink: {
+      type: String,
+      ref: "Admin",
     },
     isAbsent: {
       type: Boolean,
