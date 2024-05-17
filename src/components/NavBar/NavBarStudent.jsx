@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import * as userService from '../../utilities/users-service'
-import '../../css/styles.css'
+import '../../css/navbar.css'
 
 export default function NavBar({ setUser }) {
 
