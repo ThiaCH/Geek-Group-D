@@ -5,7 +5,7 @@ export default function EventList() {
     <>
       {/* Event List Table */}
       <div className="event-list">
-          <h1>Upcoming Event List</h1>
+          <h1>Upcoming Events</h1>
           <hr/>
             <ul>
               <li>Event Name</li>

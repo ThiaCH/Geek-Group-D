@@ -15,6 +15,7 @@ export default function AddEventForm () {
             <label>Description:</label>
             <textarea id="description" name="description" rows="10" ></textarea>
             <button type="submit">Add Event</button>
+            <button type="submit">Edit Event</button>  
           </form>
         </div>
     </>
