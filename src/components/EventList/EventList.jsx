@@ -1,5 +1,5 @@
 
-export default function EventList() {
+export default function EventList () {
 
   return (
     <>
