@@ -4,14 +4,8 @@ const debug = require("debug")("mern:config:database");
 // Set mongoose to debug mode if needed
 mongoose.set("debug", true);
 
-// Connection settings
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
-
 // Connect to MongoDB using the env for the database URL
-mongoose.connect(process.env.DATABASE_URL, options);
+mongoose.connect(process.env.DATABASE_URL);
 
 const db = mongoose.connection;
 

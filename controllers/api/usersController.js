@@ -50,16 +50,48 @@ async function login(req, res) {
         const attendance = new Attendance();
         attendance.studentInfo = user._id;
         await attendance.save();
+        user.AttendanceLog.push(attendance._id);
+        await user.save();
       }
     } else {
       const attendance = new Attendance();
       attendance.studentInfo = user._id;
       await attendance.save();
+      user.AttendanceLog.push(attendance._id);
+      await user.save();
     }
+  }
+}
+
+async function show(req, res) {
+  try {
+    const attendanceRecords = await Attendance.find({}).populate("studentInfo");
+    debug(attendanceRecords);
+    res.json(attendanceRecords);
+  } catch (error) {
+    debug(error);
+    res.status(400).json({ msg: "Records not found" });
+  }
+}
+
+async function deleteOne(req, res) {
+  try {
+    const deletedAttendance = await Attendance.findByIdAndDelete(req.params.id);
+    debug("Attendance deleted:\n", deletedAttendance);
+    const student = await User.findOne({ AttendanceLog: req.params.id });
+    debug("Target student:\n", student);
+    await student.AttendanceLog.remove(req.params.id);
+    await student.save();
+    res.status(204).json(null);
+  } catch (error) {
+    debug(error);
+    res.status(400).json(error);
   }
 }
 
 module.exports = {
   create,
   login,
+  show,
+  deleteOne,
 };

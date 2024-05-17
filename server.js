@@ -2,7 +2,6 @@ const express = require("express");
 const path = require("path");
 const logger = require("morgan");
 const debug = require("debug")("mern:server");
-const cors = require("cors");
 
 // Always require and configure near the top
 require("dotenv").config();
@@ -15,7 +14,6 @@ const Student = require("./models/user"); // Import your Student model
 const port = process.env.PORT || 3000;
 
 app.use(logger("dev"));
-app.use(cors());
 app.use(express.json());
 
 // Serve static files from the React build directory
@@ -23,7 +21,8 @@ app.use(express.static(path.join(__dirname, "dist")));
 
 // API routes
 app.use("/api/users", require("./routes/api/usersRoute"));
-// Add the students API route
+
+// Add the students API route. Move this part to usersRouter
 app.get("/api/students", async (req, res) => {
   const students = await Student.find({});
   res.json(students);

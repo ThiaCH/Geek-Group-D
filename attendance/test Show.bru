@@ -1,0 +1,19 @@
+meta {
+  name: test Show
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:3000/api/users
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Lizz",
+    "email": "melvinlee1314@gmail.com",
+    "password": "Babyiloveu"
+  }
+}
