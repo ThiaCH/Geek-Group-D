@@ -41,24 +41,27 @@ async function login(req, res) {
 
   // create attendance record as student logs in
   if (!user.isAdmin) {
-    const findById = await Attendance.find({ studentInfo: user._id });
-    if (findById.length !== 0) {
-      const findByDate = findById.find(
-        (item) => item.checkinDate === dateChecker,
-      );
-      if (findByDate === undefined) {
+    const loginTime = new Date();
+    if (loginTime > new Date().setHours(9, 0, 0, 0)) {
+      const findById = await Attendance.find({ studentInfo: user._id });
+      if (findById.length !== 0) {
+        const findByDate = findById.find(
+          (item) => item.checkinDate === dateChecker,
+        );
+        if (findByDate === undefined) {
+          const attendance = new Attendance();
+          attendance.studentInfo = user._id;
+          await attendance.save();
+          user.AttendanceLog.push(attendance._id);
+          await user.save();
+        }
+      } else {
         const attendance = new Attendance();
         attendance.studentInfo = user._id;
         await attendance.save();
         user.AttendanceLog.push(attendance._id);
         await user.save();
       }
-    } else {
-      const attendance = new Attendance();
-      attendance.studentInfo = user._id;
-      await attendance.save();
-      user.AttendanceLog.push(attendance._id);
-      await user.save();
     }
   }
 }

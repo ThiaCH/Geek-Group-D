@@ -42,7 +42,7 @@ export default function AdminPage() {
 
   const getCurrentDate = () => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date().toLocaleDateString(undefined, options);
+    return new Date().toLocaleDateString('en-SG', options);
   };
   
   return (
@@ -77,8 +77,8 @@ export default function AdminPage() {
                 <td>{attendance.studentInfo?.class}</td>
                 <td>{attendance.studentInfo?.contact}</td>
                 <td>{attendance.checkinTime}</td>
-                <td>{attendance.isLate === true ? "Yes" : "n/a"}</td>
-                <td>{attendance.isAbsent === true ? "Yes" : "n/a"}</td>
+                <td style={{backgroundColor: attendance.isLate ? "yellow" : "white"}}>{attendance.isLate === true ? "Yes" : "n/a"}</td>
+                <td style={{backgroundColor: attendance.isAbsent ? "red" : "white"}}>{attendance.isAbsent === true ? "Yes" : "n/a"}</td>
                 <td><button>🖊</button></td>
               </tr>
             ))}

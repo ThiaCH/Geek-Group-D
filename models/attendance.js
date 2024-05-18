@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+Schema.Types.Boolean.convertToFalse.add("n/a");
+
 const attendanceSchema = new Schema(
   {
     studentInfo: {

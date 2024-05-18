@@ -30,7 +30,11 @@ const userSchema = new mongoose.Schema(
     },
     class: {
       type: String,
+      uppercase: true,
       required: true,
+      set: function (value) {
+        return value.replace(/\s+/g, "");
+      },
     },
     emergencyContactPerson: {
       type: String,
