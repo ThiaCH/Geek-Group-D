@@ -37,8 +37,10 @@ class SignUpForm extends Component {
     handleSubmit = async (event) => {
         event.preventDefault();
         // alert(JSON.stringify(this.state));
+        
         try {
             const formData = {...this.state};
+            console.log(formData);
             delete formData.error;
             delete formData.confirm;
             const user = await signUp(formData);

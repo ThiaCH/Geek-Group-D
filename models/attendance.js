@@ -2,10 +2,13 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+Schema.Types.Boolean.convertToFalse.add("n/a");
+
 const attendanceSchema = new Schema(
   {
     studentInfo: {
       type: Schema.Types.ObjectId,
+      default: null,
       ref: "User",
     },
     checkinDate: {
@@ -37,8 +40,12 @@ const attendanceSchema = new Schema(
 attendanceSchema.pre("save", function (next) {
   // Compare this.checkinTime with 9:30:00 AM
   const currentTime = new Date();
-  this.isLate = currentTime > new Date().setHours(9, 30, 0, 0);
   this.isAbsent = currentTime > new Date().setHours(9, 45, 0, 0);
+  if (this.isAbsent === true) {
+    this.isLate = false;
+  } else {
+    this.isLate = currentTime > new Date().setHours(9, 30, 0, 0);
+  }
   next();
 });
 
