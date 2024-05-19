@@ -11,6 +11,7 @@ import ResourcePage from "../ResourcePage/ResourcePage"
 import AuthPage from "../AuthPage/AuthPage";
 import DashBoardPage from "../DashBoardPage/DashBoardPage"
 import StudentUpdatePage from "../StudentUpdatePage/StudentUpdatePage"
+import { getUser } from "../../utilities/users-service";
 // import StudentSignUp from "../StudentSignUpPage/StudentSignUpPage";
 
 
@@ -20,7 +21,7 @@ localStorage.debug = 'mern:*';
 
 export default function App() {
   // eslint-disable-next-line no-unused-vars
-  const [user, setUser] = useState({}); // getUser()
+  const [user, setUser] = useState(getUser()); // getUser()
   const location = useLocation(); 
   log("Test this is inside the App");
 
@@ -43,11 +44,6 @@ export default function App() {
       </main>
     );
   }
-
-  //* Remove navigate from react-router-dom
-  // if (user && user.role === 'admin') {
-  //   return <Navigate to="/admin" />;
-  // }
 
   // categorize route paths
   const adminPaths = ['/admin','/lessonplan', '/upcomingevent', '/resource']

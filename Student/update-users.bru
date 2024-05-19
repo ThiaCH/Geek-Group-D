@@ -1,0 +1,20 @@
+meta {
+  name: update-users
+  type: http
+  seq: 3
+}
+
+put {
+  url: http://localhost:3000/api/students
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "studentName": "this",
+    "email":"this.person@gmail.com",
+    "contact": "00001111",
+    "password": "123"
+  }
+}
