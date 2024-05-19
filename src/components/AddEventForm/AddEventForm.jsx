@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function AddEventForm () {
+export default function AddEventForm() {
   const [eventName, setEventName] = useState("");
   const [eventDate, setEventDate] = useState("");
   const [urlLink, setUrlLink] = useState("");
@@ -32,20 +32,44 @@ export default function AddEventForm () {
   return (
     <>
       {/* Add/Edit Upcoming Event Form */}
-        <div className='add-event-container'>
-          <form onSubmit={handleSubmit} >
-            <label>Event Name:</label>
-            <input id="event-name" type="text" name="eventname" />
-            <label>Event Date:</label>
-            <input id="event-date" type="datetime-local" name="eventdate" />
-            <label>URL Link (if applicable):</label>
-            <input id="url-link" type="url" name="urllink" />
-            <label>Description:</label>
-            <textarea id="description" name="description" rows="10" ></textarea>
-            <button type="submit">Add Event</button>
-            <button type="submit">Edit Event</button>  
-          </form>
-        </div>
+      <div className="add-event-container">
+        <form onSubmit={handleSubmit}>
+          <label>Event Name:</label>
+          <input
+            id="event-name"
+            type="text"
+            name="eventname"
+            value={eventName}
+            onChange={(event) => setEventName(event.target.value)}
+          />
+          <label>Event Date:</label>
+          <input
+            id="event-date"
+            type="datetime-local"
+            name="eventdate"
+            value={eventDate}
+            onChange={(event) => setEventDate(event.target.value)}
+          />
+          <label>URL Link (if applicable):</label>
+          <input
+            id="url-link"
+            type="url"
+            name="urllink"
+            value={urlLink}
+            onChange={(event) => setUrlLink(event.target.value)}
+          />
+          <label>Description:</label>
+          <textarea
+            id="description"
+            name="description"
+            rows="10"
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
+          ></textarea>
+          <button type="submit">Add Event</button>
+          <button type="submit">Edit Event</button>
+        </form>
+      </div>
     </>
-  )
+  );
 }
