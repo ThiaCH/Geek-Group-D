@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const Class = require("./class");
 
 const Schema = mongoose.Schema;
 const SALT_ROUNDS = 6;
@@ -83,6 +84,26 @@ userSchema.pre("findOneAndUpdate", async function (next) {
     );
   }
   next();
+});
+
+userSchema.post("save", async function (doc, next) {
+  try {
+    const classDoc = await Class.findOne({ className: doc.class });
+    if (classDoc) {
+      if (!classDoc.students.includes(doc._id)) {
+        classDoc.students.push(doc._id);
+        await classDoc.save();
+      }
+    } else {
+      await Class.create({
+        className: doc.class,
+        students: [doc._id],
+      });
+    }
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = mongoose.model("User", userSchema);

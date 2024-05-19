@@ -1,0 +1,21 @@
+meta {
+  name: Create Attendance
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/api/users/attendance
+  body: json
+  auth: none
+}
+
+body:json {
+    {
+       "studentInfo": "664425e2b8779b42bac11662",
+      "checkinDate": "2024-05-15",
+      "checkinTime": "08:30:00", 
+      "isAbsent": false,
+      "reason": "Late arrival"
+    }
+}

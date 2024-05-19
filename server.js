@@ -16,7 +16,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(logger("dev"));
-app.use(express.json()); // For parsing application/json
+app.use(express.json());
 
 // Serve static files from the React build directory
 app.use(express.static(path.join(__dirname, "dist")));
