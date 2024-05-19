@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const logger = require("morgan");
 const debug = require("debug")("mern:server");
+// const bcrypt = require("bcrypt"); // For password hashing
 
 // Always require and configure near the top
 require("dotenv").config();
@@ -10,23 +11,18 @@ require("dotenv").config();
 require("./config/database");
 
 const app = express();
-const Student = require("./models/user"); // Import your Student model
+// const Student = require("./models/user"); // Import your Student model
+// const SALT_ROUNDS = 6; // Number of bcrypt salt rounds
 const port = process.env.PORT || 3000;
 
 app.use(logger("dev"));
-app.use(express.json());
+app.use(express.json()); // For parsing application/json
 
 // Serve static files from the React build directory
 app.use(express.static(path.join(__dirname, "dist")));
 
 // API routes
 app.use("/api/users", require("./routes/api/usersRoute"));
-
-// Add the students API route. Move this part to usersRouter
-app.get("/api/students", async (req, res) => {
-  const students = await Student.find({});
-  res.json(students);
-});
 
 // The "catch all" route for SPA
 app.get("/*", function (req, res) {

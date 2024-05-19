@@ -8,9 +8,6 @@ const createJWT = (user) =>
   jwt.sign({ user }, process.env.SECRET, { expiresIn: "20m" });
 
 async function create(req, res) {
-  // const { name, email, password } = req.body;
-  // const user = await User.create({ name, email, password });
-  // res.status(201).json({user});
   try {
     const user = await User.create(req.body); // this calls the mongoose to create the data according to the user schema rules.
     // Baby step...
@@ -92,9 +89,49 @@ async function deleteOne(req, res) {
   }
 }
 
+// GET route to retrieve all students
+async function listAllStudents(req, res) {
+  try {
+    const students = await User.find({ isAdmin: false });
+    res.json(students);
+  } catch (error) {
+    console.error("Error retrieving students:", error);
+    res.status(500).send("Failed to get students");
+  }
+}
+
+async function updateStudent(req, res) {
+  const { id, email, name, contact } = req.body;
+  try {
+    const updatedData = { name, contact, email };
+
+    // if (password) {
+    //   updatedData.password = await bcrypt.hash(password, SALT_ROUNDS);
+    // }
+
+    const updatedStudent = await User.findByIdAndUpdate(id, updatedData, {
+      new: true,
+      runValidators: true,
+      context: "query",
+    });
+    console.log("updated", updateStudent);
+
+    if (!updatedStudent) {
+      return res.status(404).send("Student not found");
+    }
+
+    res.json(updatedStudent);
+  } catch (error) {
+    console.error("Failed to update student:", error);
+    res.status(500).send(`Update failed: ${error.message}`);
+  }
+}
+
 module.exports = {
   create,
   login,
   show,
   deleteOne,
+  listAllStudents,
+  updateStudent,
 };
