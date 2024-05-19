@@ -3,9 +3,12 @@ import AddEventForm from "../../components/AddEventForm/AddEventForm";
 import "../../css/event.css";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 export default function UpcomingEvent() {
   const [events, setEvents] = useState([]);
+  const { className } = useParams();
+
   const fetchEvents = async () => {
     try {
       const response = await fetch("/api/users/events");
@@ -27,7 +30,7 @@ export default function UpcomingEvent() {
   return (
     <>
       <div className="main-event-container">
-        <EventList events={events} />
+        <EventList events={events} className={className} />
         <AddEventForm />
       </div>
     </>

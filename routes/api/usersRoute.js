@@ -14,7 +14,9 @@ router.post("/attendance", usersCtrl.show);
 
 router.delete("/attendance/:id", usersCtrl.deleteOne);
 
-router.get("/events", eventsCtrl.getEvents);
+router.post("/classes", usersCtrl.showClasses);
+
+router.get("/events", eventsCtrl.showEventByClass);
 router.get("/events/:id", eventsCtrl.getOneEvent);
 router.post("/events", eventsCtrl.createEvent);
 

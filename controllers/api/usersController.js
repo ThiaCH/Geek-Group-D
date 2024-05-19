@@ -1,6 +1,7 @@
 const debug = require("debug")("mern:controllers:usersController");
 const User = require("../../models/user");
 const Attendance = require("../../models/attendance");
+const Class = require("../../models/class");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -92,9 +93,15 @@ async function deleteOne(req, res) {
   }
 }
 
+const showClasses = async (req, res) => {
+  const classes = await Class.find({});
+  res.json(classes);
+};
+
 module.exports = {
   create,
   login,
   show,
   deleteOne,
+  showClasses,
 };

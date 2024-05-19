@@ -1,6 +1,10 @@
 import moment from "moment";
 
-export default function EventList({ events }) {
+export default function EventList({ events, className }) {
+  const filteredEvents = className
+    ? events.filter((event) => event.className === className)
+    : events;
+
   return (
     <>
       {/* Event List Table */}
@@ -8,7 +12,7 @@ export default function EventList({ events }) {
         <h1>Upcoming Events</h1>
         <hr />
         <ul>
-          {events.map((event, index) => (
+          {filteredEvents.map((event, index) => (
             <li key={index}>
               <h3>{event.eventName}</h3>
               <p>
@@ -21,6 +25,7 @@ export default function EventList({ events }) {
                 </p>
               )}
               <p>Description: {event.description}</p>
+              <p>Class: {event.classes.map(cls => cls.className).join(', ')}</p>
             </li>
           ))}
         </ul>

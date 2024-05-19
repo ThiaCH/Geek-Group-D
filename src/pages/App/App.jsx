@@ -58,6 +58,7 @@ export default function App() {
         <Routes>
           <Route path="/dashboard" element={<DashBoardPage />} />
           <Route path="/studentupdate" element={<StudentUpdatePage />} />
+          <Route path="/:className/dashboard" element={<DashBoardPage />} />
         </Routes>
       </main>
     </>
