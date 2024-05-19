@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "name": "Student",
+  "name": "mern-infra",
   "type": "collection",
   "ignore": [
     "node_modules",

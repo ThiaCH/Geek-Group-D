@@ -1,8 +1,6 @@
 import { useState } from "react";
 import * as usersService from "../../utilities/users-service";
 import { useNavigate } from "react-router-dom";
-import debug from "debug";
-const log = debug("mern:utilities:user-service");
 
 export default function LoginForm({setUser}) {
     const navigate = useNavigate();
@@ -27,10 +25,9 @@ export default function LoginForm({setUser}) {
           // The promise returned by the signUp service method
           // will resolve to the user object included in the
           // payload of the JSON Web Token (JWT)
-          log('c', credentials, evt)
           const user = await usersService.login(credentials);
           setUser(user);
-          navigate("/dashboard");
+          navigate("/orders");
         } catch {
           setError("Log In Failed - Try Again");
         }

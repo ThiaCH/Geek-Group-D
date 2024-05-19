@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import '../../css/studentupdate.css';
-import { updateStudent } from '../../utilities/users-service';
 
-export default function StudentUpdate() {
+export default function StudentUpdate () {
   const [formData, setFormData] = useState({
     studentName: '',
     contactNumber: '',
-    oldEmail: '',
     email: '',
     password: ''
   });
@@ -21,19 +19,24 @@ export default function StudentUpdate() {
 
   const handleSave = async () => {
     try {
-      const data = await updateStudent({
-        oldEmail: formData.oldEmail,
-        name: formData.studentName,
-        email: formData.email,
-        contactNumber: formData.contactNumber,
-        password: formData.password  
+      const response = await fetch('/api/student', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
       });
-  
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json(); // Assuming the server responds with JSON
       console.log(data);
       alert('Update successful!');
     } catch (error) {
       console.error('Submission error:', error);
-      alert(`Update failed! Error: ${error.message}`);
+      alert('Update failed!');
     }
   };
 
@@ -72,21 +75,7 @@ export default function StudentUpdate() {
           <br/>
 
           <div className="update-form-group">
-            <label htmlFor="oldEmail">Current Email Address:</label>
-            <input
-              type="email"
-              id="oldEmail"
-              name="oldEmail"
-              value={formData.oldEmail}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <br/>
-
-          <div className="update-form-group">
-            <label htmlFor="email">New Email Address:</label>
+            <label htmlFor="email">Email Address:</label>
             <input
               type="email"
               id="email"
