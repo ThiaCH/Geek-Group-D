@@ -25,7 +25,7 @@ export function getUser() {
 }
 
 export const signUp = async (userData) => {
-  log("formData: %o", userData);
+  console.log("formData: %o", userData);
 
   const token = await userAPI.signUp(userData);
   log("token: %o", token);

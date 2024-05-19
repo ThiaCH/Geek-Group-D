@@ -1,0 +1,45 @@
+.update-form-container {
+  background-color: #ffffff;
+  padding: 20px;
+  max-width: 425px;
+  margin: 10px auto;
+}
+
+.update-title {
+  color: #000000;
+  text-align: center;
+  font-size: 30px;
+  margin: 60px auto;
+}
+
+.update-form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.update-form-group label {
+  width: 125px;
+  margin-bottom: 5px;
+  color: #000000;
+}
+
+.update-form-group input {
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  height: 40px;
+  width: 300%;
+}
+
+.update-save-btn {
+  background-color: #ffa500;
+  color: #000000;
+  border: none;
+  border-radius: 5px;
+  width: 100px;
+}
+
+.update-save-btn:hover {
+  background-color: #cc8400;
+}

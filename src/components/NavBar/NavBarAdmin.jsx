@@ -1,8 +1,9 @@
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import * as userService from '../../utilities/users-service'
-import '../../css/styles.css'
+import '../../css/navbar.css'
 
-export default function NavBar({setUser}) {
+export default function NavBar({ setUser }) {
+
 
   function handleLogOut() {
     // Delegate to the users-service
@@ -13,16 +14,16 @@ export default function NavBar({setUser}) {
 
     return (
       <nav className="navbar">
-        <div className="navbar-container">
+        <div className="navbar-admin-container">
           <div className="spacer"></div>
           <div className="options-container">
             <div className="dropdown">
               <button className="dropbtn">Options</button>
               <div className="dropdown-content">
-                <Link to="/attendance">Attendance</Link>
-                <Link to="/lesson-plan">Lesson Plan</Link>
-                <Link to="/upcoming-events">Upcoming Events</Link>
-                <Link to="/Resources">Resources</Link>
+                <Link to="/admin">Attendance</Link>
+                <Link to="/lessonplan">Lesson Plan</Link>
+                <Link to="/upcomingevent">Upcoming Events</Link>
+                <Link to="/resource">Resources</Link>
               </div>
             </div>
           <span className="separator"> | </span>

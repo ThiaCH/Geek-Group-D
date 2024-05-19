@@ -1,0 +1,84 @@
+.navbar {
+  background-color: rgb(235, 50, 26); /* Set the background color to red */
+  width: 100%;
+}
+
+.navbar-admin-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar-student-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.options-container {
+  display: flex;
+  align-items: center;
+}
+
+.separator {
+  color: rgb(255, 255, 255);
+  margin: 0 20px;
+}
+
+.update-profile {
+  color: white; /* Set the text color to white */
+  text-decoration: none;
+}
+
+.logout-link {
+  color: white; /* Set the text color to white */
+  text-decoration: none;
+  margin-right: 20px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgb(253, 193, 193);
+  min-width: 160px;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: rgb(0, 0, 0);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #ff8585;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: rgb(253, 193, 193);
+}
