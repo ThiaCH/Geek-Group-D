@@ -1,11 +1,39 @@
+import { useState } from "react";
 
 export default function AddEventForm () {
+  const [eventName, setEventName] = useState("");
+  const [eventDate, setEventDate] = useState("");
+  const [urlLink, setUrlLink] = useState("");
+  const [description, setDescription] = useState("");
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const newEvent = { eventName, eventDate, urlLink, description };
+
+    const response = await fetch("/api/events", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newEvent),
+    });
+    console.log(response);
+
+    if (!response.ok) {
+      throw new Error("Failed to add event");
+    }
+    //* Reset Fields Upon Submission
+    setEventName("");
+    setEventDate("");
+    setUrlLink("");
+    setDescription("");
+  };
 
   return (
     <>
       {/* Add/Edit Upcoming Event Form */}
         <div className='add-event-container'>
-          <form >
+          <form onSubmit={handleSubmit} >
             <label>Event Name:</label>
             <input id="event-name" type="text" name="eventname" />
             <label>Event Date:</label>
