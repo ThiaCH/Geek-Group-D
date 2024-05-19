@@ -6,6 +6,7 @@ const debug = require("debug")("mern:routes:usersRoute");
 
 // POST /api/users
 router.post("/", usersCtrl.create);
+router.get("/students/all", usersCtrl.listAllStudents);
 
 router.post("/login", usersCtrl.login);
 
@@ -31,5 +32,7 @@ router.get("/check-token", [checkToken], (req, res) => {
   const user = res.locals.user;
   res.json(user);
 });
+
+router.patch("/student/:id/update", usersCtrl.updateStudent);
 
 module.exports = router;
