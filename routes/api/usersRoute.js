@@ -13,6 +13,8 @@ router.post("/attendance", usersCtrl.show);
 
 router.delete("/attendance/:id", usersCtrl.deleteOne);
 
+router.put("/attendance/:id", usersCtrl.editOne);
+
 const checkToken = (req, res, next) => {
   const header = req.get("Authorization");
   const token = header.replace("Bearer ", "");
