@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const Class = require("./class");
 
 const SALT_ROUNDS = 6;
 
@@ -72,6 +73,26 @@ userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, SALT_ROUNDS);
   return next();
+});
+
+userSchema.post("save", async function (doc, next) {
+  try {
+    const classDoc = await Class.findOne({ className: doc.class });
+    if (classDoc) {
+      if (!classDoc.students.includes(doc._id)) {
+        classDoc.students.push(doc._id);
+        await classDoc.save();
+      }
+    } else {
+      await Class.create({
+        className: doc.class,
+        students: [doc._id],
+      });
+    }
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = mongoose.model("User", userSchema);
