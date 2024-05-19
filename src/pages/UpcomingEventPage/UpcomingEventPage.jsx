@@ -8,7 +8,7 @@ export default function UpcomingEvent() {
   const [events, setEvents] = useState([]);
   const fetchEvents = async () => {
     try {
-      const response = await fetch("/api/events");
+      const response = await fetch("/api/users/events");
 
       if (!response.ok) {
         throw new Error("Failed to fetch events");
