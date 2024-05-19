@@ -8,6 +8,7 @@ import AdminPage from "../AdminPage/AdminPage";
 import AuthPage from "../AuthPage/AuthPage";
 import DashBoardPage from "../DashBoardPage/DashBoardPage"
 import StudentUpdatePage from "../StudentUpdatePage/StudentUpdatePage"
+import UpcomingEvent from "../UpcomingEventPage/UpcomingEventPage";
 // import StudentSignUp from "../StudentSignUpPage/StudentSignUpPage";
 
 
@@ -43,6 +44,7 @@ export default function App() {
         <NavBarAdmin setUser={setUser}/>
         <Routes>
           <Route path='/admin' element={<AdminPage />} />
+          <Route path='/upcomingevent' element={<UpcomingEvent />} />
         </Routes>
       </main>
       </>
