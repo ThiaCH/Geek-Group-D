@@ -12,7 +12,6 @@ import UpcomingEvent from "../UpcomingEventPage/UpcomingEventPage";
 import ResourcePage from "../ResourcePage/ResourcePage"
 
 
-
 // this enables debug module at the App.jsx only, this replaces console.log, you can see it at the browser devtool, enable the verbose level at web console
 const log = debug('mern:pages:App:App'); // eslint-disable-line no-unused-vars
 localStorage.debug = 'mern:*';

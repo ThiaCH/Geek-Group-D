@@ -10,6 +10,8 @@ export default function AddResourceForm () {
     { id: '3', website: 'Code Wars', url: 'https://www.codewars.com/' },
   ]);
 
+  
+
   const [newResource,  setNewResource] = useState({ id: '', website: '', url: '' })
 
   const handleAdd = (event) => {
