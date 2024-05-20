@@ -47,18 +47,20 @@ async function login(req, res) {
           (item) => item.checkinDate === dateChecker,
         );
         if (findByDate === undefined) {
-          const attendance = new Attendance();
-          attendance.studentInfo = user._id;
-          await attendance.save();
-          user.AttendanceLog.push(attendance._id);
-          await user.save();
+          await Attendance.create({ studentInfo: user._id });
+          // const attendance = new Attendance();
+          // attendance.studentInfo = user._id;
+          // await attendance.save();
+          // user.AttendanceLog.push(attendance._id);
+          // await user.save();
         }
       } else {
-        const attendance = new Attendance();
-        attendance.studentInfo = user._id;
-        await attendance.save();
-        user.AttendanceLog.push(attendance._id);
-        await user.save();
+        // const attendance = new Attendance();
+        // attendance.studentInfo = user._id;
+        // await attendance.save();
+        // user.AttendanceLog.push(attendance._id);
+        // await user.save();
+        await Attendance.create({ studentInfo: user._id });
       }
     }
   }
