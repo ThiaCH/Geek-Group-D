@@ -1,34 +1,68 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function AddResourceForm () {
 
   //* Test Sample Only; To be remove later
-  //* Actual Version have to fetch from Data 
-  const [resourceUrl, setResourceUrl] = useState([
-    { id: '1', website: 'MDN Web Docs', url: 'https://developer.mozilla.org/en-US/' },
-    { id: '2', website: 'React JS', url: 'https://legacy.reactjs.org/' },
-    { id: '3', website: 'Code Wars', url: 'https://www.codewars.com/' },
-  ]);
+  // const [resourceUrl, setResourceUrl] = useState([
+  //   { website: 'MDN Web Docs', url: 'https://developer.mozilla.org/en-US/' },
+  //   { website: 'React JS', url: 'https://legacy.reactjs.org/' },
+  //   { website: 'Code Wars', url: 'https://www.codewars.com/' },
+  // ]);
 
-  const [newResource,  setNewResource] = useState({ id: '', website: '', url: '' })
-
-  const handleAdd = (event) => {
-    event.preventDefault();
-    if (!newResource.id || !newResource.website || !newResource.url) return;
-    setResourceUrl([...resourceUrl, {...newResource }]);
-    setNewResource({ id: '', website: '', url: '' }); // Reset form
-}
+  const [resourceUrl, setResourceUrl] = useState([]);
+  const [newResource,  setNewResource] = useState({ website: '', url: '' })
   
-  const handleChange = (event) => {
-    const { name, value } = event.target
-    setNewResource({ ...newResource, [name]: value })
+  useEffect(() => {
+    fetch('/api/resources/resources')
+      .then(response => response.json())
+      .then(data => setResourceUrl(data))
+      .catch(error => console.error('Error fetching resources:', error));
+  }, []);
+
+  const handleAdd = async (event) => {
+    event.preventDefault();
+    if (!newResource.website || !newResource.url) return;
+
+    try {
+      const response = await fetch('/api/resources/resources', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newResource)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setResourceUrl(prevUrls => [...prevUrls, data]);
+      setNewResource({ website: '', url: '' });
+      console.log(data)
+    } catch (error) {
+      console.error('Failed to add resource:', error);
+      alert(`Add resource failed! Error: ${error.message}`);
+    }
+};
+
+
+const handleDelete = async (id) => {
+  try {
+    const response = await fetch(`/api/resources/resources/${id}`, { method: 'DELETE' });
+    if (response.ok) {
+      setResourceUrl(resourceUrl.filter(url => url._id !== id));
+    } else {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error('Failed to delete resource:', error);
   }
+};
 
-  const handleDelete = (id) => {
-    const newResourceUrl = resourceUrl.filter(url => url.id !== id);
-    setResourceUrl(newResourceUrl);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setNewResource({ ...newResource, [name]: value });
   };
-
 
   return (
     <>
@@ -36,24 +70,24 @@ export default function AddResourceForm () {
         <table>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>Delete</th>
               <th>website</th>
               <th>URL</th>
-              <th>Action</th>
+              <th>Edit</th>
             </tr>
           </thead>
           <tbody>
-            {resourceUrl.map(url => (
-              <tr key={url.id}>
-                <td>{url.id}</td>
+            {resourceUrl.map((url, index) => (
+              <tr key={url._id || index}>
+                <td>
+                  <button onClick={() => handleDelete(url._id)}>Delete</button>
+                </td>
                 <td>{url.website}</td>
                 <td>
-                  <a href={url.url} target="_blank" rel="noopener">{url.url}</a>
+                  <a href={url.url} target="_blank" rel="noopener noreferrer">{url.url}</a> 
                 </td>
                 <td>
-                  {/* WIP -> Edit Button */}
                   <button>Edit</button> 
-                  <button onClick={() => handleDelete(url.id)}>Delete</button>
                 </td>
               </tr>
             ))}
@@ -65,15 +99,6 @@ export default function AddResourceForm () {
 
       <div className="add-resource-container">
         <form onSubmit={handleAdd}>
-          <input 
-            className="add-resource-id" 
-            type="text" 
-            name="id" 
-            placeholder="ID" 
-            value={newResource.id} 
-            onChange={handleChange}>
-          </input>
-          <br/>
           <input 
             className="add-resource-website" 
             type="text" 
