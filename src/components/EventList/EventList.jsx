@@ -17,7 +17,6 @@ export default function EventList({ events, className }) {
           {filteredEvents.map((event, index) => (
             <li key={index}>
               <h3>{event.eventName}</h3>
-              {console.log(event.classes[0].className)}
               <p>
                 Date & Time:{" "}
                 {moment(event.eventDate).format("DD/MM/YYYY, hh:mm A")}
