@@ -23,7 +23,7 @@ export default function App() {
   useEffect(() => {
     const interValid = setInterval(() => {
       setNewTime(new Date().getDate());
-    }, 3600000);
+    }, 3600000); 
   
     return () => clearInterval(interValid); // Cleanup function to stop the interval when component unmounts
   }, []);
@@ -31,10 +31,12 @@ export default function App() {
 
   if (!user) {
     return (
+      <>
       <main className="App">
         {/* <StudentSignUp setUser={setUser}/> */}
         <AuthPage setUser={setUser} />
-      </main>
+      </main> 
+      </>
     );
   } else if (user && user.isAdmin === true) {
     return (
@@ -47,17 +49,17 @@ export default function App() {
       </main>
       </>
     );
+  } else {
+    return (
+      <>
+        <main className="App">
+          <NavBarStudent setUser={setUser}/>
+          <Routes>
+            <Route path="/dashboard" element={<DashBoardPage />} />
+            <Route path="/studentupdate" element={<StudentUpdatePage user={user} setUser={setUser}/>} />
+          </Routes>
+        </main>
+      </>
+    );
   }
-
-  return (
-    <>
-      <main className="App">
-        <NavBarStudent setUser={setUser}/>
-        <Routes>
-          <Route path="/dashboard" element={<DashBoardPage />} />
-          <Route path="/studentupdate" element={<StudentUpdatePage user={user} setUser={setUser}/>} />
-        </Routes>
-      </main>
-    </>
-  );
 }
