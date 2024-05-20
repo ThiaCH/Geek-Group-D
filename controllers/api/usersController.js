@@ -22,7 +22,7 @@ async function create(req, res) {
 }
 
 async function login(req, res) {
-  const dateChecker = new Date().toLocaleDateString("en-SG");
+  const dateChecker = new Date(Date.now() + 8 * 60 * 60 * 1000).toDateString();
 
   const user = await User.findOne({ email: req.body.email });
   if (user === null) {
