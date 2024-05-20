@@ -1,0 +1,36 @@
+.main-dashboard-container {
+  width: 90vw;
+  height: 90vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.unit-overview {
+  background-color: rgb(255, 245, 200);
+  width: 40%;
+  height: 90%;
+  margin-left: auto;
+}
+
+.other-container {
+  width: 45%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.upcoming-events {
+  background-color: rgb(255, 191, 191);
+  width: 75%;
+  height: 45%;
+  margin: auto;
+}
+
+.resources {
+  background-color: rgb(255, 229, 142);
+  width: 75%;
+  height: 45%;
+  margin: auto;
+}

@@ -1,0 +1,23 @@
+meta {
+  name: Signup
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/api/users
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Alex",
+    "email": "alex@gmail.com",
+    "password": "12345",
+    "contact": "98414252",
+    "class": "SEI49",
+    "emergencyContactPerson": "Lee",
+    "emergencyContactNumber": "98214153"
+  }
+}

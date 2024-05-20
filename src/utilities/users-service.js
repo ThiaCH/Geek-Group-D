@@ -25,7 +25,7 @@ export function getUser() {
 }
 
 export const signUp = async (userData) => {
-  log("formData: %o", userData);
+  console.log("formData: %o", userData);
 
   const token = await userAPI.signUp(userData);
   log("token: %o", token);
@@ -51,4 +51,11 @@ export function logOut() {
 export const checkToken = async () => {
   const dateStr = await userAPI.checkToken();
   return new Date(dateStr);
+};
+
+export const updateStudent = async (studentData) => {
+  // API call logic here
+  const response = await userAPI.updateStudent(studentData);
+  console.log("res", response);
+  return response;
 };

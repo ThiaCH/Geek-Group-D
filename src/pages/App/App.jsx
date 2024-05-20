@@ -4,10 +4,11 @@ import { Routes, Route } from 'react-router-dom'
 import NavBarAdmin from "../../components/NavBar/NavBarAdmin";
 import AdminPage from "../AdminPage/AdminPage";
 import { getUser } from "../../utilities/users-service";
-import AuthPage from "../AuthPage/AuthPage";
 import NavBarStudent from "../../components/NavBar/NavBarStudent";
+import AuthPage from "../AuthPage/AuthPage";
 import DashBoardPage from "../DashBoardPage/DashBoardPage"
 import StudentUpdatePage from "../StudentUpdatePage/StudentUpdatePage"
+import UpcomingEvent from "../UpcomingEventPage/UpcomingEventPage";
 // import StudentSignUp from "../StudentSignUpPage/StudentSignUpPage";
 
 
@@ -18,15 +19,14 @@ localStorage.debug = 'mern:*';
 export default function App() {
   // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useState(getUser()); // getUser()
-
   const[newTime, setNewTime] = useState(new Date().getDate()); // eslint-disable-line no-unused-vars
   
   useEffect(() => {
-    const intervalId = setInterval(() => {
+    const interValid = setInterval(() => {
       setNewTime(new Date().getDate());
     }, 3600000);
   
-    return () => clearInterval(intervalId); // Cleanup function to stop the interval when component unmounts
+    return () => clearInterval(interValid); // Cleanup function to stop the interval when component unmounts
   }, []);
 
 
@@ -44,6 +44,7 @@ export default function App() {
         <NavBarAdmin setUser={setUser}/>
         <Routes>
           <Route path='/admin' element={<AdminPage />} />
+          <Route path='/upcomingevent' element={<UpcomingEvent />} />
         </Routes>
       </main>
       </>
@@ -54,17 +55,12 @@ export default function App() {
     <>
       <main className="App">
         <NavBarStudent setUser={setUser}/>
-        <p>student dashboard page here</p>
         <Routes>
           <Route path="/dashboard" element={<DashBoardPage />} />
-          <Route path="/particular" element={<StudentUpdatePage />} />
+          <Route path="/studentupdate" element={<StudentUpdatePage user={user} />} />
+          <Route path="/:className/dashboard" element={<DashBoardPage />} />
         </Routes>
       </main>
     </>
   );
 }
-
-
-
-
-
