@@ -143,7 +143,7 @@ export default function AdminPage() {
                 ))}
               </tbody>
             </table>
-            <button style={{width: "40px", height: "40px", borderRadius: "50%"}} onClick={setDisplayNewForm(true)}>+</button>
+            <button style={{width: "40px", height: "40px", borderRadius: "50%"}} onClick={() => setDisplayNewForm(true)}>+</button>
           </div>
           {displayEditForm && 
           <div className='form-container'>
