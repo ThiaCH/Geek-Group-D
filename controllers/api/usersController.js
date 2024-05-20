@@ -21,14 +21,21 @@ async function create(req, res) {
   }
 }
 
+function isNineAM() {
+  const now = new Date();
+  return now.getHours() === 9 && now.getMinutes() === 0;
+}
+
 async function login(req, res) {
   // const dateChecker = new Date().toLocaleDateString("en-SG");
 
+  // 1) Get user to check if user exist, if no return not found
   const user = await User.findOne({ email: req.body.email });
   if (user === null) {
     res.status(401).json({ msg: "User not found" });
   }
 
+  // 2) check credentials if user is authorized => login
   const match = await bcrypt.compare(req.body.password, user.password);
   if (match) {
     const token = createJWT(user);
@@ -37,10 +44,14 @@ async function login(req, res) {
     res.status(401).json({ msg: "Password incorrect" });
   }
 
-  // create attendance record as student logs in
+  // 3) check  if user not admin, mark attendance
+
   if (!user.isAdmin) {
-    // const loginTime = new Date();
-    await Attendance.create({ studentInfo: user._id });
+    // 4) if log in before 9am, don't need to log attendance
+    if (isNineAM()) {
+      await Attendance.create({ studentInfo: user._id });
+    }
+    // 5) if user has logged in before, don't need to add attendance
 
     // if (loginTime > new Date().setHours(9, 0, 0, 0)) {
     //   const findById = await Attendance.find({ studentInfo: user._id });
