@@ -22,7 +22,7 @@ async function create(req, res) {
 }
 
 async function login(req, res) {
-  const dateChecker = new Date().toLocaleDateString("en-SG");
+  // const dateChecker = new Date().toLocaleDateString("en-SG");
 
   const user = await User.findOne({ email: req.body.email });
   if (user === null) {
@@ -39,30 +39,32 @@ async function login(req, res) {
 
   // create attendance record as student logs in
   if (!user.isAdmin) {
-    const loginTime = new Date();
-    if (loginTime > new Date().setHours(9, 0, 0, 0)) {
-      const findById = await Attendance.find({ studentInfo: user._id });
-      if (findById.length !== 0) {
-        const findByDate = findById.find(
-          (item) => item.checkinDate === dateChecker,
-        );
-        if (findByDate === undefined) {
-          await Attendance.create({ studentInfo: user._id });
-          // const attendance = new Attendance();
-          // attendance.studentInfo = user._id;
-          // await attendance.save();
-          // user.AttendanceLog.push(attendance._id);
-          // await user.save();
-        }
-      } else {
-        // const attendance = new Attendance();
-        // attendance.studentInfo = user._id;
-        // await attendance.save();
-        // user.AttendanceLog.push(attendance._id);
-        // await user.save();
-        await Attendance.create({ studentInfo: user._id });
-      }
-    }
+    // const loginTime = new Date();
+    await Attendance.create({ studentInfo: user._id });
+
+    // if (loginTime > new Date().setHours(9, 0, 0, 0)) {
+    //   const findById = await Attendance.find({ studentInfo: user._id });
+    //   if (findById.length !== 0) {
+    //     const findByDate = findById.find(
+    //       (item) => item.checkinDate === dateChecker,
+    //     );
+    //     if (findByDate === undefined) {
+    //       await Attendance.create({ studentInfo: user._id });
+    //       // const attendance = new Attendance();
+    //       // attendance.studentInfo = user._id;
+    //       // await attendance.save();
+    //       // user.AttendanceLog.push(attendance._id);
+    //       // await user.save();
+    //     }
+    //   } else {
+    //     // const attendance = new Attendance();
+    //     // attendance.studentInfo = user._id;
+    //     // await attendance.save();
+    //     // user.AttendanceLog.push(attendance._id);
+    //     // await user.save();
+    //     await Attendance.create({ studentInfo: user._id });
+    //   }
+    // }
   }
 }
 
