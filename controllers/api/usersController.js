@@ -11,7 +11,6 @@ const createJWT = (user) =>
 async function create(req, res) {
   try {
     const user = await User.create(req.body); // this calls the mongoose to create the data according to the user schema rules.
-    // Baby step...
     const token = createJWT(user); // this calls the createJWT function defined above and pass the user data to it to perform jwt encode
     res.status(201).json(token);
     debug(req.body);
