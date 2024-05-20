@@ -7,7 +7,6 @@ const debug = require("debug")("mern:routes:usersRoute");
 
 // POST /api/users
 router.post("/", usersCtrl.create);
-router.get("/students/all", usersCtrl.listAllStudents);
 
 router.post("/login", usersCtrl.login);
 
