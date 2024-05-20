@@ -17,7 +17,7 @@ const attendanceSchema = new Schema(
         const newDate = new Date(
           Date.now() + 8 * 60 * 60 * 1000,
         ).toDateString();
-        return newDate.split(" ")[0];
+        return newDate.split(" ").slice(1).join(" ");
       },
     },
     checkinTime: {
@@ -26,7 +26,7 @@ const attendanceSchema = new Schema(
         const newTime = new Date(
           Date.now() + 8 * 60 * 60 * 1000,
         ).toTimeString();
-        return newTime.split(" ").slice(1, 4).join(" ");
+        return newTime.split(" ")[0];
       },
     },
     isLate: {
