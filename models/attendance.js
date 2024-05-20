@@ -14,13 +14,19 @@ const attendanceSchema = new Schema(
     checkinDate: {
       type: String,
       default: function () {
-        return new Date(Date.now() + 8 * 60 * 60 * 1000).toDateString();
+        const newDate = new Date(
+          Date.now() + 8 * 60 * 60 * 1000,
+        ).toDateString();
+        return newDate.split(" ")[0];
       },
     },
     checkinTime: {
       type: String,
       default: function () {
-        return new Date(Date.now() + 8 * 60 * 60 * 1000).toTimeString();
+        const newTime = new Date(
+          Date.now() + 8 * 60 * 60 * 1000,
+        ).toTimeString();
+        return newTime.split(" ").slice(1, 4).join(" ");
       },
     },
     isLate: {
