@@ -24,13 +24,13 @@ export default function AdminPage() {
         if (!response.ok) throw new Error('Data fetching failed');
         const data = await response.json();
         setAttendanceRecords(data);
+        debug(data);
       } catch (err) {
         setError(err.message);
       } finally {
         setIsLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
@@ -93,7 +93,8 @@ export default function AdminPage() {
     setDisplayEditForm(false);
   }
 
-  const handleClose = () => {
+  const handleClose = (evt) => {
+    evt.preventDefault();
     setDisplayEditForm(false);
   }
 
@@ -143,7 +144,7 @@ export default function AdminPage() {
                 ))}
               </tbody>
             </table>
-            <button style={{width: "40px", height: "40px", borderRadius: "50%"}} onClick={setDisplayNewForm(true)}>+</button>
+            <button style={{width: "40px", height: "40px", borderRadius: "50%"}} onClick={() => setDisplayNewForm(true)}>+</button>
           </div>
           {displayEditForm && 
           <div className='form-container'>
