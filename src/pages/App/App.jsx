@@ -1,14 +1,15 @@
-import debug from "debug"
+import debug from "debug";
 import { useState, useEffect } from "react";
-import { Routes, Route } from 'react-router-dom'
-import { getUser } from "../../utilities/users-service";
+import { Routes, Route } from 'react-router-dom';
+import { getUser } from "../../utilities/users-service"; 
 import NavBarAdmin from "../../components/NavBar/NavBarAdmin";
 import NavBarStudent from "../../components/NavBar/NavBarStudent";
-import AdminPage from "../AdminPage/AdminPage";
 import AuthPage from "../AuthPage/AuthPage";
+import AdminPage from "../AdminPage/AdminPage";
 import DashBoardPage from "../DashBoardPage/DashBoardPage"
 import StudentUpdatePage from "../StudentUpdatePage/StudentUpdatePage"
-// import StudentSignUp from "../StudentSignUpPage/StudentSignUpPage";
+import UpcomingEvent from "../UpcomingEventPage/UpcomingEventPage";
+import ResourcePage from "../ResourcePage/ResourcePage"
 
 
 // this enables debug module at the App.jsx only, this replaces console.log, you can see it at the browser devtool, enable the verbose level at web console
@@ -33,7 +34,6 @@ export default function App() {
     return (
       <>
       <main className="App">
-        {/* <StudentSignUp setUser={setUser}/> */}
         <AuthPage setUser={setUser} />
       </main> 
       </>
@@ -45,6 +45,8 @@ export default function App() {
         <NavBarAdmin setUser={setUser}/>
         <Routes>
           <Route path='/admin' element={<AdminPage />} />
+          <Route path='/upcomingevent' element={<UpcomingEvent />} />
+          <Route path='/resource' element={<ResourcePage />} />
         </Routes>
       </main>
       </>
