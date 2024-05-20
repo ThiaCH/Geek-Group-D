@@ -109,74 +109,78 @@ export default function AdminPage() {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <div style={{display: "flex", gap: "10px"}}>
-          <div className='table'>
-            <table>
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>Date</th>
-                  <th>Student id</th>
-                  <th>Student Name</th>
-                  <th>Class</th>
-                  <th>Contact Number</th>
-                  <th>Check In Time</th>
-                  <th>Late</th>
-                  <th>Absent</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {attendanceRecords.map((attendance, index) => (
-                  <tr key={attendance._id || index}>
-                    <td><button onClick={() => handleDelete(attendance._id)}>X</button></td>
-                    <td>{attendance.checkinDate}</td>
-                    <td>{attendance.studentInfo?._id}</td>
-                    <td>{attendance.studentInfo?.name}</td>
-                    <td>{attendance.studentInfo?.class}</td>
-                    <td>{attendance.studentInfo?.contact}</td>
-                    <td>{attendance.checkinTime}</td>
-                    <td style={{backgroundColor: attendance.isLate ? "yellow" : "white"}}>{attendance.isLate === true ? "yes" : "n/a"}</td>
-                    <td style={{backgroundColor: attendance.isAbsent ? "red" : "white"}}>{attendance.isAbsent === true ? "yes" : "n/a"}</td>
-                    <td><button onClick={() => handleEdit(attendance)}>🖊</button></td>
+        <div>
+          <div style={{display: "flex", gap: "10px"}}>
+            <div className='table'>
+              <table>
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Date</th>
+                    <th>Student id</th>
+                    <th>Student Name</th>
+                    <th>Class</th>
+                    <th>Contact Number</th>
+                    <th>Check In Time</th>
+                    <th>Late</th>
+                    <th>Absent</th>
+                    <th></th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-            <button style={{width: "40px", height: "40px", borderRadius: "50%"}} onClick={() => setDisplayNewForm(true)}>+</button>
+                </thead>
+                <tbody>
+                  {attendanceRecords.map((attendance, index) => (
+                    <tr key={attendance._id || index}>
+                      <td><button onClick={() => handleDelete(attendance._id)}>X</button></td>
+                      <td>{attendance.checkinDate}</td>
+                      <td>{attendance.studentInfo?._id}</td>
+                      <td>{attendance.studentInfo?.name}</td>
+                      <td>{attendance.studentInfo?.class}</td>
+                      <td>{attendance.studentInfo?.contact}</td>
+                      <td>{attendance.checkinTime}</td>
+                      <td style={{backgroundColor: attendance.isLate ? "yellow" : "white"}}>{attendance.isLate === true ? "yes" : "n/a"}</td>
+                      <td style={{backgroundColor: attendance.isAbsent ? "red" : "white"}}>{attendance.isAbsent === true ? "yes" : "n/a"}</td>
+                      <td><button onClick={() => handleEdit(attendance)}>🖊</button></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <button style={{width: "40px", height: "40px", borderRadius: "50%"}} onClick={() => setDisplayNewForm(true)}>+</button>
+            </div>
+            {displayEditForm && 
+            <div className='form-container'>
+              <form autoComplete="off" onSubmit={handleEditSubmit}>
+                <label>Date</label>
+                <input type='text' name='checkinDate' value={attendanceData.checkinDate} disabled />
+                <label>Student Name</label>
+                <input type='text' name='name' value={attendanceData.studentInfo?.name} disabled />
+                <label>Class</label>
+                <input type='text' name='class' value={attendanceData.studentInfo?.class} onChange={handleEditChange} />
+                <label>Contact Number</label>
+                <input type='tel' name='contact' value={attendanceData.studentInfo?.contact} onChange={handleEditChange} />
+                <label>Check In Time</label>
+                <input type='text' name='checkinTime' value={attendanceData.checkinTime} onChange={handleEditChange} />
+                <label>Late</label>
+                <input type='text' name='isLate' value={attendanceData.isLate} onChange={handleEditChange} />
+                <label>Absent</label>
+                <input type='text' name='isAbsent' value={attendanceData.isAbsent} onChange={handleEditChange} />
+                <div style={{display: "flex", gap: "20px"}}>
+                  <button type="submit">Save</button>
+                  <button className='btn-sm' onClick={handleClose}>Cancel</button>
+                </div>
+              </form>
+            </div>}    
           </div>
-          {displayEditForm && 
-          <div className='form-container'>
-            <form autoComplete="off" onSubmit={handleEditSubmit}>
-              <label>Date</label>
-              <input type='text' name='checkinDate' value={attendanceData.checkinDate} disabled />
-              <label>Student Name</label>
-              <input type='text' name='name' value={attendanceData.studentInfo?.name} disabled />
-              <label>Class</label>
-              <input type='text' name='class' value={attendanceData.studentInfo?.class} onChange={handleEditChange} />
-              <label>Contact Number</label>
-              <input type='tel' name='contact' value={attendanceData.studentInfo?.contact} onChange={handleEditChange} />
-              <label>Check In Time</label>
-              <input type='text' name='checkinTime' value={attendanceData.checkinTime} onChange={handleEditChange} />
-              <label>Late</label>
-              <input type='text' name='isLate' value={attendanceData.isLate} onChange={handleEditChange} />
-              <label>Absent</label>
-              <input type='text' name='isAbsent' value={attendanceData.isAbsent} onChange={handleEditChange} />
-              <div style={{display: "flex", gap: "20px"}}>
-                <button type="submit">Save</button>
-                <button className='btn-sm' onClick={handleClose}>Cancel</button>
-              </div>
+          {displayNewForm && (
+          <div className='form-container' style={{maxWidth: "500px"}}>
+            <form autoComplete="off">
+              <label>Name</label>
+              <input type='text' name='name' />
+              <label></label>
             </form>
-          </div>}
-          {displayNewForm && 
-          <div className='form-container' style={{maxWidth: "200px"}}>
-            <form autoComplete='off'>
-              <label>Date</label>
-              <input type='text' name='checkinDate' />
-            </form>
-          </div>}      
+          </div>)}
         </div>
       )}
+      
     </>
   );
 }
