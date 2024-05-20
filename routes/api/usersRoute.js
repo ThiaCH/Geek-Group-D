@@ -7,6 +7,7 @@ const eventsCtrl = require("../../controllers/api/eventsController");
 
 // POST /api/users
 router.post("/", usersCtrl.create);
+router.get("/students/all", usersCtrl.listAllStudents);
 
 router.get("/students/all", usersCtrl.listAllStudents);
 

@@ -20,34 +20,15 @@ async function create(req, res) {
     res.status(400).json(err);
   }
 }
-function isPastNineAMInSingapore() {
-  const now = new Date();
-
-  // Singapore is UTC+8
-  const singaporeOffset = 8 * 60; // Offset in minutes
-  const localOffset = now.getTimezoneOffset(); // Local offset in minutes
-  const singaporeTime = new Date(
-    now.getTime() + (singaporeOffset - localOffset) * 60000,
-  );
-
-  // Extract hours and minutes from the Singapore time
-  const hours = singaporeTime.getUTCHours();
-  const minutes = singaporeTime.getUTCMinutes();
-
-  // Check if the time is past 9:00 AM
-  return hours > 9 || (hours === 9 && minutes > 0);
-}
 
 async function login(req, res) {
-  // const dateChecker = new Date().toLocaleDateString("en-SG");
+  const dateChecker = new Date(Date.now() + 8 * 60 * 60 * 1000).toDateString();
 
-  // 1) Get user to check if user exist, if no return not found
   const user = await User.findOne({ email: req.body.email });
   if (user === null) {
     res.status(401).json({ msg: "User not found" });
   }
 
-  // 2) check credentials if user is authorized => login
   const match = await bcrypt.compare(req.body.password, user.password);
   if (match) {
     const token = createJWT(user);
@@ -56,38 +37,30 @@ async function login(req, res) {
     res.status(401).json({ msg: "Password incorrect" });
   }
 
-  // 3) check  if user not admin, mark attendance
-
+  // create attendance record as student logs in
   if (!user.isAdmin) {
-    // 4) if log in before 9am, don't need to log attendance
-    if (isPastNineAMInSingapore()) {
-      await Attendance.create({ studentInfo: user._id });
+    const loginTime = new Date();
+    if (loginTime > new Date().setHours(9, 0, 0, 0)) {
+      const findById = await Attendance.find({ studentInfo: user._id });
+      if (findById.length !== 0) {
+        const findByDate = findById.find(
+          (item) => item.checkinDate === dateChecker,
+        );
+        if (findByDate === undefined) {
+          const attendance = new Attendance();
+          attendance.studentInfo = user._id;
+          await attendance.save();
+          user.AttendanceLog.push(attendance._id);
+          await user.save();
+        }
+      } else {
+        const attendance = new Attendance();
+        attendance.studentInfo = user._id;
+        await attendance.save();
+        user.AttendanceLog.push(attendance._id);
+        await user.save();
+      }
     }
-    // 5) if user has logged in before, don't need to add attendance
-
-    // if (loginTime > new Date().setHours(9, 0, 0, 0)) {
-    //   const findById = await Attendance.find({ studentInfo: user._id });
-    //   if (findById.length !== 0) {
-    //     const findByDate = findById.find(
-    //       (item) => item.checkinDate === dateChecker,
-    //     );
-    //     if (findByDate === undefined) {
-    //       await Attendance.create({ studentInfo: user._id });
-    //       // const attendance = new Attendance();
-    //       // attendance.studentInfo = user._id;
-    //       // await attendance.save();
-    //       // user.AttendanceLog.push(attendance._id);
-    //       // await user.save();
-    //     }
-    //   } else {
-    //     // const attendance = new Attendance();
-    //     // attendance.studentInfo = user._id;
-    //     // await attendance.save();
-    //     // user.AttendanceLog.push(attendance._id);
-    //     // await user.save();
-    //     await Attendance.create({ studentInfo: user._id });
-    //   }
-    // }
   }
 }
 
