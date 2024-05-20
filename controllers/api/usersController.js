@@ -20,10 +20,22 @@ async function create(req, res) {
     res.status(400).json(err);
   }
 }
-
-function isNineAM() {
+function isPastNineAMInSingapore() {
   const now = new Date();
-  return now.getHours() === 9 && now.getMinutes() === 0;
+
+  // Singapore is UTC+8
+  const singaporeOffset = 8 * 60; // Offset in minutes
+  const localOffset = now.getTimezoneOffset(); // Local offset in minutes
+  const singaporeTime = new Date(
+    now.getTime() + (singaporeOffset - localOffset) * 60000,
+  );
+
+  // Extract hours and minutes from the Singapore time
+  const hours = singaporeTime.getUTCHours();
+  const minutes = singaporeTime.getUTCMinutes();
+
+  // Check if the time is past 9:00 AM
+  return hours > 9 || (hours === 9 && minutes > 0);
 }
 
 async function login(req, res) {
@@ -48,7 +60,7 @@ async function login(req, res) {
 
   if (!user.isAdmin) {
     // 4) if log in before 9am, don't need to log attendance
-    if (isNineAM()) {
+    if (isPastNineAMInSingapore()) {
       await Attendance.create({ studentInfo: user._id });
     }
     // 5) if user has logged in before, don't need to add attendance
