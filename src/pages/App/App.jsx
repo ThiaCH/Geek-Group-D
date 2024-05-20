@@ -9,6 +9,8 @@ import AdminPage from "../AdminPage/AdminPage";
 import DashBoardPage from "../DashBoardPage/DashBoardPage"
 import StudentUpdatePage from "../StudentUpdatePage/StudentUpdatePage"
 import UpcomingEvent from "../UpcomingEventPage/UpcomingEventPage";
+import ResourcePage from "../ResourcePage/ResourcePage"
+
 
 
 // this enables debug module at the App.jsx only, this replaces console.log, you can see it at the browser devtool, enable the verbose level at web console
@@ -43,6 +45,7 @@ export default function App() {
         <Routes>
           <Route path='/admin' element={<AdminPage />} />
           <Route path='/upcomingevent' element={<UpcomingEvent />} />
+          <Route path="/resource" element={<ResourcePage />} />
         </Routes>
       </main>
       </>
