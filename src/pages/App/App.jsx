@@ -1,15 +1,14 @@
-import debug from "debug"
+import debug from "debug";
 import { useState, useEffect } from "react";
-import { Routes, Route } from 'react-router-dom'
-import { getUser } from "../../utilities/users-service";
+import { Routes, Route } from 'react-router-dom';
+import { getUser } from "../../utilities/users-service"; 
 import NavBarAdmin from "../../components/NavBar/NavBarAdmin";
 import NavBarStudent from "../../components/NavBar/NavBarStudent";
-import AdminPage from "../AdminPage/AdminPage";
 import AuthPage from "../AuthPage/AuthPage";
+import AdminPage from "../AdminPage/AdminPage";
 import DashBoardPage from "../DashBoardPage/DashBoardPage"
 import StudentUpdatePage from "../StudentUpdatePage/StudentUpdatePage"
 import UpcomingEvent from "../UpcomingEventPage/UpcomingEventPage";
-// import StudentSignUp from "../StudentSignUpPage/StudentSignUpPage";
 
 
 // this enables debug module at the App.jsx only, this replaces console.log, you can see it at the browser devtool, enable the verbose level at web console
@@ -33,7 +32,6 @@ export default function App() {
   if (!user) {
     return (
       <main className="App">
-        {/* <StudentSignUp setUser={setUser}/> */}
         <AuthPage setUser={setUser} />
       </main>
     );
@@ -49,18 +47,18 @@ export default function App() {
       </main>
       </>
     );
+  } else {
+    return (
+      <>
+        <main className="App">
+          <NavBarStudent setUser={setUser}/>
+          <Routes>
+            <Route path="/dashboard" element={<DashBoardPage />} />
+            <Route path="/studentupdate" element={<StudentUpdatePage user={user} />} />
+            <Route path="/:className/dashboard" element={<DashBoardPage />} />
+          </Routes>
+        </main>
+      </>
+    );
   }
-
-  return (
-    <>
-      <main className="App">
-        <NavBarStudent setUser={setUser}/>
-        <Routes>
-          <Route path="/dashboard" element={<DashBoardPage />} />
-          <Route path="/studentupdate" element={<StudentUpdatePage user={user} />} />
-          <Route path="/:className/dashboard" element={<DashBoardPage />} />
-        </Routes>
-      </main>
-    </>
-  );
 }

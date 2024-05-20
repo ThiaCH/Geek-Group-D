@@ -7,6 +7,7 @@ const eventsCtrl = require("../../controllers/api/eventsController");
 
 // POST /api/users
 router.post("/", usersCtrl.create);
+
 router.get("/students/all", usersCtrl.listAllStudents);
 
 router.post("/login", usersCtrl.login);
@@ -14,6 +15,8 @@ router.post("/login", usersCtrl.login);
 router.post("/attendance", usersCtrl.show);
 
 router.delete("/attendance/:id", usersCtrl.deleteOne);
+
+router.put("/attendance/:id", usersCtrl.editOne);
 
 router.post("/classes", usersCtrl.showClasses);
 

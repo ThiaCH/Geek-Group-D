@@ -90,6 +90,40 @@ async function deleteOne(req, res) {
   }
 }
 
+async function editOne(req, res) {
+  try {
+    const attendanceId = req.params.id;
+    const attendanceUpdateData = { ...req.body };
+
+    // If studentInfo update is present in req.body, handle the User update
+    if (req.body.studentInfo) {
+      const userId = req.body.studentInfo._id; // Assuming _id of User is provided in studentInfo
+      const userUpdateData = req.body.studentInfo;
+
+      // Update the User document
+      await User.findByIdAndUpdate(userId, userUpdateData, {
+        new: true,
+        runValidators: true,
+      });
+
+      // Remove studentInfo from attendanceUpdateData to avoid overwriting the ObjectId reference
+      delete attendanceUpdateData.studentInfo;
+    }
+
+    // Update the Attendance document
+    const updatedAttendance = await Attendance.findByIdAndUpdate(
+      attendanceId,
+      attendanceUpdateData,
+      { new: true },
+    ).populate("studentInfo");
+
+    res.status(201).json(updatedAttendance);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json(error);
+  }
+}
+
 // GET route to retrieve all students
 async function listAllStudents(req, res) {
   try {
@@ -138,6 +172,7 @@ module.exports = {
   login,
   show,
   deleteOne,
+  editOne,
   listAllStudents,
   updateStudent,
   showClasses,
