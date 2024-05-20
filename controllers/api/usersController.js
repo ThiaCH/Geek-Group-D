@@ -21,7 +21,8 @@ async function create(req, res) {
 }
 
 async function login(req, res) {
-  const dateChecker = new Date(Date.now() + 8 * 60 * 60 * 1000).toDateString();
+  const date = new Date(Date.now() + 8 * 60 * 60 * 1000).toDateString();
+  const dateChecker = date.split(" ").slice(1).join(" ");
 
   const user = await User.findOne({ email: req.body.email });
   if (user === null) {
@@ -38,7 +39,7 @@ async function login(req, res) {
 
   // create attendance record as student logs in
   if (!user.isAdmin) {
-    const loginTime = new Date();
+    const loginTime = Date.parse(new Date());
     if (loginTime > new Date().setHours(9, 0, 0, 0)) {
       const findById = await Attendance.find({ studentInfo: user._id });
       if (findById.length !== 0) {

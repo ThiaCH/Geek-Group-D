@@ -45,7 +45,7 @@ const attendanceSchema = new Schema(
 
 attendanceSchema.pre("save", function (next) {
   // Compare this.checkinTime with 9:30:00 AM
-  const currentTime = new Date();
+  const currentTime = Date.parse(new Date());
   this.isAbsent = currentTime > new Date().setHours(9, 45, 0, 0);
   if (this.isAbsent === true) {
     this.isLate = false;
