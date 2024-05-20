@@ -3,8 +3,10 @@ import moment from "moment";
 export default function EventList({ events, className }) {
   const filteredEvents = className
     ? events.filter(
-        (event) => event.classes[0].className === className.toUpperCase()
+      (event) => event.classes.some(
+        (cls) => cls.className === className.toUpperCase()
       )
+    )
     : events;
   console.log(filteredEvents);
   return (
