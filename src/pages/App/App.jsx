@@ -1,13 +1,13 @@
 import debug from "debug";
 import { useState, useEffect } from "react";
 import { Routes, Route } from 'react-router-dom' 
-import NavBar from "../../components/NavBar/NavBar";
+import NavBarAdmin from "../../components/NavBar/NavBarAdmin";
 import AdminPage from "../AdminPage/AdminPage";
 import { getUser } from "../../utilities/users-service";
 import AuthPage from "../AuthPage/AuthPage";
-import StudentNavBar from "../../components/NavBar/StudentNavBar";
-import StudentDashboardPage from "../DashBoardPage/StudentDashboardPage";
-import StudentParticularPage from "../ParticularPage/StudentParticularPage"
+import NavBarStudent from "../../components/NavBar/NavBarStudent";
+import DashBoardPage from "../DashBoardPage/DashBoardPage"
+import StudentUpdatePage from "../StudentUpdatePage/StudentUpdatePage"
 // import StudentSignUp from "../StudentSignUpPage/StudentSignUpPage";
 
 
@@ -41,7 +41,7 @@ export default function App() {
     return (
       <>
       <main className="App">
-        <NavBar setUser={setUser}/>
+        <NavBarAdmin setUser={setUser}/>
         <Routes>
           <Route path='/admin' element={<AdminPage />} />
         </Routes>
@@ -53,11 +53,11 @@ export default function App() {
   return (
     <>
       <main className="App">
-        <StudentNavBar setUser={setUser}/>
+        <NavBarStudent setUser={setUser}/>
         <p>student dashboard page here</p>
         <Routes>
-          <Route path="/dashboard" element={<StudentDashboardPage />} />
-          <Route path="/particular" element={<StudentParticularPage />} />
+          <Route path="/dashboard" element={<DashBoardPage />} />
+          <Route path="/particular" element={<StudentUpdatePage />} />
         </Routes>
       </main>
     </>

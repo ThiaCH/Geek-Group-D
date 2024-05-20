@@ -2,7 +2,7 @@ import {NavLink} from 'react-router-dom'
 import * as userService from '../../utilities/users-service'
 import '../../css/styles.css'
 
-export default function NavBar({setUser}) {
+export default function NavBarStudent({setUser}) {
 
     function handleLogOut() {
       // Delegate to the users-service
