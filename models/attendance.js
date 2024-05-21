@@ -14,18 +14,14 @@ const attendanceSchema = new Schema(
     checkinDate: {
       type: String,
       default: function () {
-        const newDate = new Date(
-          Date.now() + 8 * 60 * 60 * 1000,
-        ).toDateString();
+        const newDate = new Date().toDateString();
         return newDate.split(" ").slice(1).join(" ");
       },
     },
     checkinTime: {
       type: String,
       default: function () {
-        const newTime = new Date(
-          Date.now() + 8 * 60 * 60 * 1000,
-        ).toTimeString();
+        const newTime = new Date().toTimeString();
         return newTime.split(" ")[0];
       },
     },
