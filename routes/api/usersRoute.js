@@ -10,9 +10,13 @@ router.post("/", usersCtrl.create);
 
 router.post("/login", usersCtrl.login);
 
-router.post("/attendance", usersCtrl.show);
-router.put("/attendance/:id", usersCtrl.editOne);
+router.get("/attendance", usersCtrl.show);
+
+router.post("/attendance", usersCtrl.createAttendance);
+
 router.delete("/attendance/:id", usersCtrl.deleteOne);
+
+router.put("/attendance/:id", usersCtrl.editOne);
 
 router.get("/students/all", usersCtrl.listAllStudents);
 router.patch("/student/:id/update", usersCtrl.updateStudent);

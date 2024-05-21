@@ -11,6 +11,7 @@ const createJWT = (user) =>
 async function create(req, res) {
   try {
     const user = await User.create(req.body); // this calls the mongoose to create the data according to the user schema rules.
+    // Baby step...
     const token = createJWT(user); // this calls the createJWT function defined above and pass the user data to it to perform jwt encode
     res.status(201).json(token);
     debug(req.body);
@@ -21,7 +22,7 @@ async function create(req, res) {
 }
 
 async function login(req, res) {
-  const date = new Date(Date.now() + 8 * 60 * 60 * 1000).toDateString();
+  const date = new Date().toDateString();
   const dateChecker = date.split(" ").slice(1).join(" ");
 
   const user = await User.findOne({ email: req.body.email });
@@ -99,17 +100,14 @@ async function editOne(req, res) {
     if (req.body.studentInfo) {
       const userId = req.body.studentInfo._id; // Assuming _id of User is provided in studentInfo
       const userUpdateData = req.body.studentInfo;
-
       // Update the User document
       await User.findByIdAndUpdate(userId, userUpdateData, {
         new: true,
         runValidators: true,
       });
-
       // Remove studentInfo from attendanceUpdateData to avoid overwriting the ObjectId reference
       delete attendanceUpdateData.studentInfo;
     }
-
     // Update the Attendance document
     const updatedAttendance = await Attendance.findByIdAndUpdate(
       attendanceId,
@@ -120,6 +118,52 @@ async function editOne(req, res) {
     res.status(201).json(updatedAttendance);
   } catch (error) {
     console.error(error);
+    res.status(400).json(error);
+  }
+}
+
+async function createAttendance(req, res) {
+  const studentName = req.body.name;
+  const className = req.body.class;
+  const date = new Date().toDateString();
+  const dateChecker = date.split(" ").slice(1).join(" ");
+  try {
+    const student = await User.findOne({ name: studentName, class: className });
+    if (student === null) {
+      res.status(401).json({ msg: "User not found" });
+    } else {
+      const findById = await Attendance.find({ studentInfo: student._id });
+      if (findById.length !== 0) {
+        const findByDate = findById.find(
+          (item) => item.checkinDate === dateChecker,
+        );
+        if (findByDate === undefined) {
+          const attendance = new Attendance();
+          attendance.studentInfo = student._id;
+          await attendance.save();
+          const attendanceInfo = await Attendance.findById(
+            attendance._id,
+          ).populate("studentInfo");
+          student.AttendanceLog.push(attendance._id);
+          await student.save();
+          res.status(201).json(attendanceInfo);
+        } else {
+          res.status(401).json({ msg: "Attendance already exists" });
+        }
+      } else {
+        const attendance = new Attendance();
+        attendance.studentInfo = student._id;
+        await attendance.save();
+        const attendanceInfo = await Attendance.findById(
+          attendance._id,
+        ).populate("studentInfo");
+        student.AttendanceLog.push(attendance._id);
+        await student.save();
+        res.status(201).json(attendanceInfo);
+      }
+    }
+  } catch (error) {
+    debug(error);
     res.status(400).json(error);
   }
 }
@@ -173,6 +217,7 @@ module.exports = {
   show,
   deleteOne,
   editOne,
+  createAttendance,
   listAllStudents,
   updateStudent,
   showClasses,
