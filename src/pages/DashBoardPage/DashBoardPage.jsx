@@ -68,6 +68,7 @@ export default function DashBoard() {
   return (
     <>
       <div className="main-dashboard-container">
+
         {/* For Upcoming Events */}
         <div className="container mt-4">
           <div className="row">
@@ -83,8 +84,12 @@ export default function DashBoard() {
                     <h6 className="card-subtitle mb-2 text-muted">
                       Date & Time: {moment(event.eventDate).format("DD/MM/YYYY, hh:mm A")}
                     </h6>
-                    <p className="card-text">{event.description}</p>
-                    {/* To Fixed */}
+                    <p className="card-text">Description: {event.description}</p>
+                    <p className="card-text">
+                      <a href={event.urlLink} target="_blank" rel="noopener noreferrer">
+                      {event.urlLink}
+                      </a>
+                    </p>
                     <p className="card-text">
                       <small className="text-muted">
                         Class: {" "}
@@ -106,7 +111,7 @@ export default function DashBoard() {
               <h2>Resources</h2>
               <div className="card">
                 <div className="card-body">
-                  <ul className="list-group list-group-flush">
+                  <ul className="list-group">
                     {resources.map((resource, resourceIndex) => (
                       <li
                         className="list-group-item"
