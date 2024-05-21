@@ -15,8 +15,8 @@ export default function AdminPage() {
     name: "",
     class: ""
   });
-  // eslint-disable-next-line no-unused-vars
   const [search, setSearch] = useState("");
+  const [filteredAttendanceRecords, setFilteredAttendanceRecords] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,8 +39,23 @@ export default function AdminPage() {
     };
     fetchData();
   }, []);
+  
+  const filteredRecords = attendanceRecords.filter((record) => record.checkinDate === new Date().toDateString().split(" ").slice(1).join(" "));
+  useEffect(() => {
+    setFilteredAttendanceRecords(filteredRecords);
+  }, [attendanceRecords]);   // eslint-disable-line react-hooks/exhaustive-deps
 
-  const filteredAttendanceRecords = attendanceRecords.filter((record) => record.checkinDate === new Date().toDateString().split(" ").slice(1).join(" "));
+  const handleSearch = () => {
+    if (search) {
+      const searchData = attendanceRecords.filter((record) => record.checkinDate.includes(search)
+      || record.studentInfo?.class.includes(search)
+      || record.studentInfo?.name.includes(search)
+      || JSON.stringify(record.isAbsent).includes(search));
+      setFilteredAttendanceRecords(searchData)
+    } else {
+      setFilteredAttendanceRecords(filteredRecords);
+    }
+  };
 
   const handleDelete = async(attendanceId) => {
     const response = await fetch(`/api/users/attendance/${attendanceId}`, {
@@ -61,22 +76,22 @@ export default function AdminPage() {
   }
 
   const handleEditChange = (evt) => {
-    const { name, value } = evt.target;
-
+    const { name, value, type, checked } = evt.target;
+    const newValue = type === 'checkbox' ? checked : value;
     // Check if the field is part of studentInfo
     if (['class', 'contact'].includes(name)) {
       setAttendanceData(previewData => ({
         ...previewData,
         studentInfo: {
           ...previewData.studentInfo,
-          [name]: value
+          [name]: newValue
         }
       }));
     } else {
       // Update other fields directly in attendanceData
       setAttendanceData(previewData => ({
         ...previewData,
-        [name]: value
+        [name]: newValue
       }));
     }
   }
@@ -157,6 +172,10 @@ export default function AdminPage() {
         <p>Loading...</p>
       ) : (
         <div>
+          <div>
+            <input type='text' value={search} onChange={(e) => setSearch(e.target.value)} />
+            <button onClick={handleSearch}>Search</button>
+          </div>
           <div style={{display: "flex", gap: "10px"}}>
             <div className='table'>
               <table>
@@ -171,6 +190,7 @@ export default function AdminPage() {
                     <th>Check In Time</th>
                     <th>Late</th>
                     <th>Absent</th>
+                    <th>Reason</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -186,6 +206,7 @@ export default function AdminPage() {
                       <td>{attendance.checkinTime}</td>
                       <td style={{backgroundColor: attendance.isLate ? "yellow" : "white"}}>{attendance.isLate === true ? "yes" : "n/a"}</td>
                       <td style={{backgroundColor: attendance.isAbsent ? "red" : "white"}}>{attendance.isAbsent === true ? "yes" : "n/a"}</td>
+                      <td>{attendance.withReason === true ? "yes" : "n/a"}</td>
                       <td><button onClick={() => handleEdit(attendance)}>🖊</button></td>
                     </tr>
                   ))}
@@ -207,9 +228,11 @@ export default function AdminPage() {
                 <label>Check In Time</label>
                 <input type='text' name='checkinTime' value={attendanceData.checkinTime} onChange={handleEditChange} />
                 <label>Late</label>
-                <input type='text' name='isLate' value={attendanceData.isLate} onChange={handleEditChange} />
+                <input type='text' name='isLate' value={attendanceData.isLate} onChange={handleEditChange} disabled={!attendanceData.withReason} />
                 <label>Absent</label>
-                <input type='text' name='isAbsent' value={attendanceData.isAbsent} onChange={handleEditChange} />
+                <input type='text' name='isAbsent' value={attendanceData.isAbsent} onChange={handleEditChange} disabled={!attendanceData.withReason} />
+                <label>Reason</label>
+                <input type='checkbox' name='withReason' checked={attendanceData.withReason} onChange={handleEditChange} />
                 <div style={{display: "flex", gap: "20px"}}>
                   <button type="submit">Save</button>
                   <button className='btn-sm' onClick={handleCloseEdit}>Cancel</button>

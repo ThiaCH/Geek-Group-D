@@ -149,12 +149,19 @@ button.btn-xs {
 }
 
 button:disabled,
+input:disabled,
 form:invalid button[type="submit"] {
   cursor: not-allowed;
-  background-color: var(--tan-4);
+  background-color: var(--tan-3);
 }
 
 button[type="submit"] {
   grid-column: span 2;
   margin: 1vmin 0 0;
+}
+
+input[type="checkbox"] {
+  justify-self: left;
+  min-width: 15px;
+  height: auto;
 }
