@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../../css/dashboard.css";
+import moment from "moment";
 
 export default function DashBoard() {
   const [resources, setResources] = useState([]);
@@ -80,13 +81,13 @@ export default function DashBoard() {
                   <div className="card-body">
                     <h4 className="card-title">{event.eventName}</h4>
                     <h6 className="card-subtitle mb-2 text-muted">
-                      Date & Time: {new Date(event.eventDate).toLocaleString()}
+                      Date & Time: {moment(event.eventDate).format("DD/MM/YYYY, hh:mm A")}
                     </h6>
                     <p className="card-text">{event.description}</p>
                     {/* To Fixed */}
                     <p className="card-text">
                       <small className="text-muted">
-                        Class: 
+                        Class: {" "}
                         {event.classes.map((cls, classIndex) => (
                           <span key={`class-${cls._id}-${classIndex}`}> 
                             {getClassNameById(cls)}
