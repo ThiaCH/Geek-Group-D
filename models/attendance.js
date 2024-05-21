@@ -33,6 +33,10 @@ const attendanceSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    withReason: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
