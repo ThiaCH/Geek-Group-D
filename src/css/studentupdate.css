@@ -20,7 +20,7 @@
 }
 
 .update-form-group label {
-  width: 125px;
+  width: 300px;
   margin-bottom: 5px;
   color: #000000;
 }
@@ -29,7 +29,7 @@
   border: 2px solid #ccc;
   border-radius: 5px;
   height: 40px;
-  width: 300%;
+  width: 125%;
 }
 
 .update-save-btn {

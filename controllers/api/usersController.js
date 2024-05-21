@@ -180,10 +180,24 @@ async function listAllStudents(req, res) {
 }
 
 async function updateStudent(req, res) {
-  const { id, email, name, contact } = req.body;
+  const {
+    id,
+    name,
+    email,
+    contact,
+    emergencyContactPerson,
+    emergencyContactNumber,
+  } = req.body;
   try {
-    const updatedData = { name, contact, email };
+    const updatedData = {
+      name,
+      email,
+      contact,
+      emergencyContactPerson,
+      emergencyContactNumber,
+    };
 
+    //* For Future Upgrade
     // if (password) {
     //   updatedData.password = await bcrypt.hash(password, SALT_ROUNDS);
     // }
