@@ -4,26 +4,6 @@ const Schema = mongoose.Schema;
 
 Schema.Types.Boolean.convertToFalse.add("n/a");
 
-// Function to get the current date in Singapore time zone
-const getSGDate = () => {
-  const now = new Date();
-  const singaporeTime = new Date(
-    now.toLocaleString("en-US", { timeZone: "Asia/Singapore" }),
-  );
-  return singaporeTime.toISOString().split("T")[0];
-};
-
-// Function to get the current time in Singapore time zone
-const getSGTime = () => {
-  const now = new Date();
-  const singaporeTime = new Date(
-    now.toLocaleString("en-US", { timeZone: "Asia/Singapore" }),
-  );
-  return singaporeTime.toLocaleTimeString("en-US", {
-    timeZone: "Asia/Singapore",
-  });
-};
-
 const attendanceSchema = new Schema(
   {
     studentInfo: {
@@ -34,13 +14,19 @@ const attendanceSchema = new Schema(
     checkinDate: {
       type: String,
       default: function () {
-        return getSGDate();
+        const newDate = new Date(
+          Date.now() + 8 * 60 * 60 * 1000,
+        ).toDateString();
+        return newDate.split(" ").slice(1).join(" ");
       },
     },
     checkinTime: {
       type: String,
       default: function () {
-        return getSGTime();
+        const newTime = new Date(
+          Date.now() + 8 * 60 * 60 * 1000,
+        ).toTimeString();
+        return newTime.split(" ")[0];
       },
     },
     isLate: {
@@ -59,7 +45,7 @@ const attendanceSchema = new Schema(
 
 attendanceSchema.pre("save", function (next) {
   // Compare this.checkinTime with 9:30:00 AM
-  const currentTime = new Date();
+  const currentTime = Date.parse(new Date());
   this.isAbsent = currentTime > new Date().setHours(9, 45, 0, 0);
   if (this.isAbsent === true) {
     this.isLate = false;

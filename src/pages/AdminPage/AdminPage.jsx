@@ -24,13 +24,13 @@ export default function AdminPage() {
         if (!response.ok) throw new Error('Data fetching failed');
         const data = await response.json();
         setAttendanceRecords(data);
+        debug(data);
       } catch (err) {
         setError(err.message);
       } finally {
         setIsLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
@@ -93,6 +93,11 @@ export default function AdminPage() {
     setDisplayEditForm(false);
   }
 
+  const handleClose = (evt) => {
+    evt.preventDefault();
+    setDisplayEditForm(false);
+  }
+
   const getCurrentDate = () => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date().toLocaleDateString('en-SG', options);
@@ -139,7 +144,7 @@ export default function AdminPage() {
                 ))}
               </tbody>
             </table>
-            <button style={{width: "40px", height: "40px", borderRadius: "50%"}}>+</button>
+            <button style={{width: "40px", height: "40px", borderRadius: "50%"}} onClick={() => setDisplayNewForm(true)}>+</button>
           </div>
           {displayEditForm && 
           <div className='form-container'>
@@ -158,12 +163,18 @@ export default function AdminPage() {
               <input type='text' name='isLate' value={attendanceData.isLate} onChange={handleEditChange} />
               <label>Absent</label>
               <input type='text' name='isAbsent' value={attendanceData.isAbsent} onChange={handleEditChange} />
-              <button type="submit">Save</button>
+              <div style={{display: "flex", gap: "20px"}}>
+                <button type="submit">Save</button>
+                <button className='btn-sm' onClick={handleClose}>Cancel</button>
+              </div>
             </form>
           </div>}
           {displayNewForm && 
           <div className='form-container' style={{maxWidth: "200px"}}>
-            <form autoComplete='off'></form>
+            <form autoComplete='off'>
+              <label>Date</label>
+              <input type='text' name='checkinDate' />
+            </form>
           </div>}      
         </div>
       )}

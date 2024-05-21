@@ -57,7 +57,7 @@ export default function App() {
         <main className="App">
           <NavBarStudent setUser={setUser}/>
           <Routes>
-            <Route path="/dashboard" element={<DashBoardPage />} />
+            <Route path="/:className/dashboard" element={<DashBoardPage />} />
             <Route path="/studentupdate" element={<StudentUpdatePage user={user} setUser={setUser}/>} />
           </Routes>
         </main>

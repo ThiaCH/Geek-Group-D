@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import EventList from "../../components/EventList/EventList";
 import "../../css/dashboard.css";
-import { useParams } from "react-router-dom";
 
 export default function DashBoard() {
   const [events, setEvents] = useState([]);

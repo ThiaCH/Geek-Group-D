@@ -21,7 +21,6 @@ export default function NavBar({ setUser }) {
               <button className="dropbtn">Options</button>
               <div className="dropdown-content">
                 <Link to="/admin">Attendance</Link>
-                <Link to="/lessonplan">Lesson Plan</Link>
                 <Link to="/upcomingevent">Upcoming Events</Link>
                 <Link to="/resource">Resources</Link>
               </div>
