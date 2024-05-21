@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import '../../css/studentupdate.css';
 import { updateStudent } from '../../utilities/users-service'; 
+import '../../css/studentupdate.css';
 
 
 export default function StudentUpdate({user}) {

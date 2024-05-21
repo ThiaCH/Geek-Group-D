@@ -23,6 +23,7 @@ app.use(express.static(path.join(__dirname, "dist")));
 
 // API routes
 app.use("/api/users", require("./routes/api/usersRoute"));
+app.use("/api/resources", require("./routes/api/resourcesRoute"));
 
 // The "catch all" route for SPA
 app.get("/*", function (req, res) {
