@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom'
 import * as userService from '../../utilities/users-service'
 import '../../css/navbar.css'
 
-export default function NavBar({ setUser }) {
+export default function NavBar({ setUser, user }) {
 
   // Access current location
   const location = useLocation();
@@ -22,7 +22,7 @@ export default function NavBar({ setUser }) {
           <div className="profile-container">
             {
               isOnStudentPage ?
-              <Link to="/dashboard" className="update-profile">Dashboard</Link> :
+              <Link to={`/${user.class}/dashboard`} className="update-profile">Dashboard</Link> :
               <Link to="/studentupdate" className="update-profile">Update Profile</Link>
             }
             <span className="separator"> | </span>

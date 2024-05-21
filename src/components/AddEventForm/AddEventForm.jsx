@@ -1,57 +1,53 @@
-import { useEffect, useState } from "react";
-
-export default function AddEventForm() {
-  const [eventName, setEventName] = useState("");
-  const [eventDate, setEventDate] = useState("");
-  const [urlLink, setUrlLink] = useState("");
-  const [description, setDescription] = useState("");
-  const [selectedClasses, setSelectedClasses] = useState([]);
-  const [classes, setClasses] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch("/api/users/classes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (!response.ok) throw new Error("Data fetching failed");
-      const data = await response.json();
-      setClasses(data);
-    };
-
-    fetchData();
-  }, []);
+import Select from "react-select";
+export default function AddEventForm({
+  eventName,
+  setEventName,
+  eventDate,
+  setEventDate,
+  urlLink,
+  setUrlLink,
+  description,
+  setDescription,
+  selectedClasses,
+  setSelectedClasses,
+  editingEventId,
+  setEditingEventId,
+  classes,
+  addEvent,
+  editEvent,
+}) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const newEvent = { eventName, eventDate, urlLink, description, classes: selectedClasses};
-
-    const response = await fetch("/api/users/events", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newEvent),
-    });
-    console.log(response);
-
-    if (!response.ok) {
-      throw new Error("Failed to add event");
-    }
-    //* Reset Fields Upon Submission
+    const newEvent = {
+      eventName,
+      eventDate,
+      urlLink,
+      description,
+      classes: selectedClasses,
+    };
+    editingEventId
+      ? await editEvent(editingEventId, newEvent)
+      : await addEvent(newEvent);
     setEventName("");
     setEventDate("");
     setUrlLink("");
     setDescription("");
     setSelectedClasses([]);
+    setEditingEventId(null);
   };
 
-  const handleClassChange = (event) => {
-    const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-    setSelectedClasses(selectedOptions);
+  const handleClassChange = (selectedOptions) => {
+    setSelectedClasses(
+      selectedOptions ? selectedOptions.map((option) => option.value) : []
+    );
   };
+
+  const classOptions = classes.map((cls) => ({
+    value: cls._id,
+    label: cls.className,
+  }));
+
 
   return (
     <>
@@ -91,22 +87,21 @@ export default function AddEventForm() {
             onChange={(event) => setDescription(event.target.value)}
           ></textarea>
           <label>Class:</label>
-          <select
+          <Select
             id="class"
             name="class"
-            multiple
-            value={selectedClasses}
+            options={classOptions}
+            isMulti
+            value={classOptions.filter((option) =>
+              selectedClasses.includes(option.value)
+            )}
             onChange={handleClassChange}
-          >
-            <option value="">Select Class</option>
-            {classes.map((cls) => (
-              <option key={cls._id} value={cls._id}>
-                {cls.className}
-              </option>
-            ))}
-          </select>
-          <button type="submit">Add Event</button>
-          <button type="submit">Edit Event</button>
+            className="class-select"
+            classNamePrefix="select"
+          />
+          <button type="submit">
+            {editingEventId ? "Edit Event" : "Add Event"}
+          </button>
         </form>
       </div>
     </>

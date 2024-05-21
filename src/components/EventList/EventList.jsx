@@ -1,15 +1,16 @@
 import moment from "moment";
 
-export default function EventList({ events, className }) {
-  
+export default function EventList({ classes, events, className, handleEdit, deleteEvent }) {
   const filteredEvents = className
-    ? events.filter(
-      (event) => event.classes.some(
-        (cls) => cls.className === className.toUpperCase()
+    ? events.filter((event) =>
+        event.classes.some((cls) => cls.className === className.toUpperCase())
       )
-    )
     : events;
-  console.log(filteredEvents);
+
+  const getClassNameById = (id) => {
+    const cls = classes.find((cls) => cls._id === id);
+    return cls ? cls.className : "Unknown Class";
+  };
 
   return (
     <>
@@ -30,8 +31,15 @@ export default function EventList({ events, className }) {
               )}
               <p>Description: {event.description}</p>
               <p>
-                Class: {event.classes.map((cls) => cls.className).join(", ")}
+                Class:{" "}
+                {className
+                  ? event.classes.map((cls) => cls.className).join(", ")
+                  : event.classes
+                      .map((clsId) => getClassNameById(clsId))
+                      .join(", ")}
               </p>
+              <button onClick={() => handleEdit(event)}>Edit</button>
+              <button onClick={() => deleteEvent(event._id)}>Delete</button>
             </li>
           ))}
         </ul>
