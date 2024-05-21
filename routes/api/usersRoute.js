@@ -11,7 +11,8 @@ router.get("/students/all", usersCtrl.listAllStudents);
 
 router.post("/login", usersCtrl.login);
 
-router.post("/attendance", usersCtrl.show);
+router.get("/attendance", usersCtrl.show);
+router.post("/attendance", usersCtrl.createAttendance);
 
 router.delete("/attendance/:id", usersCtrl.deleteOne);
 

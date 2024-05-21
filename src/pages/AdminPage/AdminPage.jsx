@@ -10,13 +10,19 @@ export default function AdminPage() {
   const [error, setError] = useState(null);
   const [displayEditForm, setDisplayEditForm] = useState(false);
   const [attendanceData, setAttendanceData] = useState({});
-  const [displayNewForm, setDisplayNewForm] = useState(false); // eslint-disable-line no-unused-vars
+  const [displayNewForm, setDisplayNewForm] = useState(false); 
+  const [newAttendance, setNewAttendance] = useState({
+    name: "",
+    class: ""
+  });
+  // eslint-disable-next-line no-unused-vars
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch('/api/users/attendance', {
-          method: 'POST',
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json'
           }
@@ -25,7 +31,7 @@ export default function AdminPage() {
         const data = await response.json();
         setAttendanceRecords(data);
       } catch (err) {
-        setError(err.message);
+        log(err.message);
       } finally {
         setIsLoading(false);
       }
@@ -33,6 +39,8 @@ export default function AdminPage() {
 
     fetchData();
   }, []);
+
+  const filteredAttendanceRecords = attendanceRecords.filter((record) => record.checkinDate === new Date().toDateString().split(" ").slice(1).join(" "));
 
   const handleDelete = async(attendanceId) => {
     const response = await fetch(`/api/users/attendance/${attendanceId}`, {
@@ -83,7 +91,7 @@ export default function AdminPage() {
       body: JSON.stringify(attendanceData)
     });
     const jsonData = await response.json();
-    log(attendanceData);
+    // log(attendanceData);
     setAttendanceRecords(attendanceRecords.map((record) => {
       if (record._id === jsonData._id) {
         return jsonData;
@@ -93,8 +101,48 @@ export default function AdminPage() {
     setDisplayEditForm(false);
   }
 
-  const handleClose = () => {
+  const handleCloseEdit = () => {
+    setAttendanceData({});
     setDisplayEditForm(false);
+  }
+
+  const handleNewChange = (evt) => {
+    setNewAttendance({
+      ...newAttendance,
+      [evt.target.name]: evt.target.value
+    })
+  }
+
+  const handleNewSubmit = async (evt) => {
+    evt.preventDefault();
+      const response = await fetch('/api/users/attendance', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newAttendance),
+      });
+      if (!response.ok) {
+        setError("Log in attendance failed, please check if student exists or have already logged attendance!")
+        throw new Error('Data creation failed');
+      }
+      const json = await response.json();
+      log(json);
+      setAttendanceRecords([...attendanceRecords, json]);
+      setNewAttendance({
+        name: "",
+        class: ""
+      });
+      setDisplayNewForm(false);
+  }
+
+  const handleCloseNew = () => {
+    setNewAttendance({
+      name: "",
+      class: ""
+    });
+    setError(null);
+    setDisplayNewForm(false);
   }
 
   const getCurrentDate = () => {
@@ -105,7 +153,6 @@ export default function AdminPage() {
   return (
     <>
       <h1>Admin Page - Student Attendance ({getCurrentDate()})</h1>
-      {error && <p>Error: {error}</p>}
       {isLoading ? (
         <p>Loading...</p>
       ) : (
@@ -128,7 +175,7 @@ export default function AdminPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {attendanceRecords.map((attendance, index) => (
+                  {filteredAttendanceRecords.map((attendance, index) => (
                     <tr key={attendance._id || index}>
                       <td><button onClick={() => handleDelete(attendance._id)}>X</button></td>
                       <td>{attendance.checkinDate}</td>
@@ -165,22 +212,27 @@ export default function AdminPage() {
                 <input type='text' name='isAbsent' value={attendanceData.isAbsent} onChange={handleEditChange} />
                 <div style={{display: "flex", gap: "20px"}}>
                   <button type="submit">Save</button>
-                  <button className='btn-sm' onClick={handleClose}>Cancel</button>
+                  <button className='btn-sm' onClick={handleCloseEdit}>Cancel</button>
                 </div>
               </form>
             </div>}    
           </div>
           {displayNewForm && (
           <div className='form-container' style={{maxWidth: "500px"}}>
-            <form autoComplete="off">
+            <form autoComplete="off" onSubmit={handleNewSubmit}>
               <label>Name</label>
-              <input type='text' name='name' />
-              <label></label>
+              <input type='text' name='name' value={newAttendance.name.toLowerCase()} onChange={handleNewChange}/>
+              <label>Class</label>
+              <input type='text' name='class' value={newAttendance.class.toUpperCase()} onChange={handleNewChange}/>
+              <div style={{display: "flex", gap: "20px"}}>
+                  <button type="submit">Submit</button>
+                  <button className='btn-sm' onClick={handleCloseNew}>Cancel</button>
+              </div>
             </form>
+            {error && <p>Error: {error}</p>}
           </div>)}
         </div>
       )}
-      
     </>
   );
 }
