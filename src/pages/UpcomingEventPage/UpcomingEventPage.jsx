@@ -47,8 +47,21 @@ export default function UpcomingEvent() {
       },
       body: JSON.stringify(newEvent),
     });
-    const addedEvent = await response.json();
-    setEvents((prevEvents) => [...prevEvents, addedEvent]);
+    const updatedEventsRes = await fetch("/api/users/events/all", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+    const updatedEvents = await updatedEventsRes.json();
+    if (Array.isArray(updatedEvents)) {
+      setEvents(updatedEvents);
+    } else {
+      setEvents([]);
+    }
+    if (!response.ok) {
+      throw new Error("Failed to add event");
+    }
   };
 
   const editEvent = async (id, updatedEvent) => {
@@ -78,12 +91,17 @@ export default function UpcomingEvent() {
     }
   };
 
-
   return (
     <>
       <div className="main-event-container">
         <EventList classes={classes} events={events} className={className} />
-        <AddEventForm classes={classes} events={events} addEvent={addEvent} editEvent={editEvent} deleteEvent={deleteEvent} />
+        <AddEventForm
+          classes={classes}
+          events={events}
+          addEvent={addEvent}
+          editEvent={editEvent}
+          deleteEvent={deleteEvent}
+        />
       </div>
     </>
   );

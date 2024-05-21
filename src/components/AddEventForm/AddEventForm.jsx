@@ -7,6 +7,7 @@ export default function AddEventForm({classes, events, addEvent, editEvent, dele
   const [description, setDescription] = useState("");
   const [selectedClasses, setSelectedClasses] = useState([]);
   const [editingEventId, setEditingEventId] = useState(null);
+  const [searchClass, setSearchClass] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -26,12 +27,12 @@ export default function AddEventForm({classes, events, addEvent, editEvent, dele
     setEditingEventId(null);
   };
 
-  const handleClassChange = (event) => {
-    const selectedOptions = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value
+  const handleClassChange = (id) => {
+    setSelectedClasses((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((classId) => classId !== id)
+        : [...prevSelected, id]
     );
-    setSelectedClasses(selectedOptions);
   };
 
   const handleEdit = (event) => {
@@ -42,6 +43,10 @@ export default function AddEventForm({classes, events, addEvent, editEvent, dele
     setSelectedClasses(event.classes.map((cls) => cls._id));
     setEditingEventId(event._id);
   };
+
+  const filteredClasses = classes.filter((cls) =>
+    cls.className.toLowerCase().includes(searchClass.toLowerCase())
+  );
 
   return (
     <>
@@ -80,21 +85,27 @@ export default function AddEventForm({classes, events, addEvent, editEvent, dele
             value={description}
             onChange={(event) => setDescription(event.target.value)}
           ></textarea>
-          <label>Class:</label>
-          <select
-            id="class"
-            name="class"
-            multiple
-            value={selectedClasses}
-            onChange={handleClassChange}
-          >
-            <option value="">Select Class</option>
-            {classes.map((cls) => (
-              <option key={cls._id} value={cls._id}>
-                {cls.className}
-              </option>
-            ))}
-          </select>
+          <label>Search and Select Classes:</label>
+        <input
+          type="text"
+          placeholder="Search classes"
+          value={searchClass}
+          onChange={(e) => setSearchClass(e.target.value)}
+        />
+        <div className="class-list">
+          {filteredClasses.map((cls) => (
+            <div key={cls._id}>
+              <input
+                type="checkbox"
+                id={`class-${cls._id}`}
+                value={cls._id}
+                checked={selectedClasses.includes(cls._id)}
+                onChange={() => handleClassChange(cls._id)}
+              />
+              <label htmlFor={`class-${cls._id}`}>{cls.className}</label>
+            </div>
+          ))}
+        </div>
           <button type="submit">
             {editingEventId ? "Edit Event" : "Add Event"}
           </button>
