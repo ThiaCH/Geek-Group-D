@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Select from "react-select";
+import moment from "moment";
 export default function AddEventForm({classes, events, addEvent, editEvent, deleteEvent}) {
   const [eventName, setEventName] = useState("");
   const [eventDate, setEventDate] = useState("");
@@ -43,6 +44,11 @@ export default function AddEventForm({classes, events, addEvent, editEvent, dele
     value: cls._id,
     label: cls.className,
   }));
+
+  const getClassNameById = (id) => {
+    const cls = classes.find((cls) => cls._id === id);
+    return cls ? cls.className : "Unknown Class";
+  };
 
   return (
     <>
@@ -96,10 +102,14 @@ export default function AddEventForm({classes, events, addEvent, editEvent, dele
             {editingEventId ? "Edit Event" : "Add Event"}
           </button>
         </form>
-        <ul>
+        <ul id="admin-events" >
           {events.map(event => (
             <li key={event._id}>
               <h3>{event.eventName}</h3>
+              <p>{moment(event.eventDate).format("DD/MM/YYYY, hh:mm A")}</p>
+              <p>{event.classes
+                      .map((clsId) => getClassNameById(clsId))
+                      .join(", ")}</p>
               <button onClick={() => handleEdit(event)}>Edit</button>
               <button onClick={() => deleteEvent(event._id)}>Delete</button>
             </li>
