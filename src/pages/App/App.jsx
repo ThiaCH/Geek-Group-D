@@ -47,6 +47,8 @@ export default function App() {
           <Route path='/admin' element={<AdminPage />} />
           <Route path='/upcomingevent' element={<UpcomingEvent />} />
           <Route path="/resource" element={<ResourcePage />} />
+          <Route path="/:className/dashboard" element={<DashBoardPage />} />
+          <Route path="/dashboard" element={<DashBoardPage />} />
         </Routes>
       </main>
       </>
