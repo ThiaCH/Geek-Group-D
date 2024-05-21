@@ -2,9 +2,13 @@ import moment from "moment";
 
 export default function EventList({ events, className }) {
   const filteredEvents = className
-    ? events.filter((event) => event.className === className)
+    ? events.filter(
+      (event) => event.classes.some(
+        (cls) => cls.className === className.toUpperCase()
+      )
+    )
     : events;
-
+  console.log(filteredEvents);
   return (
     <>
       {/* Event List Table */}
@@ -25,7 +29,9 @@ export default function EventList({ events, className }) {
                 </p>
               )}
               <p>Description: {event.description}</p>
-              <p>Class: {event.classes.map(cls => cls.className).join(', ')}</p>
+              <p>
+                Class: {event.classes.map((cls) => cls.className).join(", ")}
+              </p>
             </li>
           ))}
         </ul>

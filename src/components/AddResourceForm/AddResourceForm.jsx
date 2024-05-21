@@ -1,34 +1,94 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function AddResourceForm () {
+export default function AddResourceForm() {
+  const [resourceUrl, setResourceUrl] = useState([]);
+  const [newResource, setNewResource] = useState({ website: '', url: '' });
+  const [editingId, setEditingId] = useState(null);
+  const [editFormData, setEditFormData] = useState({ website: '', url: '' });
 
-  //* Test Sample Only; To be remove later
-  //* Actual Version have to fetch from Data 
-  const [resourceUrl, setResourceUrl] = useState([
-    { id: '1', website: 'MDN Web Docs', url: 'https://developer.mozilla.org/en-US/' },
-    { id: '2', website: 'React JS', url: 'https://legacy.reactjs.org/' },
-    { id: '3', website: 'Code Wars', url: 'https://www.codewars.com/' },
-  ]);
+  useEffect(() => {
+    fetch('/api/resources/resources')
+      .then(response => response.json())
+      .then(data => setResourceUrl(data))
+      .catch(error => console.error('Error fetching resources:', error));
+  }, []);
 
-  const [newResource,  setNewResource] = useState({ id: '', website: '', url: '' })
-
-  const handleAdd = (event) => {
+  const handleAdd = async (event) => {
     event.preventDefault();
-    if (!newResource.id || !newResource.website || !newResource.url) return;
-    setResourceUrl([...resourceUrl, {...newResource }]);
-    setNewResource({ id: '', website: '', url: '' }); // Reset form
-}
-  
-  const handleChange = (event) => {
-    const { name, value } = event.target
-    setNewResource({ ...newResource, [name]: value })
-  }
+    if (!newResource.website || !newResource.url) return;
 
-  const handleDelete = (id) => {
-    const newResourceUrl = resourceUrl.filter(url => url.id !== id);
-    setResourceUrl(newResourceUrl);
+    try {
+      const response = await fetch('/api/resources/resources', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newResource)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setResourceUrl(prevUrls => [...prevUrls, data]);
+      setNewResource({ website: '', url: '' }); // Clear form
+    } catch (error) {
+      console.error('Failed to add resource:', error);
+      alert(`Add resource failed! Error: ${error.message}`);
+    }
   };
 
+  const handleEditClick = (resource) => {
+    setEditingId(resource._id);
+    setEditFormData({ website: resource.website, url: resource.url });
+  };
+
+  const handleUpdate = async (id) => {
+    try {
+      const response = await fetch(`/api/resources/resources/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editFormData)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const updatedResource = await response.json();
+      setResourceUrl(prev => prev.map(url => url._id === id ? updatedResource : url));
+      setEditingId(null);
+    } catch (error) {
+      console.error('Failed to update resource:', error);
+      alert(`Update resource failed! Error: ${error.message}`);
+    }
+  };
+
+  const handleCancel = () => {
+    setEditingId(null);
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setNewResource({ ...newResource, [name]: value });
+  };
+
+  const handleEditFormChange = (event) => {
+    const { name, value } = event.target;
+    setEditFormData({ ...editFormData, [name]: value });
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`/api/resources/resources/${id}`, { method: 'DELETE' });
+      if (response.ok) {
+        setResourceUrl(prev => prev.filter(url => url._id !== id));
+      } else {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Failed to delete resource:', error);
+    }
+  };
 
   return (
     <>
@@ -36,25 +96,47 @@ export default function AddResourceForm () {
         <table>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>website</th>
+              <th>Delete</th>
+              <th>Website</th>
               <th>URL</th>
-              <th>Action</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {resourceUrl.map(url => (
-              <tr key={url.id}>
-                <td>{url.id}</td>
-                <td>{url.website}</td>
-                <td>
-                  <a href={url.url} target="_blank" rel="noopener">{url.url}</a>
-                </td>
-                <td>
-                  {/* WIP -> Edit Button */}
-                  <button>Edit</button> 
-                  <button onClick={() => handleDelete(url.id)}>Delete</button>
-                </td>
+            {resourceUrl.map((url, index) => (
+              <tr key={url._id || index }>
+                {editingId === url._id ? (
+                  <>
+                    <td>
+                      <button onClick={() => handleUpdate(url._id)}>Save</button>
+                      <button onClick={handleCancel}>Cancel</button>
+                    </td>
+                    <td>
+                      <input 
+                        type="text" 
+                        name="website" 
+                        value={editFormData.website} 
+                        onChange={handleEditFormChange}
+                      />
+                    </td>
+                    <td>
+                      <input 
+                        type="text" 
+                        name="url" 
+                        value={editFormData.url} 
+                        onChange={handleEditFormChange}
+                      />
+                    </td>
+                    <td></td>
+                  </>
+                ) : (
+                  <>
+                    <td><button onClick={() => handleDelete(url._id)}>Delete</button></td>
+                    <td>{url.website}</td>
+                    <td><a href={url.url} target="_blank" rel="noopener noreferrer">{url.url}</a></td>
+                    <td><button onClick={() => handleEditClick(url)}>Edit</button></td>
+                  </>
+                )}
               </tr>
             ))}
           </tbody>
@@ -65,15 +147,6 @@ export default function AddResourceForm () {
 
       <div className="add-resource-container">
         <form onSubmit={handleAdd}>
-          <input 
-            className="add-resource-id" 
-            type="text" 
-            name="id" 
-            placeholder="ID" 
-            value={newResource.id} 
-            onChange={handleChange}>
-          </input>
-          <br/>
           <input 
             className="add-resource-website" 
             type="text" 
@@ -87,7 +160,7 @@ export default function AddResourceForm () {
             className="add-resource-url" 
             type="text" 
             name="url" 
-            placeholder="Url Link" 
+            placeholder="URL Link" 
             value={newResource.url} 
             onChange={handleChange}>   
           </input>
@@ -96,5 +169,5 @@ export default function AddResourceForm () {
         </form>
       </div>
     </>
-  )
+  );
 }

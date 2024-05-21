@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const usersCtrl = require("../../controllers/api/usersController");
+const eventsCtrl = require("../../controllers/api/eventsController");
 const jwt = require("jsonwebtoken");
 const debug = require("debug")("mern:routes:usersRoute");
-const eventsCtrl = require("../../controllers/api/eventsController");
 
 // POST /api/users
 router.post("/", usersCtrl.create);

@@ -1,15 +1,15 @@
 import debug from "debug";
 import { useState, useEffect } from "react";
-import { Routes, Route } from 'react-router-dom' 
+import { Routes, Route } from 'react-router-dom';
+import { getUser } from "../../utilities/users-service"; 
 import NavBarAdmin from "../../components/NavBar/NavBarAdmin";
-import AdminPage from "../AdminPage/AdminPage";
-import { getUser } from "../../utilities/users-service";
 import NavBarStudent from "../../components/NavBar/NavBarStudent";
 import AuthPage from "../AuthPage/AuthPage";
+import AdminPage from "../AdminPage/AdminPage";
 import DashBoardPage from "../DashBoardPage/DashBoardPage"
 import StudentUpdatePage from "../StudentUpdatePage/StudentUpdatePage"
 import UpcomingEvent from "../UpcomingEventPage/UpcomingEventPage";
-// import StudentSignUp from "../StudentSignUpPage/StudentSignUpPage";
+import ResourcePage from "../ResourcePage/ResourcePage"
 
 
 // this enables debug module at the App.jsx only, this replaces console.log, you can see it at the browser devtool, enable the verbose level at web console
@@ -24,7 +24,7 @@ export default function App() {
   useEffect(() => {
     const interValid = setInterval(() => {
       setNewTime(new Date().getDate());
-    }, 3600000);
+    }, 3600000); 
   
     return () => clearInterval(interValid); // Cleanup function to stop the interval when component unmounts
   }, []);
@@ -32,10 +32,11 @@ export default function App() {
 
   if (!user) {
     return (
+      <>
       <main className="App">
-        {/* <StudentSignUp setUser={setUser}/> */}
         <AuthPage setUser={setUser} />
-      </main>
+      </main> 
+      </>
     );
   } else if (user && user.isAdmin === true) {
     return (
@@ -45,22 +46,22 @@ export default function App() {
         <Routes>
           <Route path='/admin' element={<AdminPage />} />
           <Route path='/upcomingevent' element={<UpcomingEvent />} />
+          <Route path="/resource" element={<ResourcePage />} />
         </Routes>
       </main>
       </>
     );
+  } else {
+    return (
+      <>
+        <main className="App">
+          <NavBarStudent setUser={setUser}/>
+          <Routes>
+            <Route path="/:className/dashboard" element={<DashBoardPage />} />
+            <Route path="/studentupdate" element={<StudentUpdatePage user={user} setUser={setUser}/>} />
+          </Routes>
+        </main>
+      </>
+    );
   }
-
-  return (
-    <>
-      <main className="App">
-        <NavBarStudent setUser={setUser}/>
-        <Routes>
-          <Route path="/dashboard" element={<DashBoardPage />} />
-          <Route path="/studentupdate" element={<StudentUpdatePage user={user} />} />
-          <Route path="/:className/dashboard" element={<DashBoardPage />} />
-        </Routes>
-      </main>
-    </>
-  );
 }

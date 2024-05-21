@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import EventList from "../../components/EventList/EventList";
 import "../../css/dashboard.css";
-import { useParams } from "react-router-dom";
 
 export default function DashBoard() {
   const [events, setEvents] = useState([]);
@@ -39,12 +39,12 @@ export default function DashBoard() {
           <div className="upcoming-events">
             <EventList events={events} className={className} />
           </div>
-          <div className="resources">
+          {/* <div className="resources">
             <h1>Resources</h1>
             <ul>
               <li>To map list from Data</li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
