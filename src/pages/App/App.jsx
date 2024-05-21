@@ -63,7 +63,6 @@ export default function App() {
               path="/studentupdate"
               element={<StudentUpdatePage user={user} setUser={setUser} />}
             />
-            <Route path="/dashboard" element={<DashBoardPage />} />
           </Routes>
         </main>
       </>
