@@ -7,50 +7,116 @@ export default function AddEventForm() {
   const [description, setDescription] = useState("");
   const [selectedClasses, setSelectedClasses] = useState([]);
   const [classes, setClasses] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [editingEventId, setEditingEventId] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchClasses = async () => {
       const response = await fetch("/api/users/classes", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
       });
-      if (!response.ok) throw new Error("Data fetching failed");
+      if (!response.ok) throw new Error("Class fetching failed");
       const data = await response.json();
       setClasses(data);
     };
 
-    fetchData();
+    const fetchEvents = async () => {
+      const response = await fetch("/api/users/events/all", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) throw new Error("Events fetching failed");
+      const data = await response.json();
+      setEvents(data);
+    };
+
+    fetchClasses();
+    fetchEvents();
   }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const newEvent = { eventName, eventDate, urlLink, description, classes: selectedClasses};
+    const newEvent = {
+      eventName,
+      eventDate,
+      urlLink,
+      description,
+      classes: selectedClasses,
+    };
 
-    const response = await fetch("/api/users/events", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newEvent),
-    });
+    const response = await fetch(
+      editingEventId
+        ? `/api/users/events/${editingEventId}`
+        : "/api/users/events",
+      {
+        method: editingEventId ? "PUT" : "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newEvent),
+      }
+    );
     console.log(response);
 
     if (!response.ok) {
-      throw new Error("Failed to add event");
+      throw new Error(`Failed to ${editingEventId ? "edit" : "add"} event`);
     }
+
+    const updatedEventsRes = await fetch("/api/users/events/all", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
     //* Reset Fields Upon Submission
+    const updatedEvents = await updatedEventsRes.json();
+    if (Array.isArray(updatedEvents)) {
+      setEvents(updatedEvents);
+    } else {
+      setEvents([]);
+    }
     setEventName("");
     setEventDate("");
     setUrlLink("");
     setDescription("");
     setSelectedClasses([]);
+    setEditingEventId(null);
   };
 
   const handleClassChange = (event) => {
-    const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
+    const selectedOptions = Array.from(
+      event.target.selectedOptions,
+      (option) => option.value
+    );
     setSelectedClasses(selectedOptions);
+  };
+
+  const handleEdit = (event) => {
+    setEventName(event.eventName);
+    setEventDate(event.eventDate);
+    setUrlLink(event.urlLink);
+    setDescription(event.description);
+    setSelectedClasses(event.classes.map((cls) => cls._id));
+    setEditingEventId(event._id);
+  };
+
+  const handleDelete = async (id) => {
+    const response = await fetch(`/api/users/events/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Failed to delete event");
+    }
+
+    setEvents(events.filter((event) => event._id !== id));
   };
 
   return (
@@ -105,9 +171,19 @@ export default function AddEventForm() {
               </option>
             ))}
           </select>
-          <button type="submit">Add Event</button>
-          <button type="submit">Edit Event</button>
+          <button type="submit">
+            {editingEventId ? "Edit Event" : "Add Event"}
+          </button>
         </form>
+        <ul>
+          {events.map(event => (
+            <li key={event._id}>
+              <h3>{event.eventName}</h3>
+              <button onClick={() => handleEdit(event)}>Edit</button>
+              <button onClick={() => handleDelete(event._id)}>Delete</button>
+            </li>
+          ))}
+        </ul>
       </div>
     </>
   );

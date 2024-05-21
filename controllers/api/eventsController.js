@@ -38,9 +38,38 @@ const showEventByClass = async (req, res) => {
   res.json(events);
 };
 
+const updateEvent = async (req, res) => {
+  try {
+    const resource = await Event.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!resource) {
+      return res.status(404).send({ message: "Event not found" });
+    }
+    res.send(resource);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+const deleteEvent = async (req, res) => {
+  try {
+    const deletedEvent = await Event.findByIdAndDelete(req.params.id);
+    if (!deletedEvent) {
+      return res.status(404).send({ message: "Event not found" });
+    }
+    res.status(204).send();
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
 module.exports = {
   createEvent,
   getEvents,
   getOneEvent,
   showEventByClass,
+  updateEvent,
+  deleteEvent,
 };

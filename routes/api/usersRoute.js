@@ -19,9 +19,12 @@ router.patch("/student/:id/update", usersCtrl.updateStudent);
 
 router.post("/classes", usersCtrl.showClasses);
 
+router.get("/events/all", eventsCtrl.getEvents);
 router.get("/events", eventsCtrl.showEventByClass);
 router.get("/events/:id", eventsCtrl.getOneEvent);
 router.post("/events", eventsCtrl.createEvent);
+router.put("/events/:id", eventsCtrl.updateEvent);
+router.delete("/events/:id", eventsCtrl.deleteEvent);
 
 const checkToken = (req, res, next) => {
   const header = req.get("Authorization");
