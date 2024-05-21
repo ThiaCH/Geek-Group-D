@@ -1,8 +1,13 @@
 .update-form-container {
-  background-color: #ffffff;
-  padding: 20px;
-  max-width: 425px;
+  background-color: rgb(255, 245, 236);
+  max-width: 500px;
   margin: 10px auto;
+  padding: 50px;
+  border: 2px solid rgba(0, 0, 0, 0.6);
+  border-radius: 20px;
+  box-shadow:
+    5px 5px 15px rgba(0, 0, 0, 0.3),
+    -5px -5px 15px rgba(255, 255, 255, 0.6);
 }
 
 .update-title {
@@ -25,6 +30,11 @@
   color: #000000;
 }
 
+.update-form-group input::placeholder {
+  color: #ccc;
+  opacity: 0.8;
+}
+
 .update-form-group input {
   border: 2px solid #ccc;
   border-radius: 5px;
@@ -38,8 +48,12 @@
   border: none;
   border-radius: 5px;
   width: 100px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
 }
 
 .update-save-btn:hover {
   background-color: #cc8400;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
 }

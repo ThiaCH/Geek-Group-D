@@ -43,7 +43,6 @@ export default function StudentUpdate({user}) {
     <>
       <h1 className='update-title'>Update Student Profile</h1>
       <div className="update-form-container">
-
         <form>
 
           <div className="update-form-group">
