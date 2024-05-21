@@ -19,7 +19,6 @@ export default function NavBar({ setUser }) {
     return (
       <nav className="navbar">
         <div className="navbar-student-container">
-          <div className="spacer"></div>
           <div className="profile-container">
             {
               isOnStudentPage ?

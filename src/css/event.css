@@ -6,16 +6,6 @@
   justify-content: space-between;
 }
 
-.event-list {
-  background-color: rgb(255, 215, 156);
-  border-radius: 20px;
-  width: 40%;
-  height: 70vh;
-  text-align: center;
-  font-size: 20px;
-  padding: 20px;
-}
-
 .add-event-container {
   display: flex;
   flex-direction: column;

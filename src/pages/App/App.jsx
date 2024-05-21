@@ -10,6 +10,8 @@ import DashBoardPage from "../DashBoardPage/DashBoardPage"
 import StudentUpdatePage from "../StudentUpdatePage/StudentUpdatePage"
 import UpcomingEvent from "../UpcomingEventPage/UpcomingEventPage";
 import ResourcePage from "../ResourcePage/ResourcePage"
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 
 // this enables debug module at the App.jsx only, this replaces console.log, you can see it at the browser devtool, enable the verbose level at web console
