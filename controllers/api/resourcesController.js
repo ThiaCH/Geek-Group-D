@@ -19,19 +19,6 @@ const createResource = async (req, res) => {
   }
 };
 
-// const updateResource = async (req, res) => {
-//   try {
-//     const updatedResource = await Resource.findOneAndUpdate(
-//       { id: req.params.id },
-//       req.body,
-//       { new: true },
-//     );
-//     res.status(200).json(updatedResource);
-//   } catch (error) {
-//     res.status(400).json(error);
-//   }
-// };
-
 const updateResource = async (req, res) => {
   try {
     const resource = await Resource.findByIdAndUpdate(req.params.id, req.body, {
