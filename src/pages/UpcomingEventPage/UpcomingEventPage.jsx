@@ -8,6 +8,12 @@ import { useParams } from "react-router-dom";
 export default function UpcomingEvent() {
   const [events, setEvents] = useState([]);
   const [classes, setClasses] = useState([]);
+  const [eventName, setEventName] = useState("");
+  const [eventDate, setEventDate] = useState("");
+  const [urlLink, setUrlLink] = useState("");
+  const [description, setDescription] = useState("");
+  const [selectedClasses, setSelectedClasses] = useState([]);
+  const [editingEventId, setEditingEventId] = useState(null);
   const { className } = useParams();
 
   useEffect(() => {
@@ -51,8 +57,8 @@ export default function UpcomingEvent() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-      }
-    })
+      },
+    });
     const updatedEvents = await updatedEventsRes.json();
     if (Array.isArray(updatedEvents)) {
       setEvents(updatedEvents);
@@ -91,16 +97,42 @@ export default function UpcomingEvent() {
     }
   };
 
+  const handleEdit = (event) => {
+    setEventName(event.eventName);
+    setEventDate(event.eventDate);
+    setUrlLink(event.urlLink);
+    setDescription(event.description);
+    setSelectedClasses(event.classes.map((cls) => cls._id));
+    setEditingEventId(event._id);
+  };
+
   return (
     <>
       <div className="main-event-container">
-        <EventList classes={classes} events={events} className={className} />
+        <EventList
+          classes={classes}
+          events={events}
+          className={className}
+          handleEdit={handleEdit}
+          deleteEvent={deleteEvent}
+        />
         <AddEventForm
+          eventName={eventName}
+          setEventName={setEventName}
+          eventDate={eventDate}
+          setEventDate={setEventDate}
+          urlLink={urlLink}
+          setUrlLink={setUrlLink}
+          description={description}
+          setDescription={setDescription}
+          selectedClasses={selectedClasses}
+          setSelectedClasses={setSelectedClasses}
+          editingEventId={editingEventId}
+          setEditingEventId={setEditingEventId}
           classes={classes}
           events={events}
           addEvent={addEvent}
           editEvent={editEvent}
-          deleteEvent={deleteEvent}
         />
       </div>
     </>

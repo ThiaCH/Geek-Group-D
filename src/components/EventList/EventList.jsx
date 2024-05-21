@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export default function EventList({ classes, events, className }) {
+export default function EventList({ classes, events, className, handleEdit, deleteEvent }) {
   const filteredEvents = className
     ? events.filter((event) =>
         event.classes.some((cls) => cls.className === className.toUpperCase())
@@ -38,6 +38,8 @@ export default function EventList({ classes, events, className }) {
                       .map((clsId) => getClassNameById(clsId))
                       .join(", ")}
               </p>
+              <button onClick={() => handleEdit(event)}>Edit</button>
+              <button onClick={() => deleteEvent(event._id)}>Delete</button>
             </li>
           ))}
         </ul>

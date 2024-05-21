@@ -1,13 +1,21 @@
-import { useState } from "react";
 import Select from "react-select";
-import moment from "moment";
-export default function AddEventForm({classes, events, addEvent, editEvent, deleteEvent}) {
-  const [eventName, setEventName] = useState("");
-  const [eventDate, setEventDate] = useState("");
-  const [urlLink, setUrlLink] = useState("");
-  const [description, setDescription] = useState("");
-  const [selectedClasses, setSelectedClasses] = useState([]);
-  const [editingEventId, setEditingEventId] = useState(null);
+export default function AddEventForm({
+  eventName,
+  setEventName,
+  eventDate,
+  setEventDate,
+  urlLink,
+  setUrlLink,
+  description,
+  setDescription,
+  selectedClasses,
+  setSelectedClasses,
+  editingEventId,
+  setEditingEventId,
+  classes,
+  addEvent,
+  editEvent,
+}) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -18,7 +26,9 @@ export default function AddEventForm({classes, events, addEvent, editEvent, dele
       description,
       classes: selectedClasses,
     };
-    editingEventId ? await editEvent(editingEventId, newEvent) : await addEvent(newEvent);
+    editingEventId
+      ? await editEvent(editingEventId, newEvent)
+      : await addEvent(newEvent);
     setEventName("");
     setEventDate("");
     setUrlLink("");
@@ -28,16 +38,9 @@ export default function AddEventForm({classes, events, addEvent, editEvent, dele
   };
 
   const handleClassChange = (selectedOptions) => {
-    setSelectedClasses(selectedOptions ? selectedOptions.map(option => option.value) : []);
-  };
-
-  const handleEdit = (event) => {
-    setEventName(event.eventName);
-    setEventDate(event.eventDate);
-    setUrlLink(event.urlLink);
-    setDescription(event.description);
-    setSelectedClasses(event.classes.map((cls) => cls._id));
-    setEditingEventId(event._id);
+    setSelectedClasses(
+      selectedOptions ? selectedOptions.map((option) => option.value) : []
+    );
   };
 
   const classOptions = classes.map((cls) => ({
@@ -45,10 +48,6 @@ export default function AddEventForm({classes, events, addEvent, editEvent, dele
     label: cls.className,
   }));
 
-  const getClassNameById = (id) => {
-    const cls = classes.find((cls) => cls._id === id);
-    return cls ? cls.className : "Unknown Class";
-  };
 
   return (
     <>
@@ -93,7 +92,9 @@ export default function AddEventForm({classes, events, addEvent, editEvent, dele
             name="class"
             options={classOptions}
             isMulti
-            value={classOptions.filter(option => selectedClasses.includes(option.value))}
+            value={classOptions.filter((option) =>
+              selectedClasses.includes(option.value)
+            )}
             onChange={handleClassChange}
             className="class-select"
             classNamePrefix="select"
@@ -102,19 +103,6 @@ export default function AddEventForm({classes, events, addEvent, editEvent, dele
             {editingEventId ? "Edit Event" : "Add Event"}
           </button>
         </form>
-        <ul id="admin-events" >
-          {events.map(event => (
-            <li key={event._id}>
-              <h3>{event.eventName}</h3>
-              <p>{moment(event.eventDate).format("DD/MM/YYYY, hh:mm A")}</p>
-              <p>{event.classes
-                      .map((clsId) => getClassNameById(clsId))
-                      .join(", ")}</p>
-              <button onClick={() => handleEdit(event)}>Edit</button>
-              <button onClick={() => deleteEvent(event._id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
       </div>
     </>
   );
