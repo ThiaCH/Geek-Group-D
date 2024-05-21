@@ -1,146 +1,68 @@
-# MERN
+## Attendance Login Application (Prototype Concept)
 
-## Setup
+The Attendance Login Application is designed to streamline the process of monitoring and managing attendance for a certain educational institution.
+This prototype concept is intended to provide a user-friendly interface that caters to both administrators and students by enhancing efficiency and accessibility.
 
-1. Create `vite` project -> `npm create vite`
-   1. Answer the questions -> `mern` folder
-2. `cd mern` && `npm install`
+## How to use this application
 
-## Git setup
+<h3>Login Page</h3>
+The login page serves as the entry point for all users. It requires your email address and password to authenticate your identity before 
+gaining access to the respective functionalities of the application.
 
-1. `git init`
-2. Add on the `.gitignore` from <https://www.toptal.com/developers/gitignore/api/windows,osx,node,visualstudiocode>
-3. `git add .` && `git commit -m ...`
+<h3>Sign Up Page</h3>
+New users can create their account on the sign up page. This page prompts the user to provide essential information such as name, contact number, email address and
+password. After completion of the new sign up, the user's information will be log into the User Database for verification purposes.
 
-Goto `github.com` and create a new EMPTY repo
+<h3>Administrator Login </h3>
 
-```bash
- git remote add origin git@git.generalassemb.ly:simonlau/mern-50.git
-  git branch -M main
-  git push -u origin main
-```
+Once logged in, administrators gain access to several key functionalities:
 
-## Optional lint-staged + git-hooks + prettier
+   <li> <b>Attendance Page:</b> Administrators can view, record, and manage attendance records. This includes the ability to check attendance, view historical attendance data on students who are late or absent from classes. It also allows the administrator some admin rights to ammend the data if there are errors or changes to be made.
 
-`npm install -D prettier`
-`npx mrm@2 lint-staged`
+   <li> <b>Upcoming Event Page:</b> This page lists all upcoming events, allowing administrators to manage and schedule events such as seminars, workshops, 
+   and promotion sales events.
+      
+   <li> <b>Resource Page:</b> A repository for administrators to manage and distribute recommended resources for students to supplement their learning.
 
-`husky` -> git hook manager
-`lint-staged`
+<h3>Student Login</h3>
 
-install into `package.json` in devDepencies
+Students logging into the application will encounter the following features:
 
-new `lint-staged` in `package.json`
-new `.husky`
+   <li> <b>Dashboard Page:</b> The dashboard offers a snapshot of the upcoming events, and learning resources for student after they login their attendance at the Login Page. 
+   It serves as a mini notice board for students to check on daily events and lesson structure during their course at the institution. 
+      
+   <li> <b>Update Student Profile Page:</b> Students can update their personal information, such as name, contact number and email address to ensure that their records are 
+   current and accurate.
 
-- `pre-commit` -> `npx lint-staged`
+## Getting Started
 
-## Edit for CommonJS
+Click on the link to get started -
+https://project-3-geekery.onrender.com/
 
-Inside `.eslintrc.cjs` change to
+## Technologies Used:
 
-`env: { browser: true, es2020: true, node: true },`
+<ul>
+  <li>MongoDB   
+  <li>Express    
+  <li>React
+  <li>Node
+  <li>Vite
+  <li>BootStrap
+  <li>GitHub
+  <li>Render(Cloud Hosting)
+</ul>
 
-Inside `package.json`
+## Wireframe of the application during planning stage
 
-Remove `type: "module"`
+Below is the initial wireframe for this application. Some design layout were adjusted slightly
+during the development phase but generally majority remains as it is.
 
-## Adaptation for vite dist instead of CRA build
+## Challenges during the making of this application
 
-Inside `server.js`
+## Key Learning points
 
-```js
-app.use(favicon(path.join(__dirname, "dist", "vite.svg")));
-app.use(express.static(path.join(__dirname, "dist")));
-```
+## Credit(s)
 
-## Setup nodemon
-
-`npm install -D nodemon`
-
-in `package.json` add to "scripts":
-
-```js
-    "dev:react": "vite",
-    "dev:express": "node --watch server.js",
-    "dev:express-win": "nodemon server.js",
-```
-
-## Clean up
-
-`main.js` -> remove CSS
-
-Unused files
-
-```bash
-rm src/*.css
-rm -r src/assets
-```
-
-## React convention
-
-Folder -> name is same as the actual Component
-
-split into `pages` and stand-alone `components` folders
-
-## dotenv pitfall
-
-dotenv-safe -> `.env.example`
-
-changing `.env` -> does not restart express
-
-## debug in express
-
-In server.js -> `const debug = require("debug")("mern:server");`
-In `config/database.js` -> `const debug = require("debug")("mern:config:database");`
-
-In package.json change to
-
-`"dev:express": "DEBUG=mern:* node --watch server.js",`
-
-## debug in react
-
-in `App.js` as well as every other file you want to log
-
-```js
-import debug from "debug";
-
-const log = debug("mern-50:pages:App:App");
-```
-
-in `main.jsx` -> write once -> `localStorage.debug = "mern-50:*";`
-
-## Structure
-
-React -> src -> pages / components etc
-Express -> server.js, models, controllers etc
-
-Project
---> React
---> Express
-
-## Proxy setup
-
-In `vite.config.js`, change to
-
-```js
-import react from "@vitejs/plugin-react-swc";
-import { defineConfig } from "vite";
-
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    proxy: {
-      "/api": "http://localhost:3000",
-    },
-  },
-});
-```
-
-## Deploy -> Vercel
-
-## Routing
-
-React -> React Router -> /movies
-Express -> ALL should be /api/movies
+<ul>
+   <li> Kristine (Administrator for General Assembly Singapore) 
+</ul>

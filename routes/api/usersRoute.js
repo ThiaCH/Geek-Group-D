@@ -7,22 +7,28 @@ const debug = require("debug")("mern:routes:usersRoute");
 
 // POST /api/users
 router.post("/", usersCtrl.create);
-router.get("/students/all", usersCtrl.listAllStudents);
 
 router.post("/login", usersCtrl.login);
 
 router.get("/attendance", usersCtrl.show);
+
 router.post("/attendance", usersCtrl.createAttendance);
 
 router.delete("/attendance/:id", usersCtrl.deleteOne);
 
 router.put("/attendance/:id", usersCtrl.editOne);
 
+router.get("/students/all", usersCtrl.listAllStudents);
+router.patch("/student/:id/update", usersCtrl.updateStudent);
+
 router.post("/classes", usersCtrl.showClasses);
 
+router.get("/events/all", eventsCtrl.getEvents);
 router.get("/events", eventsCtrl.showEventByClass);
 router.get("/events/:id", eventsCtrl.getOneEvent);
 router.post("/events", eventsCtrl.createEvent);
+router.put("/events/:id", eventsCtrl.updateEvent);
+router.delete("/events/:id", eventsCtrl.deleteEvent);
 
 const checkToken = (req, res, next) => {
   const header = req.get("Authorization");
@@ -42,7 +48,5 @@ router.get("/check-token", [checkToken], (req, res) => {
   const user = res.locals.user;
   res.json(user);
 });
-
-router.patch("/student/:id/update", usersCtrl.updateStudent);
 
 module.exports = router;
