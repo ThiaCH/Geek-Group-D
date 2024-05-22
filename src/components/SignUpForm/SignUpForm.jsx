@@ -58,7 +58,7 @@ class SignUpForm extends Component {
         return (
             <div>
                 <div className="team-logo">
-                    <img src="/assets/Geekery-League-Logo.png" alt="Geekery League Logo" style={{ width: '400px', height: '150px' }} />
+                    <img src="https://github.com/ThiaCH/Project-3-Geekery/blob/01b8d55ead38e30778aaae3f4c2a827d7abe3757/assets/Geekery-League-Logo.png" alt="Geekery League Logo" style={{ width: '400px', height: '150px' }} />
                 </div>
                 
                 <div className="form-container-sign-up">
