@@ -1,11 +1,63 @@
 .main-event-container {
-  width: 100vw;
+  width: 60vw;
   height: 100vh;
-  margin: 70px auto;
+  margin: 80px auto;
   display: flex;
-  justify-content: space-between;
 }
 
+/* Event List Layout */
+.jumbotron {
+  margin: auto;
+  max-width: 45%;
+}
+
+.card {
+  border: none;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin-bottom: 100px;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-title {
+  color: #007bff;
+  font-size: 1.5rem;
+}
+
+.card-text {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.btn {
+  margin-top: 10px;
+  margin-right: 5px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Add Event Form Layout */
 .add-event-container {
   display: flex;
   flex-direction: column;

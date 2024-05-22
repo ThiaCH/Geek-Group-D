@@ -80,11 +80,11 @@ export default function DashBoard() {
                   key={`event-${event.id || eventIndex}`}
                 >
                   <div className="card-body">
-                    <h4 className="card-title">{event.eventName}</h4>
+                    <h3 className="card-title">{event.eventName}</h3>
                     <h6 className="card-subtitle mb-2 text-muted">
-                      Date & Time: {moment(event.eventDate).format("DD/MM/YYYY, hh:mm A")}
+                      <b>Date & Time: </b> {moment(event.eventDate).format("DD/MM/YYYY, hh:mm A")}
                     </h6>
-                    <p className="card-text">Description: {event.description}</p>
+                    <p className="card-text"><b>Description: </b> {event.description}</p>
                     <p className="card-text">
                       <a href={event.urlLink} target="_blank" rel="noopener noreferrer">
                       {event.urlLink}
@@ -92,7 +92,7 @@ export default function DashBoard() {
                     </p>
                     <p className="card-text">
                       <small className="text-muted">
-                        Class: {" "}
+                        <b>Attending Class:</b> {" "}
                         {event.classes.map((cls, classIndex) => (
                           <span key={`class-${cls._id}-${classIndex}`}> 
                             {getClassNameById(cls)}

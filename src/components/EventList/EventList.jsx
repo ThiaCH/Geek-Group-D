@@ -14,36 +14,39 @@ export default function EventList({ classes, events, className, handleEdit, dele
 
   return (
     <>
-      {/* Event List Table */}
-      <div className="upcoming-events">
-        <ul>
-          {filteredEvents.map((event, index) => (
-            <li key={index}>
-              <h3>{event.eventName}</h3>
-              <p>
-                Date & Time:{" "}
-                {moment(event.eventDate).format("DD/MM/YYYY, hh:mm A")}
+    {/* Event List Layout */}
+    <div className="jumbotron">
+      <h1>Upcoming Event List</h1>
+      
+      <br/>
+
+        {filteredEvents.map((event, index) => (
+          <div className="card mb-3" key={index}>
+            <div className="card-body">
+              <h3 className="card-title">{event.eventName}</h3>
+              <p className="card-text">
+                <strong>Date & Time:</strong> {moment(event.eventDate).format("DD/MM/YYYY, hh:mm A")}
               </p>
               {event.urlLink && (
-                <p>
-                  URL: <a href={event.urlLink}>{event.urlLink}</a>
+                <p className="card-text">
+                  <strong>URL:</strong> <a href={event.urlLink}>{event.urlLink}</a>
                 </p>
               )}
-              <p>Description: {event.description}</p>
-              <p>
-                Class:{" "}
-                {className
+              <p className="card-text"><strong>Description:</strong> {event.description}</p>
+              <p className="card-text">
+                <strong>Class:</strong> {className
                   ? event.classes.map((cls) => cls.className).join(", ")
-                  : event.classes
-                      .map((clsId) => getClassNameById(clsId))
-                      .join(", ")}
+                  : event.classes.map((clsId) => getClassNameById(clsId)).join(", ")}
               </p>
-              <button onClick={() => handleEdit(event)}>Edit</button>
-              <button onClick={() => deleteEvent(event._id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
-      </div>
+              <div>
+                <button className="btn btn-primary" onClick={() => handleEdit(event)}>Edit</button>
+                <button className="btn btn-danger" onClick={() => deleteEvent(event._id)}>Delete</button>
+              </div>
+            </div>
+          </div>
+        ))}
+
+    </div>
     </>
   );
 }
