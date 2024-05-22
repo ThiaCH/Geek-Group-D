@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as usersService from "../../utilities/users-service";
 import { useNavigate, Link, useParams } from "react-router-dom";
 
@@ -13,6 +13,34 @@ export default function LoginForm({ setUser }) {
   });
 
   const [error, setError] = useState("");
+
+  const [isValid, setIsValid] = useState(null);
+
+  useEffect(() => {
+    const checkLoginId = async () => {
+      try {
+        const response = await fetch(`/api/users/checkLoginId/${loginId}`);
+        if (!response.ok) {
+          throw new Error('Invalid login ID');
+        }
+        const data = await response.json();
+        setIsValid(data.isValid);
+      } catch (error) {
+        console.error('Error checking login ID:', error);
+        setIsValid(false);
+      }
+    };
+
+    if (loginId) {
+      checkLoginId();
+    }
+  }, [loginId]);
+
+  useEffect(() => {
+    if (isValid === false) {
+      navigate('/error'); // Redirect to an error page
+    }
+  }, [isValid, navigate]);
 
   function handleChange(evt) {
     setCredentials({ ...credentials, [evt.target.name]: evt.target.value });
