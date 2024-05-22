@@ -30,6 +30,7 @@ export default function AdminPage() {
         if (!response.ok) throw new Error('Data fetching failed');
         const data = await response.json();
         setAttendanceRecords(data);
+        debug(data);
       } catch (err) {
         log(err.message);
       } finally {
