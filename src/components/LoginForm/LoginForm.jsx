@@ -40,7 +40,7 @@ export default function LoginForm({ setUser }) {
 
   return (
     <div>
-      <div className="form-container">
+      <div className="form-container-login">
         <form autoComplete="off" onSubmit={handleSubmit}>
           <label>Email</label>
           <input
@@ -58,10 +58,11 @@ export default function LoginForm({ setUser }) {
             onChange={handleChange}
             required
           />
-          <button type="submit">LOG IN</button>
+          <button className="btn-submit" type="submit">LOG IN</button>
         </form>
+        <br/>
+        <Link to="/signup">Does not have an account? Sign Up here!</Link>
       </div>
-      <Link to="/signup">Does not have an account? Sign Up here!</Link>
       <p className="error-message">&nbsp;{error}</p>
     </div>
   );

@@ -1,13 +1,13 @@
-/* CSS Custom Properties */
 :root {
   --white: #ffffff;
-  --tan-1: #fbf9f6;
-  --tan-2: #e7e2dd;
-  --tan-3: #e2d9d1;
-  --tan-4: #d3c1ae;
+  --tan-1: #fdf0e1;
+  --tan-2: #fbc7c3;
+  --tan-3: #f3935c;
+  --tan-4: #f77c72;
   --orange: #f67f00;
-  --text-light: #968c84;
-  --text-dark: #615954;
+  --red: #dc143c;
+  --text-light: #000000;
+  --text-dark: #874747;
 }
 
 *,
@@ -23,7 +23,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-color: var(--tan-4); */
   background-color: #ffffff;
   padding: 2vmin;
   height: 100vh;
@@ -81,11 +80,22 @@ code {
   font-size: 2vmin;
 }
 
-.form-container {
+.form-container-login {
   padding: 3vmin;
   background-color: var(--tan-1);
   border: 0.1vmin solid var(--tan-3);
   border-radius: 1vmin;
+  width: 35%;
+  margin: 250px auto;
+}
+
+.form-container-sign-up {
+  padding: 3vmin;
+  background-color: var(--tan-1);
+  border: 0.1vmin solid var(--tan-3);
+  border-radius: 1vmin;
+  width: 35%;
+  margin: 100px auto;
 }
 
 p.message {
