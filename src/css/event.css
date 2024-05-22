@@ -1,68 +1,26 @@
+/* Global container settings */
 .main-event-container {
-  width: 60vw;
+  width: 70vw;
   height: 100vh;
-  margin: 80px auto;
-  display: flex;
-}
-
-/* Event List Layout */
-.jumbotron {
-  margin: auto;
-  max-width: 45%;
-}
-
-.card {
-  border: none;
-  background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  margin-bottom: 100px;
-}
-
-.card-body {
+  margin: 70px auto;
   padding: 20px;
-}
-
-.card-title {
-  color: #007bff;
-  font-size: 1.5rem;
-}
-
-.card-text {
-  margin-bottom: 10px;
-  font-size: 1rem;
-}
-
-.btn {
-  margin-top: 10px;
-  margin-right: 5px;
-}
-
-.btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
-}
-
-.btn-danger {
-  background-color: #dc3545;
-  border-color: #dc3545;
-}
-
-a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-/* Add Event Form Layout */
-.add-event-container {
   display: flex;
-  flex-direction: column;
-  width: 300px;
-  margin: 30px auto;
+  justify-content: space-between;
+}
+
+.add-event-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(20%, -40%);
+  width: 65%;
+  max-width: 550px;
+  height: auto;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
 }
 
 .add-event-container form {
@@ -72,4 +30,42 @@ a:hover {
 
 .add-event-container input {
   margin-bottom: 15px;
+}
+
+.form-control {
+  margin-bottom: 15px;
+}
+
+.basic-multi-select {
+  margin-bottom: 15px;
+}
+
+.btn-primary {
+  width: 100%;
+}
+
+.list-group-item {
+  background-color: #f8f9fa;
+  margin-bottom: 10px;
+  border: 1px solid #dee2e6;
+}
+
+.list-group-item h3 {
+  color: #002fff;
+}
+
+.list-group-item p {
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+.btn-primary {
+  margin-right: 10px;
+}
+
+.jumbotron-container {
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-left: 50px;
+  width: 80%;
 }

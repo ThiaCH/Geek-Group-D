@@ -52,57 +52,61 @@ export default function AddEventForm({
   return (
     <>
       {/* Add/Edit Upcoming Event Form */}
-      <div className="add-event-container">
-        <form onSubmit={handleSubmit}>
-          <label>Event Name:</label>
-          <input
-            id="event-name"
-            type="text"
-            name="eventname"
-            value={eventName}
-            onChange={(event) => setEventName(event.target.value)}
-          />
-          <label>Event Date:</label>
-          <input
-            id="event-date"
-            type="datetime-local"
-            name="eventdate"
-            value={eventDate}
-            onChange={(event) => setEventDate(event.target.value)}
-          />
-          <label>URL Link (if applicable):</label>
-          <input
-            id="url-link"
-            type="url"
-            name="urllink"
-            value={urlLink}
-            onChange={(event) => setUrlLink(event.target.value)}
-          />
-          <label>Description:</label>
-          <textarea
-            id="description"
-            name="description"
-            rows="10"
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-          ></textarea>
-          <label>Class:</label>
-          <Select
-            id="class"
-            name="class"
-            options={classOptions}
-            isMulti
-            value={classOptions.filter((option) =>
-              selectedClasses.includes(option.value)
-            )}
-            onChange={handleClassChange}
-            className="class-select"
-            classNamePrefix="select"
-          />
-          <button type="submit">
-            {editingEventId ? "Edit Event" : "Add Event"}
-          </button>
-        </form>
+      <div className="container">
+        <div className="add-event-container">
+        <h1>Add Event Form</h1>
+        
+        <br/>
+
+          <form onSubmit={handleSubmit} className="form-group">
+            <label htmlFor="event-name">Event Name:</label>
+            <input
+              className="form-control"
+              id="event-name"
+              type="text"
+              value={eventName}
+              onChange={(event) => setEventName(event.target.value)}
+            />
+            <label htmlFor="event-date">Event Date:</label>
+            <input
+              className="form-control"
+              id="event-date"
+              type="datetime-local"
+              value={eventDate}
+              onChange={(event) => setEventDate(event.target.value)}
+            />
+            <label htmlFor="url-link">URL Link (if applicable):</label>
+            <input
+              className="form-control"
+              id="url-link"
+              type="url"
+              value={urlLink}
+              onChange={(event) => setUrlLink(event.target.value)}
+            />
+            <label htmlFor="description">Description:</label>
+            <textarea
+              className="form-control"
+              id="description"
+              rows="4"
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
+            ></textarea>
+            <label htmlFor="class">Class:</label>
+            <Select
+              id="class"
+              isMulti
+              options={classOptions}
+              className="basic-multi-select"
+              classNamePrefix="select"
+              value={classOptions.filter(option => selectedClasses.includes(option.value))}
+              onChange={handleClassChange}
+            />
+            <button type="submit" className="btn btn-primary mt-3">
+              {editingEventId ? "Edit Event" : "Add Event"}
+            </button>
+          </form>
+
+        </div>
       </div>
     </>
   );

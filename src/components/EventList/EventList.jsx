@@ -14,38 +14,45 @@ export default function EventList({ classes, events, className, handleEdit, dele
 
   return (
     <>
-    {/* Event List Layout */}
-    <div className="jumbotron">
-      <h1>Upcoming Event List</h1>
-      
-      <br/>
+      {/* Event List Table */}
+      <div className="jumbotron-container">
+        <h1>Upcoming Event List</h1>
 
-        {filteredEvents.map((event, index) => (
-          <div className="card mb-3" key={index}>
-            <div className="card-body">
-              <h3 className="card-title">{event.eventName}</h3>
-              <p className="card-text">
-                <strong>Date & Time:</strong> {moment(event.eventDate).format("DD/MM/YYYY, hh:mm A")}
-              </p>
-              {event.urlLink && (
-                <p className="card-text">
-                  <strong>URL:</strong> <a href={event.urlLink}>{event.urlLink}</a>
-                </p>
-              )}
-              <p className="card-text"><strong>Description:</strong> {event.description}</p>
-              <p className="card-text">
-                <strong>Class:</strong> {className
-                  ? event.classes.map((cls) => cls.className).join(", ")
-                  : event.classes.map((clsId) => getClassNameById(clsId)).join(", ")}
-              </p>
-              <div>
-                <button className="btn btn-primary" onClick={() => handleEdit(event)}>Edit</button>
-                <button className="btn btn-danger" onClick={() => deleteEvent(event._id)}>Delete</button>
-              </div>
-            </div>
+        <br/>
+
+        <div className="row">
+          <div className="col-12">
+            <ul className="list-group">
+              {filteredEvents.map((event, index) => (
+                <li key={index} className="list-group-item">
+                  <h3>{event.eventName}</h3>
+                  <p>
+                    <b>Date & Time: {" "}</b>
+                    {moment(event.eventDate).format("DD/MM/YYYY, hh:mm A")}
+                  </p>
+                  {event.urlLink && (
+                    <p>
+                      <b>URL: </b> <a href={event.urlLink}>{event.urlLink}</a>
+                    </p>
+                  )}
+                  <p><b>Description:</b> {event.description}</p>
+                  <p>
+                    <b>Class: {" "}</b>
+                    {className
+                      ? event.classes.map((cls) => cls.className).join(", ")
+                      : event.classes
+                          .map((clsId) => getClassNameById(clsId))
+                          .join(", ")}
+                  </p>
+                  <div>
+                    <button className="btn btn-info" onClick={() => handleEdit(event)}>Edit</button>
+                    <button className="btn btn-danger" onClick={() => deleteEvent(event._id)}>Delete</button>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
-        ))}
-
+        </div>
     </div>
     </>
   );
