@@ -75,7 +75,7 @@ export default function LoginForm({ setUser }) {
     <div>
 
       <div className="team-logo">
-          <img src="https://github.com/ThiaCH/Project-3-Geekery/blob/01b8d55ead38e30778aaae3f4c2a827d7abe3757/assets/Geekery-League-Logo.png" alt="Geekery League Logo" style={{ width: '750px', height: '300px' }} />
+          <img src="https://github.com/ThiaCH/Project-3-Geekery/blob/main/assets/Geekery-League-Logo.png?raw=true" alt="Geekery League Logo" style={{ width: '750px', height: '300px' }} />
       </div>
 
       <div className="form-container-login">
