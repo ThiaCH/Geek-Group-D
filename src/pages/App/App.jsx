@@ -11,6 +11,7 @@ import StudentUpdatePage from "../StudentUpdatePage/StudentUpdatePage";
 import UpcomingEvent from "../UpcomingEventPage/UpcomingEventPage";
 import ResourcePage from "../ResourcePage/ResourcePage";
 import "bootstrap/dist/css/bootstrap.min.css";
+import QR from "../../components/QR/QR";
 
 // this enables debug module at the App.jsx only, this replaces console.log, you can see it at the browser devtool, enable the verbose level at web console
 const log = debug("mern:pages:App:App"); // eslint-disable-line no-unused-vars
@@ -20,6 +21,32 @@ export default function App() {
   // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useState(getUser()); // getUser()
   const [newTime, setNewTime] = useState(new Date().getDate()); // eslint-disable-line no-unused-vars
+  const [validLoginIds, setValidLoginIds] = useState("");
+
+  const generateValidLoginIds = () => {
+    const randomId = "GA" + Math.random().toString(36).substr(2, 10); // Generates a random string of 6 characters
+    return randomId;
+  };
+
+  const handleGenerateIds = async () => {
+    try {
+      const ids = generateValidLoginIds();
+      const response = await fetch("/api/users/loginId", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ loginId: ids }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to generate IDs");
+      }
+      const data = await response.json();
+      setValidLoginIds(data.loginId);
+    } catch (error) {
+      console.error("Error generating IDs:", error);
+    }
+  };
 
   useEffect(() => {
     const interValid = setInterval(() => {
@@ -48,6 +75,15 @@ export default function App() {
             <Route path="/resource" element={<ResourcePage />} />
             <Route path="/:className/dashboard" element={<DashBoardPage />} />
             <Route path="/dashboard" element={<DashBoardPage />} />
+            <Route
+              path="/admin/qr"
+              element={
+                <QR
+                  handleGenerateIds={handleGenerateIds}
+                  validLoginIds={validLoginIds}
+                />
+              }
+            />
           </Routes>
         </main>
       </>
