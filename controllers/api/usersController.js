@@ -65,6 +65,21 @@ async function login(req, res) {
   }
 }
 
+async function loginNoAtt(req, res) {
+  const user = await User.findOne({ email: req.body.email });
+  if (user === null) {
+    res.status(401).json({ msg: "User not found" });
+  }
+
+  const match = await bcrypt.compare(req.body.password, user.password);
+  if (match) {
+    const token = createJWT(user);
+    res.json(token);
+  } else {
+    res.status(401).json({ msg: "Password incorrect" });
+  }
+}
+
 async function show(req, res) {
   try {
     const attendanceRecords = await Attendance.find({}).populate("studentInfo");
@@ -214,6 +229,7 @@ const showClasses = async (req, res) => {
 module.exports = {
   create,
   login,
+  loginNoAtt,
   show,
   deleteOne,
   editOne,

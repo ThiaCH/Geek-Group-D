@@ -1,9 +1,11 @@
 import { useState } from "react";
 import * as usersService from "../../utilities/users-service";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 
 export default function LoginForm({ setUser }) {
   const navigate = useNavigate();
+
+  const { loginId } = useParams();
 
   const [credentials, setCredentials] = useState({
     email: "",
@@ -26,8 +28,11 @@ export default function LoginForm({ setUser }) {
       // The promise returned by the signUp service method
       // will resolve to the user object included in the
       // payload of the JSON Web Token (JWT)
-      const user = await usersService.login(credentials);
+      const user = loginId
+        ? await usersService.login(credentials)
+        : await usersService.loginNoAtt(credentials);
       setUser(user);
+      console.log(user);
       if (user.isAdmin === true) {
         navigate("/admin");
       } else {

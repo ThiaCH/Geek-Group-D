@@ -9,6 +9,7 @@ const debug = require("debug")("mern:routes:usersRoute");
 router.post("/", usersCtrl.create);
 
 router.post("/login", usersCtrl.login);
+router.post("/login/noatt", usersCtrl.loginNoAtt);
 
 router.get("/attendance", usersCtrl.show);
 

@@ -8,6 +8,7 @@ export default function AuthPage({setUser}) {
         <>
           <Routes>
             <Route path="/" element={<LoginForm setUser={setUser}/>} />
+            <Route path="/:loginId" element={<LoginForm setUser={setUser}/>} />
             <Route path="/signup" element={<SignUpForm />} />
             <Route path="qr" element={<QR />} />
           </Routes>
