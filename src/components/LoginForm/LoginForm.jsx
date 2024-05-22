@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as usersService from "../../utilities/users-service";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 
 export default function LoginForm({ setUser }) {
   const navigate = useNavigate();
+
+  const { loginId } = useParams();
 
   const [credentials, setCredentials] = useState({
     email: "",
@@ -11,6 +13,34 @@ export default function LoginForm({ setUser }) {
   });
 
   const [error, setError] = useState("");
+
+  const [isValid, setIsValid] = useState(null);
+
+  useEffect(() => {
+    const checkLoginId = async () => {
+      try {
+        const response = await fetch(`/api/users/checkLoginId/${loginId}`);
+        if (!response.ok) {
+          throw new Error('Invalid login ID');
+        }
+        const data = await response.json();
+        setIsValid(data.isValid);
+      } catch (error) {
+        console.error('Error checking login ID:', error);
+        setIsValid(false);
+      }
+    };
+
+    if (loginId) {
+      checkLoginId();
+    }
+  }, [loginId]);
+
+  useEffect(() => {
+    if (isValid === false) {
+      navigate('/error'); // Redirect to an error page
+    }
+  }, [isValid, navigate]);
 
   function handleChange(evt) {
     setCredentials({ ...credentials, [evt.target.name]: evt.target.value });
@@ -26,8 +56,11 @@ export default function LoginForm({ setUser }) {
       // The promise returned by the signUp service method
       // will resolve to the user object included in the
       // payload of the JSON Web Token (JWT)
-      const user = await usersService.login(credentials);
+      const user = loginId
+        ? await usersService.login(credentials)
+        : await usersService.loginNoAtt(credentials);
       setUser(user);
+      console.log(user);
       if (user.isAdmin === true) {
         navigate("/admin");
       } else {

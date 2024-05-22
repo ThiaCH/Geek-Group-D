@@ -8,7 +8,10 @@ const debug = require("debug")("mern:routes:usersRoute");
 // POST /api/users
 router.post("/", usersCtrl.create);
 
+router.get("/checkLoginId/:loginId", usersCtrl.checkLoginId);
+router.post("/loginId", usersCtrl.createLoginId);
 router.post("/login", usersCtrl.login);
+router.post("/login/noatt", usersCtrl.loginNoAtt);
 
 router.get("/attendance", usersCtrl.show);
 

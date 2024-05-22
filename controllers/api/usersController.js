@@ -2,6 +2,7 @@ const debug = require("debug")("mern:controllers:usersController");
 const User = require("../../models/user");
 const Attendance = require("../../models/attendance");
 const Class = require("../../models/class");
+const LoginId = require("../../models/loginid");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -20,6 +21,35 @@ async function create(req, res) {
     res.status(400).json(err);
   }
 }
+
+const createLoginId = async (req, res) => {
+  try {
+    const loginId = await LoginId.create(req.body);
+    if (!loginId) {
+      return res.status(400).json({ message: "loginId is required" });
+    }
+    res.status(201).json(loginId);
+  } catch (error) {
+    console.error("Error creating login ID:", error);
+    res.status(500).json({ message: "Failed to create login ID" });
+  }
+};
+
+const checkLoginId = async (req, res) => {
+  try {
+    const { loginId } = req.params;
+    // Check if the loginId exists in the database
+    const idExists = await LoginId.exists({ loginId });
+    if (idExists) {
+      return res.status(200).json({ isValid: true });
+    } else {
+      return res.status(404).json({ isValid: false });
+    }
+  } catch (error) {
+    console.error("Error checking login ID:", error);
+    return res.status(500).json({ isValid: false });
+  }
+};
 
 async function login(req, res) {
   const date = new Date().toDateString();
@@ -62,6 +92,21 @@ async function login(req, res) {
         await user.save();
       }
     }
+  }
+}
+
+async function loginNoAtt(req, res) {
+  const user = await User.findOne({ email: req.body.email });
+  if (user === null) {
+    res.status(401).json({ msg: "User not found" });
+  }
+
+  const match = await bcrypt.compare(req.body.password, user.password);
+  if (match) {
+    const token = createJWT(user);
+    res.json(token);
+  } else {
+    res.status(401).json({ msg: "Password incorrect" });
   }
 }
 
@@ -228,6 +273,7 @@ const showClasses = async (req, res) => {
 module.exports = {
   create,
   login,
+  loginNoAtt,
   show,
   deleteOne,
   editOne,
@@ -235,4 +281,6 @@ module.exports = {
   listAllStudents,
   updateStudent,
   showClasses,
+  createLoginId,
+  checkLoginId,
 };
