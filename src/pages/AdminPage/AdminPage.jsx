@@ -163,7 +163,7 @@ export default function AdminPage() {
 
   const getCurrentDate = () => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date().toLocaleDateString('en-SG', options);
+    return new Date().toLocaleDateString(undefined, options);
   };
   
   return (
