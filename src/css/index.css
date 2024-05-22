@@ -112,7 +112,7 @@ input {
   border: 0.1vmin solid var(--tan-3);
   border-radius: 0.5vmin;
   color: var(--text-dark);
-  background-image: none !important; /* prevent lastpass */
+  background-image: none !important;
   outline: none;
 }
 
