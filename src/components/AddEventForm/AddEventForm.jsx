@@ -65,6 +65,7 @@ export default function AddEventForm({
               id="event-name"
               type="text"
               value={eventName}
+              required
               onChange={(event) => setEventName(event.target.value)}
             />
             <label htmlFor="event-date">Event Date:</label>
@@ -89,6 +90,7 @@ export default function AddEventForm({
               id="description"
               rows="4"
               value={description}
+              required
               onChange={(event) => setDescription(event.target.value)}
             ></textarea>
             <label htmlFor="class">Class:</label>
@@ -100,6 +102,7 @@ export default function AddEventForm({
               classNamePrefix="select"
               value={classOptions.filter(option => selectedClasses.includes(option.value))}
               onChange={handleClassChange}
+              required
             />
             <button type="submit" className="btn btn-primary mt-3">
               {editingEventId ? "Edit Event" : "Add Event"}
