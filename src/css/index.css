@@ -86,7 +86,7 @@ code {
   border: 0.1vmin solid var(--tan-3);
   border-radius: 1vmin;
   width: 35%;
-  margin: 250px auto;
+  margin: 40px auto;
 }
 
 .form-container-sign-up {
@@ -94,8 +94,8 @@ code {
   background-color: var(--tan-1);
   border: 0.1vmin solid var(--tan-3);
   border-radius: 1vmin;
-  width: 35%;
-  margin: 100px auto;
+  width: 50%;
+  margin: auto;
 }
 
 p.message {
@@ -174,4 +174,10 @@ input[type="checkbox"] {
   justify-self: left;
   min-width: 15px;
   height: auto;
+}
+
+.team-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
