@@ -44,6 +44,16 @@ export const login = async (userData) => {
   return getUser();
 };
 
+export const loginNoAtt = async (userData) => {
+  log("formData: %o", userData);
+
+  const token = await userAPI.loginNoAtt(userData);
+  log("token: %o", token);
+
+  localStorage.setItem("token", token);
+  return getUser();
+};
+
 export function logOut() {
   localStorage.removeItem("token");
 }
