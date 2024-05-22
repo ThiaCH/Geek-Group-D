@@ -57,6 +57,10 @@ class SignUpForm extends Component {
         const disable = this.state.password !== this.state.confirm;
         return (
             <div>
+                <div className="team-logo">
+                    <img src="https://github.com/ThiaCH/Project-3-Geekery/blob/main/assets/Geekery-League-Logo.png?raw=true" alt="Geekery League Logo" style={{ width: '400px', height: '150px' }} />
+                </div>
+                
                 <div className="form-container-sign-up">
                 <h4 style={{textAlign:"center"}}>Please fill up the form below if you are a new user.</h4>
                 <br/>

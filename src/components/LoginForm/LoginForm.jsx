@@ -73,6 +73,11 @@ export default function LoginForm({ setUser }) {
 
   return (
     <div>
+
+      <div className="team-logo">
+          <img src="https://github.com/ThiaCH/Project-3-Geekery/blob/main/assets/Geekery-League-Logo.png?raw=true" alt="Geekery League Logo" style={{ width: '750px', height: '300px' }} />
+      </div>
+
       <div className="form-container-login">
         <form autoComplete="off" onSubmit={handleSubmit}>
           <label>Email</label>
