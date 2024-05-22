@@ -92,9 +92,11 @@ export default function AddResourceForm() {
 
   return (
     <>
-      <div className="main-resource-container"> 
-        <table>
-          <thead>
+       <div className="container mt-5">
+        <h2 style={{textAlign:"center"}}>List of Learning Resources</h2>
+        <br/>
+        <table className="table table-striped table-hover">
+          <thead className="thead-dark">
             <tr>
               <th>Delete</th>
               <th>Website</th>
@@ -104,16 +106,17 @@ export default function AddResourceForm() {
           </thead>
           <tbody>
             {resourceUrl.map((url, index) => (
-              <tr key={url._id || index }>
+              <tr key={url._id || index}>
                 {editingId === url._id ? (
                   <>
                     <td>
-                      <button onClick={() => handleUpdate(url._id)}>Save</button>
-                      <button onClick={handleCancel}>Cancel</button>
+                      <button className="btn btn-success" onClick={() => handleUpdate(url._id)}>Save</button>
+                      <button className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
                     </td>
                     <td>
                       <input 
                         type="text" 
+                        className="form-control" 
                         name="website" 
                         value={editFormData.website} 
                         onChange={handleEditFormChange}
@@ -122,6 +125,7 @@ export default function AddResourceForm() {
                     <td>
                       <input 
                         type="text" 
+                        className="form-control" 
                         name="url" 
                         value={editFormData.url} 
                         onChange={handleEditFormChange}
@@ -131,10 +135,10 @@ export default function AddResourceForm() {
                   </>
                 ) : (
                   <>
-                    <td><button onClick={() => handleDelete(url._id)}>Delete</button></td>
+                    <td><button className="btn btn-danger" onClick={() => handleDelete(url._id)}>Delete</button></td>
                     <td>{url.website}</td>
-                    <td><a href={url.url} target="_blank" rel="noopener noreferrer">{url.url}</a></td>
-                    <td><button onClick={() => handleEditClick(url)}>Edit</button></td>
+                    <td><a href={url.url} className="link-info" target="_blank" rel="noopener noreferrer">{url.url}</a></td>
+                    <td><button className="btn btn-info" onClick={() => handleEditClick(url)}>Edit</button></td>
                   </>
                 )}
               </tr>
@@ -142,30 +146,37 @@ export default function AddResourceForm() {
           </tbody>
         </table>
       </div>
-      
-      <hr/>
 
-      <div className="add-resource-container">
-        <form onSubmit={handleAdd}>
-          <input 
-            className="add-resource-website" 
-            type="text" 
-            name="website" 
-            placeholder="Name of Website" 
-            value={newResource.website} 
-            onChange={handleChange}>
-          </input>
-          <br/>
-          <input 
-            className="add-resource-url" 
-            type="text" 
-            name="url" 
-            placeholder="URL Link" 
-            value={newResource.url} 
-            onChange={handleChange}>   
-          </input>
-          
-          <button className="add-resource-submit" type="submit">Add New Resource</button>
+      <hr/>
+      
+      <div className="container-input">
+        <form onSubmit={handleAdd} className="form-input mt-4">
+          <p style={{textAlign:"center", color:"black"}}>
+            Fill in the website name and url to add new learning resources into the list.
+          </p>
+          <div className="col" style={{width:"25%"}}>
+            <input 
+              type="text" 
+              className="form-control mb-2" 
+              name="website" 
+              placeholder="Name of Website" 
+              value={newResource.website} 
+              onChange={handleChange}>
+            </input>
+          <div className="col" >
+            <input 
+              type="text" 
+              className="form-control mb-2" 
+              name="url" 
+              placeholder="URL Link" 
+              value={newResource.url} 
+              onChange={handleChange}>   
+            </input>
+          </div>
+          <div className="col-auto" >
+            <button className="btn btn-primary mb-2" type="submit">Add New Resource</button>
+          </div>
+          </div>
         </form>
       </div>
     </>

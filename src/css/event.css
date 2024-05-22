@@ -1,16 +1,26 @@
+/* Global container settings */
 .main-event-container {
-  width: 100vw;
+  width: 70vw;
   height: 100vh;
   margin: 70px auto;
+  padding: 20px;
   display: flex;
   justify-content: space-between;
 }
 
 .add-event-container {
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  margin: 30px auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(20%, -40%);
+  width: 65%;
+  max-width: 550px;
+  height: auto;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
 }
 
 .add-event-container form {
@@ -20,4 +30,42 @@
 
 .add-event-container input {
   margin-bottom: 15px;
+}
+
+.form-control {
+  margin-bottom: 15px;
+}
+
+.basic-multi-select {
+  margin-bottom: 15px;
+}
+
+.btn-primary {
+  width: 100%;
+}
+
+.list-group-item {
+  background-color: #f8f9fa;
+  margin-bottom: 10px;
+  border: 1px solid #dee2e6;
+}
+
+.list-group-item h3 {
+  color: #002fff;
+}
+
+.list-group-item p {
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+.btn-primary {
+  margin-right: 10px;
+}
+
+.jumbotron-container {
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-left: 50px;
+  width: 80%;
 }

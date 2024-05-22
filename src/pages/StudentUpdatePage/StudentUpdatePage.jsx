@@ -9,7 +9,8 @@ export default function StudentUpdate({user}) {
     studentName: '',
     contactNumber: '',
     email: '',
-    // password: ''
+    nok: '',
+    nokContact: '',
   });
 
   const handleChange = (event) => {
@@ -25,9 +26,10 @@ export default function StudentUpdate({user}) {
       const data = await updateStudent({
         id: user._id,
         name: formData.studentName === '' ? user.name : formData.studentName,
-        email: formData.email === '' ? user.email : formData.email,
         contact: formData.contactNumber === '' ? user.contact : formData.contactNumber,
-        // password: formData.password   
+        email: formData.email === '' ? user.email : formData.email,
+        emergencyContactPerson: formData.nok === '' ? user.emergencyContactPerson : formData.nok,
+        emergencyContactNumber: formData.nokContact === '' ? user.emergencyContactNumber : formData.nokContact,
       });
       console.log(data)
       alert('Update successful!');
@@ -42,6 +44,7 @@ export default function StudentUpdate({user}) {
       <h1 className='update-title'>Update Student Profile</h1>
       <div className="update-form-container">
         <form>
+
           <div className="update-form-group">
             <label htmlFor="studentName">Name:</label>
             <input
@@ -54,20 +57,9 @@ export default function StudentUpdate({user}) {
               required
             />
           </div>
+
           <br/>
-          <div className="update-form-group">
-            <label htmlFor="contactNumber">Contact:</label>
-            <input
-              type="text"
-              id="contactNumber"
-              name="contactNumber"
-              placeholder={user.contact}
-              value={formData.contactNumber}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <br/>
+
           <div className="update-form-group">
             <label htmlFor="email">Email Address:</label>
             <input
@@ -80,22 +72,58 @@ export default function StudentUpdate({user}) {
               required
             />
           </div>
-          {/* <br/>
+
+          <br/>
+
           <div className="update-form-group">
-            <label htmlFor="password">Password:</label>
+            <label htmlFor="contactNumber">Contact:</label>
             <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
+              type="text"
+              id="contactNumber"
+              name="contactNumber"
+              placeholder={user.contact}
+              value={formData.contactNumber}
               onChange={handleChange}
               required
             />
-          </div> */}
+          </div>
+
           <br/>
+          
+          <div className="update-form-group">
+            <label htmlFor="nok">Emergency Contact Person</label>
+            <input
+              type="text"
+              id="nok"
+              name="nok"
+              placeholder={user.emergencyContactPerson}
+              value={formData.nok}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <br/>
+
+          <div className="update-form-group">
+            <label htmlFor="nokContact">Emergency Contact Number</label>
+            <input
+              type="text"
+              id="nokContact"
+              name="nokContact"
+              placeholder={user.emergencyContactNumber}
+              value={formData.nokContact}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <br/>
+
           <div className='update-save-btn-container'>
             <button type="button" onClick={handleSave} className="update-save-btn">Save</button>
           </div>
+
         </form>
       </div>
     </>

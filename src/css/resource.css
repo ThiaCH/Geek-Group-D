@@ -1,6 +1,13 @@
-.main-resource-container {
-  margin-top: 50px;
-  padding-bottom: 50px;
+.container {
+  margin: 20px auto;
+  padding-bottom: 20px;
+}
+
+.form-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 table {
@@ -17,26 +24,4 @@ td {
 
 th {
   background-color: #f2f2f2;
-}
-
-.add-resource-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-top: 50px;
-}
-
-.add-resource-id {
-  width: 100px;
-  margin-bottom: 20px;
-}
-
-.add-resource-website,
-.add-resource-url {
-  width: 500px;
-  margin-bottom: 20px;
-}
-
-.add-resource-submit {
-  width: 200px;
 }
