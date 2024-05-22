@@ -10,13 +10,13 @@ export default function AdminPage() {
   const [error, setError] = useState(null);
   const [displayEditForm, setDisplayEditForm] = useState(false);
   const [attendanceData, setAttendanceData] = useState({});
-  const [displayNewForm, setDisplayNewForm] = useState(false); 
-  const [newAttendance, setNewAttendance] = useState({
-    name: "",
-    class: ""
-  });
+  const [displayNewForm, setDisplayNewForm] = useState(false);
+  const [newAttendance, setNewAttendance] = useState({ 
+    name: "", 
+    class: "" });
   const [search, setSearch] = useState("");
   const [filteredAttendanceRecords, setFilteredAttendanceRecords] = useState([]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,6 +39,7 @@ export default function AdminPage() {
     };
     fetchData();
   }, []);
+  
   
   const filteredRecords = attendanceRecords.filter((record) => record.checkinDate === new Date().toDateString().split(" ").slice(1).join(" "));
   useEffect(() => {
@@ -167,94 +168,112 @@ export default function AdminPage() {
   
   return (
     <>
-      <h1>Admin Page - Student Attendance ({getCurrentDate()})</h1>
+      <h1 style={{margin:"70px auto"}}>Admin Page - Student Attendance ({getCurrentDate()})</h1>
+      
       {isLoading ? (
-        <p>Loading...</p>
+        <p className="text-center">Loading...</p>
       ) : (
-        <div>
-          <div>
-            <input type='text' value={search} onChange={(e) => setSearch(e.target.value)} />
-            <button onClick={handleSearch}>Search</button>
+      <div className="container">
+        <div className="row mb-3" style={{ background:"#cacaca", borderRadius:"15px", width:"50%", paddingTop:"20px", translate:"10px"}} >
+          <div className="col">
+            <input type="text" className="form-control" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} />
           </div>
-          <div style={{display: "flex", gap: "10px"}}>
-            <div className='table'>
-              <table>
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>Date</th>
-                    <th>Student id</th>
-                    <th>Student Name</th>
-                    <th>Class</th>
-                    <th>Contact Number</th>
-                    <th>Check In Time</th>
-                    <th>Late</th>
-                    <th>Absent</th>
-                    <th>Reason</th>
-                    <th></th>
+          <div className="col-auto" style={{translate:"-20px -10px"}}>
+            <button className="btn btn-primary" onClick={handleSearch}>Search</button>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col">
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Date</th>
+                  <th>Student ID</th>
+                  <th>Name</th>
+                  <th>Class</th>
+                  <th>Contact Number</th>
+                  <th>Check In Time</th>
+                  <th>Late</th>
+                  <th>Absent</th>
+                  <th>Reason</th>
+                  <th>Edit</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredAttendanceRecords.map((attendance, index) => (
+                  <tr key={attendance._id || index}>
+                    <td><button className="btn btn-danger btn-sm" onClick={() => handleDelete(attendance._id)}>Delete</button></td>
+                    <td>{attendance.checkinDate}</td>
+                    <td>{attendance.studentInfo?._id}</td>
+                    <td>{attendance.studentInfo?.name}</td>
+                    <td>{attendance.studentInfo?.class}</td>
+                    <td>{attendance.studentInfo?.contact}</td>
+                    <td>{attendance.checkinTime}</td>
+                    <td className={attendance.isLate ? "table-warning" : ""}>{attendance.isLate ? "Yes" : "N/A"}</td>
+                    <td className={attendance.isAbsent ? "table-danger" : ""}>{attendance.isAbsent ? "Yes" : "N/A"}</td>
+                    <td>{attendance.withReason ? "Yes" : "N/A"}</td>
+                    <td><button className="btn btn-primary btn-sm" onClick={() => handleEdit(attendance)}>Edit</button></td>
                   </tr>
-                </thead>
-                <tbody>
-                  {filteredAttendanceRecords.map((attendance, index) => (
-                    <tr key={attendance._id || index}>
-                      <td><button onClick={() => handleDelete(attendance._id)}>X</button></td>
-                      <td>{attendance.checkinDate}</td>
-                      <td>{attendance.studentInfo?._id}</td>
-                      <td>{attendance.studentInfo?.name}</td>
-                      <td>{attendance.studentInfo?.class}</td>
-                      <td>{attendance.studentInfo?.contact}</td>
-                      <td>{attendance.checkinTime}</td>
-                      <td style={{backgroundColor: attendance.isLate ? "yellow" : "white"}}>{attendance.isLate === true ? "yes" : "n/a"}</td>
-                      <td style={{backgroundColor: attendance.isAbsent ? "red" : "white"}}>{attendance.isAbsent === true ? "yes" : "n/a"}</td>
-                      <td>{attendance.withReason === true ? "yes" : "n/a"}</td>
-                      <td><button onClick={() => handleEdit(attendance)}>🖊</button></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <button style={{width: "40px", height: "40px", borderRadius: "50%"}} onClick={() => setDisplayNewForm(true)}>+</button>
-            </div>
-            {displayEditForm && 
-            <div className='form-container'>
-              <form autoComplete="off" onSubmit={handleEditSubmit}>
-                <label>Date</label>
-                <input type='text' name='checkinDate' value={attendanceData.checkinDate} disabled />
-                <label>Student Name</label>
-                <input type='text' name='name' value={attendanceData.studentInfo?.name} disabled />
-                <label>Class</label>
-                <input type='text' name='class' value={attendanceData.studentInfo?.class} onChange={handleEditChange} />
-                <label>Contact Number</label>
-                <input type='tel' name='contact' value={attendanceData.studentInfo?.contact} onChange={handleEditChange} />
-                <label>Check In Time</label>
-                <input type='text' name='checkinTime' value={attendanceData.checkinTime} onChange={handleEditChange} />
-                <label>Late</label>
-                <input type='text' name='isLate' value={attendanceData.isLate} onChange={handleEditChange} disabled={!attendanceData.withReason} />
-                <label>Absent</label>
-                <input type='text' name='isAbsent' value={attendanceData.isAbsent} onChange={handleEditChange} disabled={!attendanceData.withReason} />
-                <label>Reason</label>
-                <input type='checkbox' name='withReason' checked={attendanceData.withReason} onChange={handleEditChange} />
-                <div style={{display: "flex", gap: "20px"}}>
-                  <button type="submit">Save</button>
-                  <button className='btn-sm' onClick={handleCloseEdit}>Cancel</button>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col">
+            <button className="btn btn-success rounded-circle" style={{width: "40px", height: "40px"}} onClick={() => setDisplayNewForm(true)}>+</button>
+          </div>
+        </div>
+
+        {displayEditForm && (
+          <div className="row">
+            <div className="col">
+              <form className="form-container" autoComplete="off" onSubmit={handleEditSubmit}>
+                    <label>Date</label>
+                    <input type='text' name='checkinDate' value={attendanceData.checkinDate} disabled />
+                    <label>Student Name</label>
+                    <input type='text' name='name' value={attendanceData.studentInfo?.name} disabled />
+                    <label>Class</label>
+                    <input type='text' name='class' value={attendanceData.studentInfo?.class} onChange={handleEditChange} />
+                    <label>Contact Number</label>
+                    <input type='tel' name='contact' value={attendanceData.studentInfo?.contact} onChange={handleEditChange} />
+                    <label>Check In Time</label>
+                    <input type='text' name='checkinTime' value={attendanceData.checkinTime} onChange={handleEditChange} />
+                    <label>Late</label>
+                    <input type='text' name='isLate' value={attendanceData.isLate} onChange={handleEditChange} disabled={!attendanceData.withReason} />
+                    <label>Absent</label>
+                    <input type='text' name='isAbsent' value={attendanceData.isAbsent} onChange={handleEditChange} disabled={!attendanceData.withReason} />
+                    <label>Reason</label>
+                    <input type='checkbox' name='withReason' checked={attendanceData.withReason} onChange={handleEditChange} />
+                    <div className="d-flex justify-content-between">
+                  <button type="submit" className="btn btn-primary">Save</button>
+                  <button type="button" className="btn btn-secondary btn-sm" onClick={handleCloseEdit}>Cancel</button>
                 </div>
               </form>
-            </div>}    
+            </div>
           </div>
-          {displayNewForm && (
-          <div className='form-container' style={{maxWidth: "500px"}}>
+        )}
+
+        {displayNewForm && (
+          <div className="form-container" style={{ maxWidth: "500px" }}>
             <form autoComplete="off" onSubmit={handleNewSubmit}>
-              <label>Name</label>
-              <input type='text' name='name' value={newAttendance.name.toLowerCase()} onChange={handleNewChange}/>
-              <label>Class</label>
-              <input type='text' name='class' value={newAttendance.class.toUpperCase()} onChange={handleNewChange}/>
-              <div style={{display: "flex", gap: "20px"}}>
-                  <button type="submit">Submit</button>
-                  <button className='btn-sm' onClick={handleCloseNew}>Cancel</button>
+                  <label>Name</label>
+                  <input type='text' name='name' value={newAttendance.name.toLowerCase()} onChange={handleNewChange}/>
+                  <label>Class</label>
+                  <input type='text' name='class' value={newAttendance.class.toUpperCase()} onChange={handleNewChange}/>
+                  <div className="d-flex justify-content-between">
+                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="button" className="btn btn-secondary btn-sm" onClick={handleCloseNew}>Cancel</button>
               </div>
             </form>
-            {error && <p>Error: {error}</p>}
-          </div>)}
-        </div>
+            {error && <p className="text-danger">{error}</p>}
+          </div>
+        )}
+
+      </div>
       )}
     </>
   );
