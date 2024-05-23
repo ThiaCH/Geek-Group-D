@@ -71,7 +71,7 @@ async function login(req, res) {
   // create attendance record as student logs in
   if (!user.isAdmin) {
     const loginTime = Date.parse(new Date());
-    if (loginTime > new Date().setHours(9, 0, 0, 0)) {
+    if (loginTime > new Date().setHours(1, 0, 0, 0)) {
       const findById = await Attendance.find({ studentInfo: user._id });
       if (findById.length !== 0) {
         const findByDate = findById.find(
