@@ -87,5 +87,5 @@ Apart from the team Git collaboration, which appeared to be the most challenging
 ## Credit(s)
 
 <ul>
-   <li> Kristine (Administrator for General Assembly Singapore) 
+   <li> Kristie (Administrator for General Assembly Singapore) 
 </ul>
