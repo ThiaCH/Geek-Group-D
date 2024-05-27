@@ -33,9 +33,9 @@ Students logging into the application will trigger system to automatically log t
 
 ## Getting Started
 
-## Deployment
+### Deployment
 
-The app has been deployed on Render on https://project-3-geekery.onrender.com, click [Here](https://project-3-geekery.onrender.com) to get started.
+The app has been deployed on Render, click [Here](https://project-3-geekery.onrender.com) to get started.
 
 ### Project Planning Board
 
